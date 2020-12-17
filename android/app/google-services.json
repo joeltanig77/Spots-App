@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "225825870988",
+    "project_id": "spots-80f7d",
+    "storage_bucket": "spots-80f7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225825870988:android:e6e3315c6f506d1a6a97a9",
+        "android_client_info": {
+          "package_name": "com.tina.spots_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225825870988-4qalisq8redrtbb9v3t36vmr7thcdc11.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tina.spots_app",
+            "certificate_hash": "4866f1480df0963f29bbd8fd87f454bee277b076"
+          }
+        },
+        {
+          "client_id": "225825870988-oqota7qdq6mear347gj1tna61h41s42h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpx899I5Yf1vyB7nTtZ7a7526Z0VOvU5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225825870988-oqota7qdq6mear347gj1tna61h41s42h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
