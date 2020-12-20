@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spots_app/const/loading.dart';
 import 'package:spots_app/services/auth.dart';
+import 'package:spots_app/const/sharedStyles.dart';
 class SignIn extends StatefulWidget {
 
   final Function toggleView;
@@ -10,14 +12,16 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  String error = '';
   String email = "";
   String password = "";
   final Service _auth = Service();
+  final _formKey = GlobalKey<FormState>();
+  bool areWeLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    // We do a Scafford so we can add a app bar and stuff
-    return Scaffold(
+    return areWeLoading ? LoadingAnimation() : Scaffold(
       backgroundColor: Colors.blue[100],
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
@@ -28,7 +32,7 @@ class _SignInState extends State<SignIn> {
             icon: Icon(Icons.person),
             label: Text("Register"),
             onPressed: () {
-                widget.toggleView();
+              widget.toggleView();
             },
           )
         ],
@@ -37,38 +41,60 @@ class _SignInState extends State<SignIn> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               SizedBox(height: 20.0),
               TextFormField(
+                validator: (val) => val.isEmpty ? 'Enter an email' : null,
                 onChanged: (val) {
-                    setState(() {
-                      email = val.trim();
-                    });
+                  setState(() {
+                    email = val.trim();
+                  });
                 },
+                decoration: textInputStyle
               ),
               SizedBox(height: 20),
               TextFormField(
+                validator: (val) => val.isEmpty ? 'Enter a password' : null,
                 onChanged: (val) {
-                    setState(() {
-                      password = val.trim();
-                    });
+                  setState(() {
+                    password = val.trim();
+                  });
                 },
                 obscureText: true,
+                  decoration: textInputStyle.copyWith(hintText: "Password"),
               ),
               SizedBox(height: 20),
               RaisedButton.icon(
                 icon: Icon(Icons.login),
                 label: Text(
-                    "Sign In",
+                  "Log In",
                   style: TextStyle(color:Colors.white),
                 ),
                 onPressed: () async {
-                    print(email);
-                    print(password);
+                  if(_formKey.currentState.validate()) {
+                    setState(() {
+                      areWeLoading = true;
+                    });
+                    // Futures always await
+                    dynamic resultFromSignIn = await _auth.signInAccount(email, password);
+                    if(resultFromSignIn == null){
+                      setState(() {
+                        error = "Incorrect credentials, please try again";
+                        areWeLoading = false;
+                      });
+                    }
+                  }
                 },
                 color: Colors.purple[300],
-              )
+              ),
+              SizedBox(height: 14.0,),
+              Text(error,
+                style: TextStyle(
+                  color: Colors.red[311],
+                  fontSize: 15,
+                ),),
             ],
           ),
         ),

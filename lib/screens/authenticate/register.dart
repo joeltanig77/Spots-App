@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spots_app/const/loading.dart';
 import 'package:spots_app/services/auth.dart';
+import 'package:spots_app/const/sharedStyles.dart';
 
 
 class Register extends StatefulWidget {
@@ -12,12 +14,16 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  String error = '';
   String email = "";
   String password = "";
   final Service _auth = Service();
+  final _formKey = GlobalKey<FormState>();
+  bool areWeLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return areWeLoading ? LoadingAnimation() : Scaffold(
       backgroundColor: Colors.blue[100],
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
@@ -37,24 +43,29 @@ class _RegisterState extends State<Register> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               SizedBox(height: 20.0),
               TextFormField(
+                validator: (val) => val.isEmpty ? 'Enter an email' : null,
                 onChanged: (val) {
                   setState(() {
                     email = val.trim();
                   });
                 },
+                decoration: textInputStyle,
               ),
               SizedBox(height: 20),
               TextFormField(
+                validator: (val) => val.length < 8 ? 'Enter a password with more than 8+ chars long' : null,
                 onChanged: (val) {
                   setState(() {
                     password = val.trim();
                   });
                 },
                 obscureText: true,
+                  decoration: textInputStyle.copyWith(hintText: "Password"),
               ),
               SizedBox(height: 20),
               RaisedButton.icon(
@@ -64,11 +75,29 @@ class _RegisterState extends State<Register> {
                   style: TextStyle(color:Colors.white),
                 ),
                 onPressed: () async {
-                  print(email);
-                  print(password);
+                  if(_formKey.currentState.validate()) {
+                    setState(() {
+                      areWeLoading = true;
+                    });
+                    dynamic resultOfAccountCreation = await _auth.registerAccount(email, password);
+                    if(resultOfAccountCreation == null) {
+                      setState(() {
+                        error = 'This is not a legal email address, please try again';
+                        areWeLoading = false;
+                      });
+                    }
+                    print(email);
+                    print(password);
+                  }
                 },
                 color: Colors.purple[300],
-              )
+              ),
+              SizedBox(height: 14.0,),
+              Text(error,
+              style: TextStyle(
+                color: Colors.red[311],
+                fontSize: 15,
+              ),),
             ],
           ),
         ),
