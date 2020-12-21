@@ -22,10 +22,9 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return areWeLoading ? LoadingAnimation() : Scaffold(
-      backgroundColor: Colors.blue[100],
+      backgroundColor: Colors.amber[100],
       appBar: AppBar(
-        backgroundColor: Colors.blue[400],
-        elevation: 0.0, //Take off the drop shadow
+        backgroundColor: Colors.orange[300],
         title: Text("Sign in to Spots"),
         actions: [
           FlatButton.icon(
@@ -44,6 +43,7 @@ class _SignInState extends State<SignIn> {
           key: _formKey,
           child: Column(
             children: [
+              Image.asset('images/signinplaceholder.png'),
               SizedBox(height: 20.0),
               TextFormField(
                 validator: (val) => val.isEmpty ? 'Enter an email' : null,
@@ -87,7 +87,7 @@ class _SignInState extends State<SignIn> {
                     }
                   }
                 },
-                color: Colors.purple[300],
+                color: Colors.orange[300],
               ),
               SizedBox(height: 14.0,),
               Text(error,

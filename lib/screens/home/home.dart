@@ -8,12 +8,11 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: Colors.amber[100],
       appBar: AppBar(
-        title: Text("Spots"),
+        title: Text("Spots",),
         centerTitle: true,
-        backgroundColor: Colors.blue[400],
-        elevation: 0.0,
+        backgroundColor: Colors.orange[300],
         // Note, This is actions for the appbar like the log in button
         actions: [
           FlatButton.icon(
