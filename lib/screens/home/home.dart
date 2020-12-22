@@ -87,12 +87,28 @@ class _HomeState extends State<Home> {
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
+          //zoomControlsEnabled: false,
           initialCameraPosition: CameraPosition(
             target: _center,
             zoom: 11.0,
           ),
 
           myLocationEnabled:true,
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 45.0),
+          child: FloatingActionButton(
+            child: Icon(Icons.add_location),
+            backgroundColor: Colors.orange[300],
+            onPressed: (){
+              mapController.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(
+                      target: LatLng(37.4219999, -122.0862462), zoom: 20.0),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
