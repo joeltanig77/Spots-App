@@ -9,7 +9,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     // Now every widget lisening to the Wrapper root can access this stream of log in/ log out data
@@ -21,3 +21,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
+
