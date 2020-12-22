@@ -15,7 +15,6 @@ class _HomeState extends State<Home> {
   GoogleMapController mapController;
 
   final LatLng _center = const LatLng(0, 0);
-
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
