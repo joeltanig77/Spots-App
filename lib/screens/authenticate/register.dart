@@ -39,68 +39,72 @@ class _RegisterState extends State<Register> {
         ],
         centerTitle: true,
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Image.asset('images/signupplaceholder.png'),
-              SizedBox(height: 20.0),
-              TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                onChanged: (val) {
-                  setState(() {
-                    email = val.trim();
-                  });
-                },
-                decoration: textInputStyle,
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                validator: (val) => val.length < 8 ? 'Enter a password with more than 8+ chars long' : null,
-                onChanged: (val) {
-                  setState(() {
-                    password = val.trim();
-                  });
-                },
-                obscureText: true,
-                  decoration: textInputStyle.copyWith(hintText: "Password"),
-              ),
-              SizedBox(height: 20),
-              RaisedButton.icon(
-                icon: Icon(Icons.app_registration),
-                label: Text(
-                  "Register Account",
-                  style: TextStyle(color:Colors.white),
-                ),
-                onPressed: () async {
-                  if(_formKey.currentState.validate()) {
-                    setState(() {
-                      areWeLoading = true;
-                    });
-                    dynamic resultOfAccountCreation = await _auth.registerAccount(email, password);
-                    if(resultOfAccountCreation == null) {
+      body: ListView(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Image.asset('images/signupplaceholder.png'),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                    onChanged: (val) {
                       setState(() {
-                        error = 'This is not a legal email address, please try again';
-                        areWeLoading = false;
+                        email = val.trim();
                       });
-                    }
-                    print(email);
-                    print(password);
-                  }
-                },
-                color: Colors.orange[300],
+                    },
+                    decoration: textInputStyle,
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    validator: (val) => val.length < 8 ? 'Enter a password with more than 8+ chars long' : null,
+                    onChanged: (val) {
+                      setState(() {
+                        password = val.trim();
+                      });
+                    },
+                    obscureText: true,
+                      decoration: textInputStyle.copyWith(hintText: "Password"),
+                  ),
+                  SizedBox(height: 20),
+                  RaisedButton.icon(
+                    icon: Icon(Icons.app_registration),
+                    label: Text(
+                      "Register Account",
+                      style: TextStyle(color:Colors.white),
+                    ),
+                    onPressed: () async {
+                      if(_formKey.currentState.validate()) {
+                        setState(() {
+                          areWeLoading = true;
+                        });
+                        dynamic resultOfAccountCreation = await _auth.registerAccount(email, password);
+                        if(resultOfAccountCreation == null) {
+                          setState(() {
+                            error = 'This is not a legal email address, please try again';
+                            areWeLoading = false;
+                          });
+                        }
+                        print(email);
+                        print(password);
+                      }
+                    },
+                    color: Colors.orange[300],
+                  ),
+                  SizedBox(height: 14.0,),
+                  Text(error,
+                  style: TextStyle(
+                    color: Colors.red[311],
+                    fontSize: 15,
+                  ),),
+                ],
               ),
-              SizedBox(height: 14.0,),
-              Text(error,
-              style: TextStyle(
-                color: Colors.red[311],
-                fontSize: 15,
-              ),),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

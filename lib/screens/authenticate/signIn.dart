@@ -37,67 +37,71 @@ class _SignInState extends State<SignIn> {
         ],
         centerTitle: true,
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Image.asset('images/signinplaceholder.png'),
-              SizedBox(height: 20.0),
-              TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                onChanged: (val) {
-                  setState(() {
-                    email = val.trim();
-                  });
-                },
-                decoration: textInputStyle
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter a password' : null,
-                onChanged: (val) {
-                  setState(() {
-                    password = val.trim();
-                  });
-                },
-                obscureText: true,
-                  decoration: textInputStyle.copyWith(hintText: "Password"),
-              ),
-              SizedBox(height: 20),
-              RaisedButton.icon(
-                icon: Icon(Icons.login),
-                label: Text(
-                  "Log In",
-                  style: TextStyle(color:Colors.white),
-                ),
-                onPressed: () async {
-                  if(_formKey.currentState.validate()) {
-                    setState(() {
-                      areWeLoading = true;
-                    });
-                    // Futures always await
-                    dynamic resultFromSignIn = await _auth.signInAccount(email, password);
-                    if(resultFromSignIn == null){
+      body: ListView(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Image.asset('images/signinplaceholder.png'),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                    onChanged: (val) {
                       setState(() {
-                        error = "Incorrect credentials, please try again";
-                        areWeLoading = false;
+                        email = val.trim();
                       });
-                    }
-                  }
-                },
-                color: Colors.orange[300],
+                    },
+                    decoration: textInputStyle
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    validator: (val) => val.isEmpty ? 'Enter a password' : null,
+                    onChanged: (val) {
+                      setState(() {
+                        password = val.trim();
+                      });
+                    },
+                    obscureText: true,
+                      decoration: textInputStyle.copyWith(hintText: "Password"),
+                  ),
+                  SizedBox(height: 20),
+                  RaisedButton.icon(
+                    icon: Icon(Icons.login),
+                    label: Text(
+                      "Log In",
+                      style: TextStyle(color:Colors.white),
+                    ),
+                    onPressed: () async {
+                      if(_formKey.currentState.validate()) {
+                        setState(() {
+                          areWeLoading = true;
+                        });
+                        // Futures always await
+                        dynamic resultFromSignIn = await _auth.signInAccount(email, password);
+                        if(resultFromSignIn == null){
+                          setState(() {
+                            error = "Incorrect credentials, please try again";
+                            areWeLoading = false;
+                          });
+                        }
+                      }
+                    },
+                    color: Colors.orange[300],
+                  ),
+                  SizedBox(height: 14.0,),
+                  Text(error,
+                    style: TextStyle(
+                      color: Colors.red[311],
+                      fontSize: 15,
+                    ),),
+                ],
               ),
-              SizedBox(height: 14.0,),
-              Text(error,
-                style: TextStyle(
-                  color: Colors.red[311],
-                  fontSize: 15,
-                ),),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
