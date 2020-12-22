@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:spots_app/screens/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
+
 
 class Home extends StatefulWidget {
   // Reference our service class
@@ -31,19 +33,55 @@ class _HomeState extends State<Home> {
       home: Scaffold(
         backgroundColor: Colors.amber[100],
         appBar: AppBar(
-          title: Text(
-            "Spots",
-          ),
-          centerTitle: true,
           backgroundColor: Colors.orange[300],
           // Note, This is actions for the appbar like the log in button
           actions: [
-            FlatButton.icon(
-              icon: Icon(Icons.person),
+            FlatButton(
+              padding:  EdgeInsets.only(right: 60.0),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               onPressed: () async {
-                await _auth.signOut();
               },
-              label: Text("Log out"),
+              child: Text(
+                  "Trade",
+                  style:  TextStyle(
+                    color: Colors.white70,
+                    fontSize: 20.0,
+                  )),
+            ),
+            FlatButton(
+              padding:  EdgeInsets.only(right: 60.0),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () async {
+              },
+              child: Text(
+                  "Map",
+                  style:  TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  )),
+            ),
+
+            FlatButton(
+              padding:  EdgeInsets.only(right: 60.0),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) => ProfilePage(),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                );
+              },
+              child: Text(
+                  "Profile",
+                  style:  TextStyle(
+                    color: Colors.white70,
+                    fontSize: 20.0,
+                  )),
             ),
           ],
         ),
