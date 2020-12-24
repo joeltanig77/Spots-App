@@ -3,6 +3,7 @@ import 'package:spots_app/services/auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 
 class Home extends StatefulWidget {
@@ -13,18 +14,22 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final Service _auth = Service();
-
+  String _mapStyle;
   GoogleMapController mapController;
 
   final LatLng _center = const LatLng(0, 0);
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    mapController.setMapStyle(_mapStyle);
   }
 
   @override
   void initState() {
-
     super.initState();
+
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
   }
 
   @override
@@ -91,6 +96,7 @@ class _HomeState extends State<Home> {
           initialCameraPosition: CameraPosition(
             target: _center,
             zoom: 11.0,
+
           ),
 
           myLocationEnabled:true,

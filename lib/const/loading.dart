@@ -7,10 +7,10 @@ class LoadingAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue[100],
+      color: Colors.amber[100],
       child: Center(
         child: LoadingFlipping.circle(
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.orange[300],
           size: 50.0,
         ),
       ),
