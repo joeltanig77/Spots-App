@@ -28,6 +28,13 @@ class _HomeState extends State<Home> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     mapController.setMapStyle(_mapStyle);
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+
+            target: LatLng(getLat(), getLong()), zoom: 20.0),
+      ),
+    );
   }
 
   @override
@@ -109,9 +116,8 @@ class _HomeState extends State<Home> {
           myLocationEnabled:true,
 
           //zoomControlsEnabled: false,
-          initialCameraPosition: CameraPosition(
 
-            target: LatLng(getLat(), getLong()), zoom: 11.0),
+          initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
 
         ),
 
@@ -129,7 +135,7 @@ class _HomeState extends State<Home> {
                 CameraUpdate.newCameraPosition(
                   CameraPosition(
 
-                      target: LatLng(lat, long), zoom: 20.0),
+                      target: LatLng(getLat(), getLong()), zoom: 20.0),
                 ),
               );
             },

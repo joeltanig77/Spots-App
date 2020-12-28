@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spots_app/models/user.dart';
 
+
 // Team Backend
 class Service {
   // Reference the class first
