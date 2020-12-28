@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     package="com.tina.spots_app">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION"/>
    <application
+
         android:label="spots_app"
         android:icon="@mipmap/ic_launcher">
 
@@ -20,7 +24,9 @@
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
+
               />
+
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash
                  screen fades out. A splash screen is useful to avoid any visual
@@ -40,5 +46,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </application>
+    </application
+
+        >
+
 </manifest>

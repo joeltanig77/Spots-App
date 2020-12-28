@@ -3,8 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:spots_app/screens/wrapper.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/models/user.dart';
+import 'package:geolocator/geolocator.dart';
+
+
+
 
 void main() {
+
   runApp(MyApp());
 }
 
