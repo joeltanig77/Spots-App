@@ -36,6 +36,8 @@ class _HomeState extends State<Home> {
     );
   }
 
+  List<Marker> userMarkers = [];
+
   @override
   void initState() {
     getLocal();
@@ -127,16 +129,17 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-             GoogleMap(
+              GoogleMap(
 
-              onMapCreated: _onMapCreated,
-              myLocationEnabled:true,
+                onMapCreated: _onMapCreated,
+                myLocationEnabled:true,
+                markers: Set.from(userMarkers),
 
-              //zoomControlsEnabled: false,
+                //zoomControlsEnabled: false,
 
-              initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
+                initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
 
-            ),
+              ),
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
@@ -161,27 +164,30 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ]
-          ),
-        
-
-
-
+        ),
 
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 45.0),
-          child: FloatingActionButton(
-            child: Icon(Icons.add_location),
-            backgroundColor: Colors.orange[300],
-            onPressed: (){
-              getLocal();
-              mapController.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
+          padding: const EdgeInsets.only(left: 32.0),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: FloatingActionButton(
+              child: Icon(Icons.add_location),
+              backgroundColor: Colors.orange[300],
+              onPressed: (){
+                setState(() {
+                  userMarkers.add(Marker(
+                    markerId: MarkerId('myMarker'),
+                    draggable: true,
+                    onTap: () {
+                      print('Marker tapped!');
+                    },
+                    position: LatLng(getLat(), getLong()),
+                  ),
+                  );
 
-                      target: LatLng(getLat(), getLong()), zoom: 20.0),
-                ),
-              );
-            },
+                });
+              },
+            ),
           ),
         ),
       ),
@@ -212,4 +218,3 @@ double getLat(){
   getLocal();
   return lat;
 }
-
