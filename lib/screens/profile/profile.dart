@@ -35,7 +35,7 @@ class ProfilePage extends StatelessWidget {
                 Navigator.pop(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => Home(),
+                    pageBuilder: (context, animation1, animation2) => Home(null,null),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
@@ -75,7 +75,7 @@ class ProfilePage extends StatelessWidget {
                           Navigator.pop(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => Home(),
+                              pageBuilder: (context, animation1, animation2) => Home(null,null),
                               transitionDuration: Duration(seconds: 0),
                             ),
                           );
@@ -93,7 +93,7 @@ class ProfilePage extends StatelessWidget {
                   Navigator.pop(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => Home(),
+                      pageBuilder: (context, animation1, animation2) => Home(null,null),
                       transitionDuration: Duration(seconds: 0),
                     ),
                   );

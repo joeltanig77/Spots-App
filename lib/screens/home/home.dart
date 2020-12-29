@@ -5,11 +5,18 @@ import 'package:spots_app/screens/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-double long=0;
-double lat=0;
+double long=-75.7009;
+double lat=45.4236;
+
 
 class Home extends StatefulWidget {
+  double lat=75.7009;
+  double long=45.4236;
 
+  Home(latx, laty){
+    this.lat= latx;
+    this.long=laty;
+  }
   // Reference our service class
   @override
   _HomeState createState() => _HomeState();
@@ -26,8 +33,10 @@ class _HomeState extends State<Home> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    getLocal();
     mapController.setMapStyle(_mapStyle);
     mapController.animateCamera(
+
       CameraUpdate.newCameraPosition(
         CameraPosition(
 
@@ -51,7 +60,19 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     getLocal();
+    setState(() {
+
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+
+            target: LatLng(getLat(), getLong()), zoom: 20.0),
+      );
+    });
+
+
+
     return MaterialApp(
+
       home: Scaffold(
         backgroundColor: Colors.amber[100],
         appBar: AppBar(
@@ -218,3 +239,4 @@ double getLat(){
   getLocal();
   return lat;
 }
+
