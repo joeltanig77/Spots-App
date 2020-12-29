@@ -7,7 +7,7 @@ import 'package:flutter/services.dart' show rootBundle;
 
 double long=-75.7009;
 double lat=45.4236;
-
+int count=0;
 
 class Home extends StatefulWidget {
   double lat=75.7009;
@@ -195,11 +195,15 @@ class _HomeState extends State<Home> {
               child: Icon(Icons.add_location),
               backgroundColor: Colors.orange[300],
               onPressed: (){
+                count++;
                 setState(() {
                   userMarkers.add(Marker(
-                    markerId: MarkerId('myMarker'),
+                    markerId: MarkerId((count).toString()),
+
                     draggable: true,
                     onTap: () {
+
+
                       print('Marker tapped!');
                     },
                     position: LatLng(getLat(), getLong()),
