@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spots_app/models/user.dart';
-
+import 'package:spots_app/services/markerDatabase.dart';
+import 'package:spots_app/screens/home/home.dart';
 
 // Team Backend
 class Service {
@@ -42,6 +43,7 @@ class Service {
     try{
       AuthResult authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
+
       return _justTheUser(firebaseUser);
     }
     catch(e) {
@@ -58,6 +60,8 @@ class Service {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
+      MarkerDatabase testing = MarkerDatabase();
+      await testing.updateData(getLat(), getLong(), "Test", 5);
       return _justTheUser(firebaseUser);
     }
     catch(e) {

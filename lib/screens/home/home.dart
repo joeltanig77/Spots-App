@@ -4,7 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:spots_app/services/determinePosition.dart';
 
 double long=0;
 double lat=0;
@@ -92,10 +91,10 @@ class _HomeState extends State<Home> {
               onPressed: () async {
                 Navigator.push(
                   context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => ProfilePage(),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => ProfilePage(),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
                 );
               },
               child: Text(

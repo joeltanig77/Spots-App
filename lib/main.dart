@@ -4,14 +4,14 @@ import 'package:spots_app/screens/wrapper.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:spots_app/services/markerDatabase.dart';
 
 
 
 void main() {
-
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
    // This widget is the root of your application.
