@@ -109,16 +109,60 @@ class _HomeState extends State<Home> {
 
         ),
 
-        body: GoogleMap(
+        body: Stack(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  width: 75,
+                  height: MediaQuery.of(context).size.height,
+                  child: GestureDetector(
+                      onHorizontalDragEnd: (DragEndDetails details) {
+                        if (details.primaryVelocity > 0) {
 
-          onMapCreated: _onMapCreated,
-          myLocationEnabled:true,
+                        } else if (details.primaryVelocity < 0) {
 
-          //zoomControlsEnabled: false,
+                        }
+                      }
+                  ),
+                ),
+              ),
+             GoogleMap(
 
-          initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
+              onMapCreated: _onMapCreated,
+              myLocationEnabled:true,
 
-        ),
+              //zoomControlsEnabled: false,
+
+              initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
+
+            ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: MediaQuery.of(context).size.height,
+                  child: GestureDetector(
+                      onHorizontalDragEnd: (DragEndDetails details) {
+                        if (details.primaryVelocity > 0) {
+
+                        } else if (details.primaryVelocity < 0) {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) => ProfilePage(),
+                              transitionDuration: Duration(seconds: 0),
+                            ),
+                          );
+                        }
+                      }
+
+                  ),
+                ),
+              ),
+            ]
+          ),
+        
 
 
 
