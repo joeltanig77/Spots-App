@@ -14,9 +14,10 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  String error = '';
+  String error = "";
   String email = "";
   String password = "";
+  String passwordCheck = "";
   final Service _auth = Service();
   final _formKey = GlobalKey<FormState>();
   bool areWeLoading = false;
@@ -69,6 +70,16 @@ class _RegisterState extends State<Register> {
                     obscureText: true,
                       decoration: textInputStyle.copyWith(hintText: "Password"),
                   ),
+                  TextFormField(
+                    validator: (val) => val != password ? 'Passwords do not match' : null,
+                    onChanged: (val) {
+                      setState(() {
+                        passwordCheck = val.trim();
+                      });
+                    },
+                    obscureText: true,
+                    decoration: textInputStyle.copyWith(hintText: "Re-Enter Password"),
+                  ),
                   SizedBox(height: 20),
                   RaisedButton.icon(
                     icon: Icon(Icons.app_registration),
@@ -94,7 +105,7 @@ class _RegisterState extends State<Register> {
                     },
                     color: Colors.orange[300],
                   ),
-                  SizedBox(height: 14.0,),
+                  SizedBox(height: 20.0,),
                   Text(error,
                   style: TextStyle(
                     color: Colors.red[311],

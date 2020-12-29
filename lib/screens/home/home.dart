@@ -206,9 +206,10 @@ class _HomeState extends State<Home> {
                     onDragEnd:((newMarker){
                       coords.add(LatLng(newMarker.latitude, newMarker.longitude));
 
-                  }),
+                    }),
 
                     onTap: () {
+                      print(MarkerId);
                       print("Initial Position");
                       print(userMarkers[count-1].position);
                       print("Final Position");
