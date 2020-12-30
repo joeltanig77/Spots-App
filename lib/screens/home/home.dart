@@ -6,6 +6,10 @@ import 'package:spots_app/screens/trade/trade.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spots_app/models/locations.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:provider/provider.dart';
+import 'package:spots_app/services/markerDatabase.dart';
+import 'package:spots_app/models/locations.dart';
+
 
 double long=-75.7009;
 double lat=45.4236;
@@ -80,14 +84,14 @@ class _HomeState extends State<Home> {
     });
 
 
-
     return MaterialApp(
-
-      home: Scaffold(
-        backgroundColor: Colors.amber[100],
-        appBar: AppBar(
-          backgroundColor: Colors.orange[300],
-          // Note, This is actions for the appbar like the log in button
+      home: StreamProvider<List<Location>>.value(
+        value: MarkerDatabase().locations,
+        child: Scaffold(
+          backgroundColor: Colors.amber[100],
+          appBar: AppBar(
+            backgroundColor: Colors.orange[300],
+            // Note, This is actions for the appbar like the log in button
 
           actions: [
             FlatButton(
@@ -125,63 +129,63 @@ class _HomeState extends State<Home> {
                   )),
             ),
 
-            FlatButton(
-              padding:  EdgeInsets.only(right: 60.0),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => ProfilePage(),
-                    transitionDuration: Duration(seconds: 0),
-                  ),
-                );
-              },
-              child: Text(
+              FlatButton(
+                padding:  EdgeInsets.only(right: 60.0),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) => ProfilePage(),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                },
+                child: Text(
 
-                  "Profile",
-                  style:  TextStyle(
-                    color: Colors.white70,
-                    fontSize: 20.0,
-                  )),
-            ),
-          ],
+                    "Profile",
+                    style:  TextStyle(
+                      color: Colors.white70,
+                      fontSize: 20.0,
+                    )),
+              ),
+            ],
 
-        ),
+          ),
 
         body: Stack(
             children: [
               GoogleMap(
 
-                onMapCreated: _onMapCreated,
-                myLocationEnabled:true,
-                markers: Set.from(userMarkers),
+                  onMapCreated: _onMapCreated,
+                  myLocationEnabled:true,
+                  markers: Set.from(userMarkers),
 
-                //zoomControlsEnabled: false,
+                  //zoomControlsEnabled: false,
 
-                initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
+                  initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
 
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.height,
-                  child: GestureDetector(
-                      onHorizontalDragEnd: (DragEndDetails details) {
-                        if (details.primaryVelocity > 0) {
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 4,
+                    height: MediaQuery.of(context).size.height,
+                    child: GestureDetector(
+                        onHorizontalDragEnd: (DragEndDetails details) {
+                          if (details.primaryVelocity > 0) {
 
-                        } else if (details.primaryVelocity < 0) {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => ProfilePage(),
-                              transitionDuration: Duration(seconds: 0),
-                            ),
-                          );
+                          } else if (details.primaryVelocity < 0) {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => ProfilePage(),
+                                transitionDuration: Duration(seconds: 0),
+                              ),
+                            );
+                          }
                         }
-                      }
 
                   ),
                 ),
@@ -248,6 +252,7 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
+    )
     );
   }
 }
@@ -259,15 +264,9 @@ class _HomeState extends State<Home> {
 _saveLocal(MarkerId id) {
   String valueOfMarker= id.value;
   int toIntValue = int.parse(valueOfMarker);
-  //String hey = .infoWindow.title;
   Location locationOfMarker = new Location(
       lat:coords[toIntValue].latitude, long:coords[toIntValue].longitude);
   locations.add(locationOfMarker);
-
-
-
-
-
 
 
 
