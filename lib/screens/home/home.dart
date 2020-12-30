@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
 import 'package:spots_app/screens/trade/trade.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:spots_app/models/locations.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 double long=-75.7009;
@@ -48,6 +49,7 @@ class _HomeState extends State<Home> {
 
   List<Marker> userMarkers = [];
   List<LatLng> coords = [];
+  List<Location> locations=[];
 
   @override
   void initState() {
@@ -224,7 +226,7 @@ class _HomeState extends State<Home> {
                     }),
 
                     onTap: () {
-                      print(MarkerId);
+
                       print("Initial Position");
                       print(userMarkers[count-1].position);
                       print("Final Position");
