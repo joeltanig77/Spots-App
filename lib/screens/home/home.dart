@@ -46,6 +46,7 @@ class _HomeState extends State<Home> {
   }
 
   List<Marker> userMarkers = [];
+  List<LatLng> coords = [];
 
   @override
   void initState() {
@@ -196,21 +197,38 @@ class _HomeState extends State<Home> {
               backgroundColor: Colors.orange[300],
               onPressed: (){
                 count++;
+
                 setState(() {
                   userMarkers.add(Marker(
                     markerId: MarkerId((count).toString()),
 
                     draggable: true,
-                    onTap: () {
+                    onDragEnd:((newMarker){
+                      coords.add(LatLng(newMarker.latitude, newMarker.longitude));
 
+                  }),
+
+                    onTap: () {
+                      print("Initial Position");
+                      print(userMarkers[count-1].position);
+                      print("Final Position");
+                      print(coords[count-1]);
 
                       print('Marker tapped!');
                     },
+
+
                     position: LatLng(getLat(), getLong()),
-                  ),
+
+                  )
+
+
+
+                    ,
                   );
 
                 });
+
               },
             ),
           ),
