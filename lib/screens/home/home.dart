@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
+import 'package:spots_app/screens/trade/trade.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -86,6 +87,13 @@ class _HomeState extends State<Home> {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onPressed: () async {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => TradePage(),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
+                );
               },
               child: Text(
                   "Trade",
@@ -99,6 +107,7 @@ class _HomeState extends State<Home> {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onPressed: () async {
+
               },
               child: Text(
                   "Map",
@@ -135,22 +144,6 @@ class _HomeState extends State<Home> {
 
         body: Stack(
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  width: 75,
-                  height: MediaQuery.of(context).size.height,
-                  child: GestureDetector(
-                      onHorizontalDragEnd: (DragEndDetails details) {
-                        if (details.primaryVelocity > 0) {
-
-                        } else if (details.primaryVelocity < 0) {
-
-                        }
-                      }
-                  ),
-                ),
-              ),
               GoogleMap(
 
                 onMapCreated: _onMapCreated,
@@ -182,6 +175,28 @@ class _HomeState extends State<Home> {
                         }
                       }
 
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 8,
+                  height: MediaQuery.of(context).size.height,
+                  child: GestureDetector(
+                      onHorizontalDragEnd: (DragEndDetails details) {
+                        if (details.primaryVelocity > 0) {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) => TradePage(),
+                              transitionDuration: Duration(seconds: 0),
+                            ),
+                          );
+                        } else if (details.primaryVelocity < 0) {
+
+                        }
+                      }
                   ),
                 ),
               ),

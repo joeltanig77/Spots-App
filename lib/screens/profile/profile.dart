@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spots_app/services/auth.dart';
+import 'package:spots_app/screens/trade/trade.dart';
 import 'package:spots_app/screens/home/home.dart';
+import 'package:spots_app/screens/authenticate/authenticate.dart';
 
 class ProfilePage extends StatelessWidget {
   final Service _auth = Service();
@@ -19,6 +21,21 @@ class ProfilePage extends StatelessWidget {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onPressed: () async {
+                Navigator.pop(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        Home(null, null),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
+                );
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => TradePage(),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
+                );
               },
               child: Text(
                   "Trade",
@@ -35,7 +52,7 @@ class ProfilePage extends StatelessWidget {
                 Navigator.pop(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => Home(null,null),
+                    pageBuilder: (context, animation1, animation2) => Home(null, null),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
@@ -64,10 +81,92 @@ class ProfilePage extends StatelessWidget {
         ),
         body: Stack(
             children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.orange, Colors.amber]
+                  ),
+                ),
+                height: MediaQuery.of(context).size.height/2.6,
+              ),
+              ListView(
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage("https://i.pinimg.com/originals/1c/0d/f9/1c0df903d94f7e5ad087ae072f0b8997.jpg"),
+                        radius: 100,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                    "Bingo Beckham",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Container(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                          ),
+                          labelText: 'Bio:',
+                        )
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Text(
+                      "Inventory: ",
+                      style: TextStyle(
+                        fontSize: 26,
+                      )
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              FlatButton.icon(
+                icon: Icon(Icons.logout),
+                onPressed:  ()  async {
+                  await _auth.signOut();
+                  Navigator.pop(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) => Home(null, null),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                },
+
+                label: Text("Log Out"),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: FlatButton.icon(
+                  icon: Icon(Icons.settings),
+                  onPressed:  ()  async {
+                  },
+
+                  label: Text("Settings"),
+                ),
+              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  width: 75,
+                  width: MediaQuery.of(context).size.width / 8,
                   height: MediaQuery.of(context).size.height,
                   child: GestureDetector(
                       onHorizontalDragEnd: (DragEndDetails details) {
@@ -75,7 +174,7 @@ class ProfilePage extends StatelessWidget {
                           Navigator.pop(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => Home(null,null),
+                              pageBuilder: (context, animation1, animation2) => Home(null, null),
                               transitionDuration: Duration(seconds: 0),
                             ),
                           );
@@ -85,21 +184,6 @@ class ProfilePage extends StatelessWidget {
                       }
                   ),
                 ),
-              ),
-              FlatButton.icon(
-                icon: Icon(Icons.logout),
-                onPressed:  ()  async {
-                  await _auth.signOut();
-                  Navigator.pop(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => Home(null,null),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
-                },
-
-                label: Text("Log Out"),
               ),
             ]
         ),
