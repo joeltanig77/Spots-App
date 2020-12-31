@@ -10,6 +10,13 @@ import 'package:flutter/services.dart' show rootBundle;
 double long=-75.7009;
 double lat=45.4236;
 int count=0;
+bool isDragable=true;
+bool activeMarker=false;
+Map<int, Location> markerz = <int, Location>{};
+List<Marker> userMarkers = [];
+List<LatLng> coords = [];
+List<Location> locations=[];
+LatLng currentCoords=LatLng(0,0);
 
 class Home extends StatefulWidget {
   double lat=75.7009;
@@ -47,9 +54,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-  List<Marker> userMarkers = [];
-  List<LatLng> coords = [];
-  List<Location> locations=[];
+
+
 
   @override
   void initState() {
@@ -212,41 +218,31 @@ class _HomeState extends State<Home> {
             child: FloatingActionButton(
               child: Icon(Icons.add_location),
               backgroundColor: Colors.orange[300],
-              onPressed: (){
-                count++;
 
+              onPressed: (){
+                currentCoords=LatLng(getLat(), getLong());
+                final ident = MarkerId(count.toString());
                 setState(() {
                   userMarkers.add(Marker(
-                    markerId: MarkerId((count).toString()),
-
+                    markerId: MarkerId(count.toString()),
+                    infoWindow: InfoWindow(
+                      title: count.toString(),
+                    ),
                     draggable: true,
-                    onDragEnd:((newMarker){
-                      coords.add(LatLng(newMarker.latitude, newMarker.longitude));
-
+                    onDragEnd:((newMarker){ //Updates location after dragging
+                      currentCoords=LatLng(newMarker.latitude, newMarker.longitude);
                     }),
+                    onTap: () { //This is the "Confirm Button" for now
+                      coords.add(currentCoords);
+                      _saveLocal(ident);
 
-                    onTap: () {
 
-                      print("Initial Position");
-                      print(userMarkers[count-1].position);
-                      print("Final Position");
-                      print(coords[count-1]);
-
-                      print('Marker tapped!');
                     },
-
-
                     position: LatLng(getLat(), getLong()),
-
                   )
-
-
-
                     ,
                   );
-
                 });
-
               },
             ),
           ),
@@ -255,6 +251,38 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
+
+
+
+_saveLocal(MarkerId id) {
+  String valueOfMarker= id.value;
+  int toIntValue = int.parse(valueOfMarker);
+  //String hey = .infoWindow.title;
+  Location locationOfMarker = new Location(
+      lat:coords[toIntValue].latitude, long:coords[toIntValue].longitude);
+  locations.add(locationOfMarker);
+
+
+
+
+
+
+
+
+  print(valueOfMarker);
+  print(locationOfMarker.lat);
+  print(locationOfMarker.long);
+
+  //if (int.parse(garb)==count){
+  activeMarker=false;
+  isDragable=true;
+  if (toIntValue==count){
+  count++;}}
+
+
+
 
 
 
@@ -279,4 +307,9 @@ double getLat(){
   getLocal();
   return lat;
 }
+
+List<Location> getLocations(){
+  return locations;
+}
+
 
