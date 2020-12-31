@@ -61,6 +61,16 @@ class _RegisterState extends State<Register> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
+                    validator: (val) => val.isEmpty ? 'Enter a username' : null,
+                    onChanged: (val) {
+                      setState(() {
+                        email = val.trim();
+                      });
+                    },
+                    decoration: textInputStyle.copyWith(hintText: "Username"),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
                     validator: (val) => val.length < 8 ? 'Enter a password with more than 8+ chars long' : null,
                     onChanged: (val) {
                       setState(() {

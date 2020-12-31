@@ -97,6 +97,7 @@ class ProfilePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: CircleAvatar(
+                        backgroundColor: Colors.black,
                         backgroundImage: NetworkImage("https://i.pinimg.com/originals/1c/0d/f9/1c0df903d94f7e5ad087ae072f0b8997.jpg"),
                         radius: 100,
                       ),
@@ -107,6 +108,7 @@ class ProfilePage extends StatelessWidget {
                     child: Text(
                     "Bingo Beckham",
                       style: TextStyle(
+                        color: Colors.white,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       )
@@ -131,6 +133,7 @@ class ProfilePage extends StatelessWidget {
                       child: Text(
                       "Inventory: ",
                       style: TextStyle(
+                        fontWeight: FontWeight.bold,
                         fontSize: 26,
                       )
                       ),
@@ -151,7 +154,13 @@ class ProfilePage extends StatelessWidget {
                   );
                 },
 
-                label: Text("Log Out"),
+                label: Text(
+                    "Log Out",
+                    style: TextStyle(
+                    color: Colors.white70,
+                    ),
+                ),
+
               ),
               Align(
                 alignment: Alignment.topRight,
@@ -160,7 +169,11 @@ class ProfilePage extends StatelessWidget {
                   onPressed:  ()  async {
                   },
 
-                  label: Text("Settings"),
+                  label: Text("Settings",
+                      style: TextStyle(
+                      color: Colors.white70,
+                      ),
+                      ),
                 ),
               ),
               Align(
