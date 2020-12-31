@@ -16,6 +16,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   String error = "";
   String email = "";
+  String username = "";
   String password = "";
   String passwordCheck = "";
   final Service _auth = Service();
@@ -57,17 +58,25 @@ class _RegisterState extends State<Register> {
                         email = val.trim();
                       });
                     },
-                    decoration: textInputStyle,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                      ),
+                      labelText: "Email",
+                    ),
                   ),
                   SizedBox(height: 20),
                   TextFormField(
                     validator: (val) => val.isEmpty ? 'Enter a username' : null,
                     onChanged: (val) {
                       setState(() {
-                        email = val.trim();
+                        username = val.trim();
                       });
                     },
-                    decoration: textInputStyle.copyWith(hintText: "Username"),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                        ),
+                        labelText: "Username",
+                    ),
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -78,7 +87,11 @@ class _RegisterState extends State<Register> {
                       });
                     },
                     obscureText: true,
-                      decoration: textInputStyle.copyWith(hintText: "Password"),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                      ),
+                      labelText: "Password",
+                    ),
                   ),
                   TextFormField(
                     validator: (val) => val != password ? 'Passwords do not match' : null,
@@ -88,7 +101,12 @@ class _RegisterState extends State<Register> {
                       });
                     },
                     obscureText: true,
-                    decoration: textInputStyle.copyWith(hintText: "Re-Enter Password"),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                      ),
+                      labelText: "Password"
+                          " Check",
+                    ),
                   ),
                   SizedBox(height: 20),
                   RaisedButton.icon(

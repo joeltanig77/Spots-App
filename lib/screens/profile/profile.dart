@@ -117,7 +117,7 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Container(
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                           ),
