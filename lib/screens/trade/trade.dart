@@ -4,12 +4,29 @@ import 'package:spots_app/screens/home/home.dart';
 import 'package:spots_app/screens/trade/trade.dart';
 import 'package:spots_app/screens/profile/profile.dart';
 import 'package:spots_app/screens/authenticate/authenticate.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:spots_app/models/locations.dart';
 
-class TradePage extends StatelessWidget {
+class TradePage extends StatefulWidget {
+  @override
+  _TradePageState createState() => _TradePageState();
+}
+
+class _TradePageState extends State<TradePage> {
   final Service _auth = Service();
 
   @override
   Widget build(BuildContext context) {
+
+    final locations = Provider.of<List<Location>>(context);
+    locations.forEach((element) {
+      print(element.lat);
+      print(element.long);
+      print(element.locationName);
+      print(element.radius);
+    });
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.amber[100],

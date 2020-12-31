@@ -11,8 +11,8 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-  final user = Provider.of<User>(context);
-  print(user);
+    final user = Provider.of<User>(context);
+    print(user);
     getLocal();
     // We get this value from the Provider stream
     return user == null ? Authenticate() : Home(lat1, long1);

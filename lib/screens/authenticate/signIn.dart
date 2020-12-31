@@ -54,11 +54,7 @@ class _SignInState extends State<SignIn> {
                         email = val.trim();
                       });
                     },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                      ),
-                      labelText: "Email",
-                    ),
+                    decoration: textInputStyle
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -69,11 +65,7 @@ class _SignInState extends State<SignIn> {
                       });
                     },
                     obscureText: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                        ),
-                        labelText: "Password",
-                      ),
+                      decoration: textInputStyle.copyWith(labelText: 'Password')
                   ),
                   SizedBox(height: 20),
                   RaisedButton.icon(

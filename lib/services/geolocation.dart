@@ -11,6 +11,7 @@ class Geolocation {
 
     isLocationSettingOn = await Geolocator.isLocationServiceEnabled();
 
+
     if(!isLocationSettingOn) {
       return null;
 

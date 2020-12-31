@@ -19,10 +19,10 @@ class MarkerDatabase{
   List<Location> _locationList (QuerySnapshot querySnapshot) {
     return querySnapshot.documents.map((e) {
       return Location(
-        locationName: e.data['locationName'],
-        lat: e.data['lat'],
-        long: e.data['long'],
-        radius: e.data['radius'],
+        locationName: e.data['locationName'] ?? "",
+        lat: e.data['lat'] ?? 0.0,
+        long: e.data['long']?? 0.0,
+        radius: e.data['radius'] ?? 0,
       );
     }).toList();
   }

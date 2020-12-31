@@ -58,11 +58,7 @@ class _RegisterState extends State<Register> {
                         email = val.trim();
                       });
                     },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                      ),
-                      labelText: "Email",
-                    ),
+                    decoration: textInputStyle
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -72,11 +68,7 @@ class _RegisterState extends State<Register> {
                         username = val.trim();
                       });
                     },
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                        ),
-                        labelText: "Username",
-                    ),
+                    decoration: textInputStyle.copyWith(labelText: 'Username')
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -87,12 +79,9 @@ class _RegisterState extends State<Register> {
                       });
                     },
                     obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                      ),
-                      labelText: "Password",
-                    ),
+                    decoration: textInputStyle.copyWith(labelText: 'Password')
                   ),
+                  SizedBox(height: 20),
                   TextFormField(
                     validator: (val) => val != password ? 'Passwords do not match' : null,
                     onChanged: (val) {
@@ -101,12 +90,7 @@ class _RegisterState extends State<Register> {
                       });
                     },
                     obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                      ),
-                      labelText: "Password"
-                          " Check",
-                    ),
+                    decoration: textInputStyle.copyWith(labelText: 'Re-enter Password')
                   ),
                   SizedBox(height: 20),
                   RaisedButton.icon(
