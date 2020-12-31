@@ -286,8 +286,7 @@ _saveLocal(MarkerId id) {
 
 
 
-getLocal() async{
-
+Future getLocal() async{
   final location = await Geolocator
       .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
