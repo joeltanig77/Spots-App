@@ -70,6 +70,24 @@ class _HomeState extends State<Home> {
       _mapStyle = string;
     });
   }
+  //Replaces marker with the same marker but with undraggable property.
+  replaceMarker(MarkerId id){
+    setState(() {
+      String valueOfMarker= id.value;
+      int toIntValue = int.parse(valueOfMarker);
+      userMarkers[toIntValue]= (Marker(
+        markerId: id,
+        infoWindow: InfoWindow(
+          title: userMarkers[toIntValue].infoWindow.title,
+        ),
+        draggable: false,
+
+        position: coords[toIntValue],
+      ));
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -239,13 +257,14 @@ class _HomeState extends State<Home> {
                     onTap: () { //This is the "Confirm Button" for now
                       coords.add(currentCoords);
                       _saveLocal(ident);
-
+                      replaceMarker(ident);
 
                     },
                     position: LatLng(getLat(), getLong()),
                   )
                     ,
                   );
+
                 });
               },
             ),
@@ -259,11 +278,10 @@ class _HomeState extends State<Home> {
 
 
 
-
-
 _saveLocal(MarkerId id) {
   String valueOfMarker= id.value;
   int toIntValue = int.parse(valueOfMarker);
+
   Location locationOfMarker = new Location(
       lat:coords[toIntValue].latitude, long:coords[toIntValue].longitude);
   locations.add(locationOfMarker);
