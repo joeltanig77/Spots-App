@@ -1,9 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:spots_app/services/markerDatabase.dart';
 import 'package:spots_app/screens/home/home.dart';
 
 // Team Backend
+
+double lat1 = 5;
+double long1 = 5;
+
+
+
 class Service {
   // Reference the class first
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -60,8 +67,8 @@ class Service {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
-      MarkerDatabase testing = MarkerDatabase();
-      await testing.updateData(getLat(), getLong(), "Test", 5);
+      await getLocal();
+      await MarkerDatabase(user: firebaseUser.uid).updateData(lat1, long1, "", 0);
       return _justTheUser(firebaseUser);
     }
     catch(e) {
@@ -85,6 +92,17 @@ class Service {
     }
 }
 
+  getLocal() async{
+
+    final location = await Geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    lat1=location.latitude;
+    long1=location.longitude;
+    print("Yessssssssssss");
+    return location;
+
+  }
 
 
 }

@@ -74,6 +74,7 @@ class _HomeState extends State<Home> {
   replaceMarker(MarkerId id){
     setState(() {
       String valueOfMarker= id.value;
+      //change the marker id property to a iny
       int toIntValue = int.parse(valueOfMarker);
       userMarkers[toIntValue]= (Marker(
         markerId: id,
@@ -96,7 +97,6 @@ class _HomeState extends State<Home> {
 
       CameraUpdate.newCameraPosition(
         CameraPosition(
-
             target: LatLng(getLat(), getLong()), zoom: 20.0),
       );
     });
@@ -257,6 +257,7 @@ class _HomeState extends State<Home> {
                     onTap: () { //This is the "Confirm Button" for now
                       coords.add(currentCoords);
                       _saveLocal(ident);
+                      // Turn off the dragable property
                       replaceMarker(ident);
 
                     },
