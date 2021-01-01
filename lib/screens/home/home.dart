@@ -37,7 +37,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-
+  BitmapDescriptor pinLocationIcon;
 
   final Service _auth = Service();
   String _mapStyle;
@@ -60,16 +60,22 @@ class _HomeState extends State<Home> {
 
 
 
-
   @override
   void initState() {
     getLocal();
     super.initState();
 
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5),
+        'assets/marker4.png').then((icon) {
+      pinLocationIcon = icon;
+    });
+
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
   }
+
   //Replaces marker with the same marker but with undraggable property.
   replaceMarker(MarkerId id){
     setState(() {
@@ -82,11 +88,13 @@ class _HomeState extends State<Home> {
           title: userMarkers[toIntValue].infoWindow.title,
         ),
         draggable: false,
+        icon: pinLocationIcon,
 
         position: coords[toIntValue],
       ));
     });
   }
+
 
 
 
@@ -250,6 +258,7 @@ class _HomeState extends State<Home> {
                     infoWindow: InfoWindow(
                       title: count.toString(),
                     ),
+                    icon: pinLocationIcon,
                     draggable: true,
                     onDragEnd:((newMarker){ //Updates location after dragging
                       currentCoords=LatLng(newMarker.latitude, newMarker.longitude);
@@ -298,12 +307,6 @@ _saveLocal(MarkerId id) {
   isDragable=true;
   if (toIntValue==count){
   count++;}}
-
-
-
-
-
-
 
 Future getLocal() async{
   final location = await Geolocator

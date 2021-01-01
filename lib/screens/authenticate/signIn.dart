@@ -45,7 +45,7 @@ class _SignInState extends State<SignIn> {
               key: _formKey,
               child: Column(
                 children: [
-                  Image.asset('images/signinplaceholder.png'),
+                  Image.asset('images/spots_logo1.png'),
                   SizedBox(height: 20.0),
                   TextFormField(
                     validator: (val) => val.isEmpty ? 'Enter an email' : null,
