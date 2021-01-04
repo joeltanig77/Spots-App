@@ -240,7 +240,7 @@ class _HomeState extends State<Home> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Dead Fish',
+                              'Dead Bird',
                             ),
                           ),
                         ),
