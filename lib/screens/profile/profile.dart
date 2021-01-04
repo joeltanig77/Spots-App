@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spots_app/services/auth.dart';
-import 'package:spots_app/screens/trade/trade.dart';
+import 'file:///C:/Users/Desi%20Ah%20Yek/AndroidStudioProjects/Spots-App/lib/screens/home/trade.dart';
 import 'package:spots_app/screens/home/home.dart';
 import 'package:spots_app/screens/authenticate/authenticate.dart';
 
@@ -25,7 +25,7 @@ class ProfilePage extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                        Home(null, null),
+                        Home(null, null, null),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
@@ -52,7 +52,7 @@ class ProfilePage extends StatelessWidget {
                 Navigator.pop(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => Home(null, null),
+                    pageBuilder: (context, animation1, animation2) => Home(null, null, null),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
@@ -148,7 +148,7 @@ class ProfilePage extends StatelessWidget {
                   Navigator.pop(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => Home(null, null),
+                      pageBuilder: (context, animation1, animation2) => Home(null, null, null),
                       transitionDuration: Duration(seconds: 0),
                     ),
                   );
@@ -187,7 +187,7 @@ class ProfilePage extends StatelessWidget {
                           Navigator.pop(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => Home(null, null),
+                              pageBuilder: (context, animation1, animation2) => Home(null, null, null),
                               transitionDuration: Duration(seconds: 0),
                             ),
                           );

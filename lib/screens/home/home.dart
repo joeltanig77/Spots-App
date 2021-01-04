@@ -1,15 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
-import 'package:spots_app/screens/trade/trade.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:spots_app/models/locations.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'package:spots_app/services/markerDatabase.dart';
 import 'package:spots_app/models/locations.dart';
-
+import 'package:spots_app/models/user.dart';
+import 'package:spots_app/screens/home/trade.dart';
 
 double long=-75.7009;
 double lat=45.4236;
@@ -21,14 +24,23 @@ List<Marker> userMarkers = [];
 List<LatLng> coords = [];
 List<Location> locations=[];
 LatLng currentCoords=LatLng(0,0);
+User usz= User();
+String myId="";
+
+
 
 class Home extends StatefulWidget {
   double lat=75.7009;
   double long=45.4236;
+  String ide = ""; //The users identification
 
-  Home(latx, laty){
+
+  Home(latx, laty, uidd){
+
     this.lat= latx;
     this.long=laty;
+    this.ide = uidd;
+    myId=this.ide;
   }
   // Reference our service class
   @override
@@ -40,6 +52,7 @@ class _HomeState extends State<Home> {
   BitmapDescriptor pinLocationIcon;
 
   final Service _auth = Service();
+
   String _mapStyle;
   GoogleMapController mapController;
 
@@ -77,11 +90,15 @@ class _HomeState extends State<Home> {
   }
 
   //Replaces marker with the same marker but with undraggable property.
-  replaceMarker(MarkerId id){
+  Future replaceMarker(MarkerId id) async {
+
+    MarkerDatabase garb = MarkerDatabase();
+
+
+    String valueOfMarker= id.value;
+    int toIntValue = int.parse(valueOfMarker);
     setState(() {
-      String valueOfMarker= id.value;
       //change the marker id property to a iny
-      int toIntValue = int.parse(valueOfMarker);
       userMarkers[toIntValue]= (Marker(
         markerId: id,
         infoWindow: InfoWindow(
@@ -93,6 +110,11 @@ class _HomeState extends State<Home> {
         position: coords[toIntValue],
       ));
     });
+    await MarkerDatabase(user: myId+"_"+toIntValue.toString()).updateData(
+        coords[toIntValue].latitude,  coords[toIntValue].longitude,
+        userMarkers[toIntValue].infoWindow.title, 0, myId);
+    garb.getDocumentSnapshot();
+
   }
 
 
@@ -298,9 +320,7 @@ _saveLocal(MarkerId id) {
 
 
 
-  print(valueOfMarker);
-  print(locationOfMarker.lat);
-  print(locationOfMarker.long);
+
 
   //if (int.parse(garb)==count){
   activeMarker=false;
@@ -325,6 +345,7 @@ double getLong(){
 
 double getLat(){
   getLocal();
+
   return lat;
 }
 

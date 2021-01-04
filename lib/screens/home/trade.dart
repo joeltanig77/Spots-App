@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/screens/home/home.dart';
-import 'package:spots_app/screens/trade/trade.dart';
+import 'package:spots_app/screens/home/trade.dart';
 import 'package:spots_app/screens/profile/profile.dart';
 import 'package:spots_app/screens/authenticate/authenticate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:spots_app/models/locations.dart';
+import 'package:spots_app/services/markerDatabase.dart';
 
-class TradePage extends StatefulWidget {
+class TradePage extends StatefulWidget  {
   @override
   _TradePageState createState() => _TradePageState();
 }
 
-class _TradePageState extends State<TradePage> {
-  final Service _auth = Service();
+class _TradePageState extends State<TradePage>  {
+
+  //final Service _auth = Service();
 
   @override
   Widget build(BuildContext context) {
 
-    final locations = Provider.of<List<Location>>(context);
-    locations.forEach((element) {
+    final List<Location> locationz = Provider.of<List<Location>>(context);
+    locationz.forEach((element) {
       print(element.lat);
       print(element.long);
       print(element.locationName);
       print(element.radius);
     });
+    return Container(
+
+    );
 
     return MaterialApp(
       home: Scaffold(
@@ -54,7 +59,7 @@ class _TradePageState extends State<TradePage> {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                        Home(null, null),
+                        Home(null, null, null),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
@@ -74,7 +79,7 @@ class _TradePageState extends State<TradePage> {
                     context,
                     PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                    Home(null, null),
+                    Home(null, null, null),
                 transitionDuration: Duration(seconds: 0),
                     ),
                     );
@@ -109,7 +114,7 @@ class _TradePageState extends State<TradePage> {
                         Navigator.pop(
                           context,
                           PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) => Home(null, null),
+                            pageBuilder: (context, animation1, animation2) => Home(null, null, null),
                             transitionDuration: Duration(seconds: 0),
                           ),
                         );

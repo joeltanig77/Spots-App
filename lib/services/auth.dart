@@ -24,7 +24,7 @@ class Service {
   Stream<User> get user {
     return _auth.onAuthStateChanged
         .map((FirebaseUser user) => _justTheUser(user));
-}
+  }
 
 
 
@@ -36,7 +36,7 @@ class Service {
       FirebaseUser firebaseUser = authResult.user;
       return _justTheUser(firebaseUser);
     }
-      catch (e) {
+    catch (e) {
       print(e.toString());
       return null;
     }
@@ -67,13 +67,12 @@ class Service {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
-      await getLocal();
-      await MarkerDatabase(user: firebaseUser.uid).updateData(lat1, long1, "", 0);
+
       return _justTheUser(firebaseUser);
     }
     catch(e) {
-        print(e.toString());
-        return null;
+      print(e.toString());
+      return null;
     }
   }
 
@@ -90,7 +89,7 @@ class Service {
       print(e.toString());
       return null;
     }
-}
+  }
 
   getLocal() async{
 
@@ -106,3 +105,4 @@ class Service {
 
 
 }
+
