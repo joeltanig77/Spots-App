@@ -3,10 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:spots_app/models/locations.dart';
 
-QuerySnapshot stolenLocation = null;
+QuerySnapshot stolenLocation;
 CollectionReference locationCollection = Firestore.instance.collection("Coordinates");
-
-List<DocumentSnapshot> garbo = null;
+List<DocumentSnapshot> garbo;
 
 class MarkerDatabase{
   final String user;
@@ -23,6 +22,7 @@ class MarkerDatabase{
 
   List<Location> _locationList (QuerySnapshot querySnapshot) {
     return querySnapshot.documents.map((e) {
+      // We have to "steal the data here" because somehow Provider.of does not work
       stolenLocation=querySnapshot;
 
       return Location(
@@ -37,8 +37,8 @@ class MarkerDatabase{
 
 
 
-  Future getDocumentSnapshot ()async {
-    print("Reading Database...");
+  Future getDocumentSnapshot () async {
+    print("Reading Database from marker collections...");
     garbo= stolenLocation.documents;
     garbo.forEach((element) {
       print(element.data);

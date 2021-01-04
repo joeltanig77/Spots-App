@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spots_app/const/loading.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/const/sharedStyles.dart';
+import 'package:spots_app/models/user.dart';
+import 'package:spots_app/services/userInformationDatabase.dart';
 
 
 class Register extends StatefulWidget {
@@ -19,12 +22,24 @@ class _RegisterState extends State<Register> {
   String username = "";
   String password = "";
   String passwordCheck = "";
+  User user = User();
   final Service _auth = Service();
   final _formKey = GlobalKey<FormState>();
   bool areWeLoading = false;
+  
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+
+
+    Future storeUserInformation(String userName, String bio) async {
+      //TODO: Something is wrong at the "user: "Test part as its suppose to call user.uid"
+      await UserInformationDatabase(user: "Test").updateData(userName, bio);
+
+    }
+
     return areWeLoading ? LoadingAnimation() : Scaffold(
       backgroundColor: Colors.amber[100],
       appBar: AppBar(
@@ -104,6 +119,7 @@ class _RegisterState extends State<Register> {
                         setState(() {
                           areWeLoading = true;
                         });
+                        await storeUserInformation(username,null);
                         dynamic resultOfAccountCreation = await _auth.registerAccount(email, password);
                         if(resultOfAccountCreation == null) {
                           setState(() {
@@ -131,4 +147,9 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
+  get userName {
+    return userName;
+  }
+
 }

@@ -116,6 +116,7 @@ class _HomeState extends State<Home> {
         position: coords[toIntValue],
       ));
     });
+    //After we place the marker, update the data!!
     await MarkerDatabase(user: myId+"_"+toIntValue.toString()).updateData(
         coords[toIntValue].latitude,  coords[toIntValue].longitude,
         userMarkers[toIntValue].infoWindow.title, 0, myId);
