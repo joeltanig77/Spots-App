@@ -104,7 +104,7 @@ class _HomeState extends State<Home> {
         markerId: id,
         onTap: () {
           setState(() {
-            pinPillPosition = 0;
+            pinPillPosition = 90;
           });
         },
         infoWindow: InfoWindow(
@@ -229,21 +229,18 @@ class _HomeState extends State<Home> {
                   AnimatedPositioned(
                     bottom: pinPillPosition, right: 0, left: 0,
                     duration: Duration(milliseconds: 200),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 90.0),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          margin: EdgeInsets.all(20),
-                          height: 70,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        height: 70,
 
-                          child: Card(
-                            color: Colors.amber,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Dead Fish',
-                              ),
+                        child: Card(
+                          color: Colors.amber,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Dead Fish',
                             ),
                           ),
                         ),
@@ -323,7 +320,7 @@ class _HomeState extends State<Home> {
                         onTap: () { //This is the "Confirm Button" for now
                           coords.add(currentCoords);
                           _saveLocal(ident);
-                          pinPillPosition = 0;
+                          pinPillPosition = 90;
                           // Turn off the dragable property
                           replaceMarker(ident);
 
