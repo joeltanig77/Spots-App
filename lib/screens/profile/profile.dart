@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spots_app/services/auth.dart';
-import 'file:///C:/Users/Desi%20Ah%20Yek/AndroidStudioProjects/Spots-App/lib/screens/home/trade.dart';
+import 'package:spots_app/screens/home/trade.dart';
 import 'package:spots_app/screens/home/home.dart';
 import 'package:spots_app/screens/authenticate/authenticate.dart';
 

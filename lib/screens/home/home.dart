@@ -56,6 +56,7 @@ class _HomeState extends State<Home> {
   String _mapStyle;
   GoogleMapController mapController;
 
+  double pinPillPosition = -100;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -101,6 +102,11 @@ class _HomeState extends State<Home> {
       //change the marker id property to a iny
       userMarkers[toIntValue]= (Marker(
         markerId: id,
+        onTap: () {
+          setState(() {
+            pinPillPosition = 0;
+          });
+        },
         infoWindow: InfoWindow(
           title: userMarkers[toIntValue].infoWindow.title,
         ),
@@ -133,177 +139,207 @@ class _HomeState extends State<Home> {
 
 
     return MaterialApp(
-      home: StreamProvider<List<Location>>.value(
-        value: MarkerDatabase().locations,
-        child: Scaffold(
-          backgroundColor: Colors.amber[100],
-          appBar: AppBar(
-            backgroundColor: Colors.orange[300],
-            // Note, This is actions for the appbar like the log in button
-
-          actions: [
-            FlatButton(
-              padding:  EdgeInsets.only(right: 60.0),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => TradePage(),
-                    transitionDuration: Duration(seconds: 0),
-                  ),
-                );
-              },
-              child: Text(
-                  "Trade",
-                  style:  TextStyle(
-                    color: Colors.white70,
-                    fontSize: 20.0,
-                  )),
-            ),
-            FlatButton(
-              padding:  EdgeInsets.only(right: 60.0),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () async {
-
-              },
-              child: Text(
-                  "Map",
-                  style:  TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  )),
-            ),
-
-              FlatButton(
-                padding:  EdgeInsets.only(right: 60.0),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: () async {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => ProfilePage(),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
-                },
-                child: Text(
-
-                    "Profile",
-                    style:  TextStyle(
-                      color: Colors.white70,
-                      fontSize: 20.0,
-                    )),
-              ),
-            ],
-
-          ),
-
-        body: Stack(
-            children: [
-              GoogleMap(
-
-                  onMapCreated: _onMapCreated,
-                  myLocationEnabled:true,
-                  markers: Set.from(userMarkers),
-
-                  //zoomControlsEnabled: false,
-
-                  initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
-
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 4,
-                    height: MediaQuery.of(context).size.height,
-                    child: GestureDetector(
-                        onHorizontalDragEnd: (DragEndDetails details) {
-                          if (details.primaryVelocity > 0) {
-
-                          } else if (details.primaryVelocity < 0) {
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => ProfilePage(),
-                                transitionDuration: Duration(seconds: 0),
-                              ),
-                            );
-                          }
-                        }
-
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 8,
-                  height: MediaQuery.of(context).size.height,
-                  child: GestureDetector(
-                      onHorizontalDragEnd: (DragEndDetails details) {
-                        if (details.primaryVelocity > 0) {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) => TradePage(),
-                              transitionDuration: Duration(seconds: 0),
-                            ),
-                          );
-                        } else if (details.primaryVelocity < 0) {
-
-                        }
-                      }
-                  ),
-                ),
-              ),
-            ]
-        ),
-
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 32.0),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: FloatingActionButton(
-              child: Icon(Icons.add_location),
+        home: StreamProvider<List<Location>>.value(
+          value: MarkerDatabase().locations,
+          child: Scaffold(
+            backgroundColor: Colors.amber[100],
+            appBar: AppBar(
               backgroundColor: Colors.orange[300],
+              // Note, This is actions for the appbar like the log in button
 
-              onPressed: (){
-                currentCoords=LatLng(getLat(), getLong());
-                final ident = MarkerId(count.toString());
-                setState(() {
-                  userMarkers.add(Marker(
-                    markerId: MarkerId(count.toString()),
-                    infoWindow: InfoWindow(
-                      title: count.toString(),
-                    ),
-                    icon: pinLocationIcon,
-                    draggable: true,
-                    onDragEnd:((newMarker){ //Updates location after dragging
-                      currentCoords=LatLng(newMarker.latitude, newMarker.longitude);
-                    }),
-                    onTap: () { //This is the "Confirm Button" for now
-                      coords.add(currentCoords);
-                      _saveLocal(ident);
-                      // Turn off the dragable property
-                      replaceMarker(ident);
+              actions: [
+                FlatButton(
+                  padding:  EdgeInsets.only(right: 60.0),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) => TradePage(),
+                        transitionDuration: Duration(seconds: 0),
+                      ),
+                    );
+                  },
+                  child: Text(
+                      "Trade",
+                      style:  TextStyle(
+                        color: Colors.white70,
+                        fontSize: 20.0,
+                      )),
+                ),
+                FlatButton(
+                  padding:  EdgeInsets.only(right: 60.0),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: () async {
 
+                  },
+                  child: Text(
+                      "Map",
+                      style:  TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      )),
+                ),
+
+                FlatButton(
+                  padding:  EdgeInsets.only(right: 60.0),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) => ProfilePage(),
+                        transitionDuration: Duration(seconds: 0),
+                      ),
+                    );
+                  },
+                  child: Text(
+
+                      "Profile",
+                      style:  TextStyle(
+                        color: Colors.white70,
+                        fontSize: 20.0,
+                      )),
+                ),
+              ],
+
+            ),
+
+            body: Stack(
+                children: [
+                  GoogleMap(
+
+                    onMapCreated: _onMapCreated,
+                    myLocationEnabled:true,
+                    markers: Set.from(userMarkers),
+
+                    //zoomControlsEnabled: false,
+
+                    initialCameraPosition: CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
+                    onTap: (LatLng location) {
+                      setState(() {
+                        pinPillPosition = -100;
+                      });
                     },
-                    position: LatLng(getLat(), getLong()),
-                  )
-                    ,
-                  );
 
-                });
-              },
+                  ),
+                  AnimatedPositioned(
+                    bottom: pinPillPosition, right: 0, left: 0,
+                    duration: Duration(milliseconds: 200),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 90.0),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          margin: EdgeInsets.all(20),
+                          height: 70,
+
+                          child: Card(
+                            color: Colors.amber,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Dead Fish',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 4,
+                      height: MediaQuery.of(context).size.height,
+                      child: GestureDetector(
+                          onHorizontalDragEnd: (DragEndDetails details) {
+                            if (details.primaryVelocity > 0) {
+
+                            } else if (details.primaryVelocity < 0) {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation1, animation2) => ProfilePage(),
+                                  transitionDuration: Duration(seconds: 0),
+                                ),
+                              );
+                            }
+                          }
+
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 8,
+                      height: MediaQuery.of(context).size.height,
+                      child: GestureDetector(
+                          onHorizontalDragEnd: (DragEndDetails details) {
+                            if (details.primaryVelocity > 0) {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation1, animation2) => TradePage(),
+                                  transitionDuration: Duration(seconds: 0),
+                                ),
+                              );
+                            } else if (details.primaryVelocity < 0) {
+
+                            }
+                          }
+                      ),
+                    ),
+                  ),
+                ]
+            ),
+
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(left: 32.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton(
+                  child: Icon(Icons.add_location),
+                  backgroundColor: Colors.orange[300],
+
+                  onPressed: (){
+                    currentCoords=LatLng(getLat(), getLong());
+                    final ident = MarkerId(count.toString());
+                    setState(() {
+                      userMarkers.add(Marker(
+                        markerId: MarkerId(count.toString()),
+                        infoWindow: InfoWindow(
+                          title: count.toString(),
+                        ),
+                        icon: pinLocationIcon,
+                        draggable: true,
+                        onDragEnd:((newMarker){ //Updates location after dragging
+                          currentCoords=LatLng(newMarker.latitude, newMarker.longitude);
+                        }),
+                        onTap: () { //This is the "Confirm Button" for now
+                          coords.add(currentCoords);
+                          _saveLocal(ident);
+                          pinPillPosition = 0;
+                          // Turn off the dragable property
+                          replaceMarker(ident);
+
+                        },
+                        position: LatLng(getLat(), getLong()),
+                      )
+                        ,
+                      );
+
+                    });
+                  },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-    )
+        )
     );
   }
 }
@@ -326,7 +362,7 @@ _saveLocal(MarkerId id) {
   activeMarker=false;
   isDragable=true;
   if (toIntValue==count){
-  count++;}}
+    count++;}}
 
 Future getLocal() async{
   final location = await Geolocator
