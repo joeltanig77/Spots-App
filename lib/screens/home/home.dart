@@ -27,6 +27,8 @@ List<Location> locations = [];
 LatLng currentCoords = LatLng(0, 0);
 User usz = User();
 String myId = "";
+String desc="";
+String locationName="";
 
 class Home extends StatefulWidget {
   double lat = 75.7009;
@@ -110,10 +112,12 @@ class _HomeState extends State<Home> {
     await MarkerDatabase(user: myId + "_" + toIntValue.toString()).updateData(
         coords[toIntValue].latitude,
         coords[toIntValue].longitude,
-        userMarkers[toIntValue].infoWindow.title,
+        locationName, desc,
         0,
         myId);
     garb.getDocumentSnapshot();
+    desc="";
+    locationName="";
   }
 
   @override
@@ -278,7 +282,14 @@ class _HomeState extends State<Home> {
                                 child: Container(
                                   color: Colors.amber[600],
                                   child: TextField(
+                                    onChanged: (value){
+                                      setState(() {
+                                        locationName=value;
+                                        value="";
+                                      });
+                                    },
                                     decoration: InputDecoration(
+
                                         border: InputBorder.none,
                                         hintText:
                                             'Enter a name for the location'),
@@ -292,6 +303,13 @@ class _HomeState extends State<Home> {
                                   color: Colors.amber[600],
                                   height: 50,
                                   child: TextField(
+                                      onChanged: (value){
+                                        setState(() {
+                                          desc=value;
+
+                                        });
+                                      },
+
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText:

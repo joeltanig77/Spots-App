@@ -22,7 +22,6 @@ class MarkerDatabase{
 
   List<Location> _locationList (QuerySnapshot querySnapshot) {
     return querySnapshot.documents.map((e) {
-      // We have to "steal the data here" because somehow Provider.of does not work
       stolenLocation=querySnapshot;
 
       return Location(
@@ -50,11 +49,12 @@ class MarkerDatabase{
   }
 
 
-  Future updateData(double lat, double long, String locationName, int radius, String uid) async {
+  Future updateData(double lat, double long, String locationName, String desc, int radius, String uid) async {
     return await coordinates.document(user).setData({
       'lat': lat,
       "long": long,
       "locationName": locationName,
+      "desc": desc,
       "radius": radius,
       "uid":uid
     });

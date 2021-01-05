@@ -120,12 +120,12 @@ class _RegisterState extends State<Register> {
                           areWeLoading = true;
                         });
                         await storeUserInformation(username,null);
-                        dynamic resultOfAccountCreation = await _auth.registerAccount(email, password);
+                        dynamic resultOfAccountCreation = await _auth.registerAccount(email, password, username);
                         if(resultOfAccountCreation == null) {
-                          setState(() {
+
                             error = 'This is not a legal email address, please try again';
                             areWeLoading = false;
-                          });
+
                         }
                         print(email);
                         print(password);

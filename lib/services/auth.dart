@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spots_app/models/user.dart';
@@ -51,6 +52,9 @@ class Service {
       AuthResult authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
 
+
+
+
       return _justTheUser(firebaseUser);
     }
     catch(e) {
@@ -63,10 +67,22 @@ class Service {
 
 
 // register account
-  Future registerAccount(String email, String password) async {
+  Future registerAccount(String email, String password, String username) async {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
+
+      final CollectionReference theTest =
+      Firestore.instance.collection('User Settings and Data');
+
+      return await theTest.document(firebaseUser.uid).setData({
+        'username': username,
+        'password': password,
+        'email': email
+      });
+
+
+
 
       return _justTheUser(firebaseUser);
     }
