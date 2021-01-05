@@ -85,6 +85,14 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void getCurrentMarkers(){
+
+
+
+
+
+  }
+
   //Replaces marker with the same marker but with undraggable property.
   Future replaceMarker(MarkerId id) async {
     MarkerDatabase garb = MarkerDatabase();
@@ -109,13 +117,13 @@ class _HomeState extends State<Home> {
       ));
     });
     //After we place the marker, update the data!!
-    await MarkerDatabase(user: myId + "_" + toIntValue.toString()).updateData(
+    await MarkerDatabase(user: myId).updateData(
         coords[toIntValue].latitude,
         coords[toIntValue].longitude,
         locationName, desc,
         0,
         myId);
-    garb.getDocumentSnapshot();
+    garb.getDocumentSnapshot(myId);
     desc="";
     locationName="";
   }

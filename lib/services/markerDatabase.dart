@@ -4,23 +4,25 @@ import 'package:spots_app/models/user.dart';
 import 'package:spots_app/models/locations.dart';
 
 QuerySnapshot stolenLocation;
-CollectionReference locationCollection = Firestore.instance.collection("Coordinates");
-List<DocumentSnapshot> garbo;
+
+
+
 
 class MarkerDatabase{
   final String user;
   MarkerDatabase({this.user});
 
-  final CollectionReference coordinates =
-      Firestore.instance.collection('Coordinates');
 
 
   // Tells us the change of the doc in any certain point using a stream
   Stream <List<Location>> get locations {
-    return coordinates.snapshots().map(_locationList);
+    final CollectionReference userLocations =
+    Firestore.instance.collection('Coordinates').document(user).collection("User_Locations");
+    return userLocations.snapshots().map(_locationList);
   }
 
   List<Location> _locationList (QuerySnapshot querySnapshot) {
+
     return querySnapshot.documents.map((e) {
       stolenLocation=querySnapshot;
 
@@ -36,21 +38,29 @@ class MarkerDatabase{
 
 
 
-  Future getDocumentSnapshot () async {
-    print("Reading Database from marker collections...");
-    garbo= stolenLocation.documents;
+  Future getDocumentSnapshot (String userz)async {
+    final QuerySnapshot snapCheck =
+    await Firestore.instance.collection('Coordinates').document(userz).collection("User_Locations").getDocuments();
+
+    print("Reading Database...");
+
+    List<DocumentSnapshot> garbo= snapCheck.documents;
+    print(garbo.toString());
     garbo.forEach((element) {
       print(element.data);
-
       print("BREAK");
 
     }
+
     );
   }
 
 
   Future updateData(double lat, double long, String locationName, String desc, int radius, String uid) async {
-    return await coordinates.document(user).setData({
+    final CollectionReference userLocations =
+    Firestore.instance.collection('Coordinates').document(user).collection("User_Locations");
+
+    return await userLocations.document(locationName).setData({
       'lat': lat,
       "long": long,
       "locationName": locationName,
@@ -64,7 +74,7 @@ class MarkerDatabase{
 
   }
 
-  }
+}
 
 
 
