@@ -21,16 +21,7 @@ class _TradePageState extends State<TradePage>  {
   @override
   Widget build(BuildContext context) {
 
-    final List<Location> locationz = Provider.of<List<Location>>(context);
-    locationz.forEach((element) {
-      print(element.lat);
-      print(element.long);
-      print(element.locationName);
-      print(element.radius);
-    });
-    return Container(
 
-    );
 
     return MaterialApp(
       home: Scaffold(
@@ -101,6 +92,27 @@ class _TradePageState extends State<TradePage>  {
         ),
         body: Stack(
           children: [
+          Align(
+          alignment: Alignment.center,
+          child: Text(
+              "Coming Soon*...",
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+              )
+          ),
+        ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                  "*soon indicates sometime in the eventual future, whether it be in this universe or some other",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 12,
+                  )
+              ),
+            ),
             Align(
               alignment: Alignment.centerRight,
               child: Container(
