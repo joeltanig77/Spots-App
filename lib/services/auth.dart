@@ -10,7 +10,7 @@ import 'package:spots_app/screens/home/home.dart';
 double lat1 = 5;
 double long1 = 5;
 
-
+String theFirebaseUser;
 
 class Service {
   // Reference the class first
@@ -35,6 +35,7 @@ class Service {
     try {
       AuthResult authResult = await _auth.signInAnonymously();
       FirebaseUser firebaseUser = authResult.user;
+      theFirebaseUser = firebaseUser.uid;
       return _justTheUser(firebaseUser);
     }
     catch (e) {
@@ -52,7 +53,7 @@ class Service {
       AuthResult authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
 
-
+      theFirebaseUser = firebaseUser.uid;
 
 
       return _justTheUser(firebaseUser);
@@ -75,7 +76,9 @@ class Service {
       final CollectionReference theTest =
       Firestore.instance.collection('User Settings and Data');
 
-      return await theTest.document(firebaseUser.uid).setData({
+      theFirebaseUser = firebaseUser.uid;
+
+      return await theTest.document(theFirebaseUser).setData({
         'username': username,
         'password': password,
         'email': email
@@ -117,6 +120,22 @@ class Service {
     print("Yessssssssssss");
     return location;
 
+  }
+
+  //TODO: Do this first
+  getUsernameFromAccount(String uid) async {
+    //UserName should already be saved, we are just saving it
+    final DocumentSnapshot snapshot =
+        await Firestore.instance.collection('User Settings and Data').document(uid).get();
+
+
+    var doc = snapshot.data;
+
+    var userName = doc['username'];
+
+    String plz = userName.toString();
+
+    return plz;
   }
 
 

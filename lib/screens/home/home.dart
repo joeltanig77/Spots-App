@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:spots_app/models/userInformation.dart';
+import 'package:spots_app/screens/authenticate/register.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
@@ -14,6 +16,7 @@ import 'package:spots_app/services/markerDatabase.dart';
 import 'package:spots_app/models/locations.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:spots_app/screens/home/trade.dart';
+import 'package:spots_app/services/userInformationDatabase.dart';
 
 double long = -75.7009;
 double lat = 45.4236;
@@ -47,6 +50,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   BitmapDescriptor pinLocationIcon;
 
   final Service _auth = Service();
@@ -128,15 +132,28 @@ class _HomeState extends State<Home> {
     locationName="";
   }
 
+
+
+/*
+  Future storeUserInformation(String bio) async {
+    String garb4 = Register().userName;
+    await UserInformationDatabase(user: myId).updateData(garb4, bio);
+  }
+*/
+
   @override
   Widget build(BuildContext context) {
     getLocal();
     setState(() {
+
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(getLat(), getLong()), zoom: 20.0),
+        CameraPosition(
+            target: LatLng(getLat(), getLong()), zoom: 20.0),
       );
     });
 
+
+    /*storeUserInformation("Im a happy boy hehe");*/
     return MaterialApp(
         home: StreamProvider<List<Location>>.value(
       value: MarkerDatabase().locations,
@@ -187,7 +204,7 @@ class _HomeState extends State<Home> {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                        ProfilePage(),
+                        ProfilePage(myId),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
@@ -370,7 +387,7 @@ class _HomeState extends State<Home> {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          ProfilePage(),
+                          ProfilePage(myId),
                       transitionDuration: Duration(seconds: 0),
                     ),
                   );

@@ -8,21 +8,40 @@ import 'package:spots_app/screens/authenticate/authenticate.dart';
 import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/services/userInformationDatabase.dart';
 
-class ProfilePage extends StatelessWidget {
-  final Service _auth = Service();
-   String _username = "";
+String myId = "";
+final Service _auth = Service();
+class ProfilePage extends StatefulWidget {
+
+  ProfilePage(uid) {
+    myId = uid;
+  }
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+
+  //String garb = _auth.getUsernameFromAccount(myId);
+
+  String _username = "";
 
 
   @override
   Widget build(BuildContext context) {
-    
-  Future getUserInformation() async {
+ /* Future getUserInformation() async {
     UserInformationDatabase userInformationDatabase = UserInformationDatabase();
     String database = userInformationDatabase.getDocumentSnapshot().toString();
     _username = database;
 
-  }
-    getUserInformation();
+    //TODO: Do stuff to get stuff from the database into the profile!!
+    
+  }*/
+    //getUserInformation();
+//print(garb);
+
+    
     return MaterialApp(
       home: StreamProvider<List<UserInformation>>.value(
       value: UserInformationDatabase().userInfo,

@@ -3,6 +3,7 @@ import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/screens/home/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//Might use this for later for a different database
 
 QuerySnapshot stolenLocation;
 CollectionReference locationCollection = Firestore.instance.collection("Coordinates");
@@ -40,7 +41,6 @@ class UserInformationDatabase {
     garbo= stolenLocation.documents;
     garbo.forEach((element) {
       print(element.data);
-
       print("BREAK");
 
     }

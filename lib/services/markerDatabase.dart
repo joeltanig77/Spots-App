@@ -38,7 +38,7 @@ class MarkerDatabase{
 
 
 
-  Future getDocumentSnapshot (String userz)async {
+  Future getDocumentSnapshot (String userz) async {
     final QuerySnapshot snapCheck =
     await Firestore.instance.collection('Coordinates').document(userz).collection("User_Locations").getDocuments();
 

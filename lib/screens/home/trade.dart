@@ -77,7 +77,7 @@ class _TradePageState extends State<TradePage>  {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => ProfilePage(),
+                    pageBuilder: (context, animation1, animation2) => ProfilePage(null),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
