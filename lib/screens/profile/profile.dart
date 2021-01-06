@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spots_app/models/user.dart';
@@ -9,11 +10,16 @@ import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/services/userInformationDatabase.dart';
 
 String myId = "";
+String user;
+String bio="TEST";
 final Service _auth = Service();
 class ProfilePage extends StatefulWidget {
 
-  ProfilePage(uid) {
+  ProfilePage(String uid, String user1, String bio1) {
     myId = uid;
+    user=user1;
+    bio=bio1;
+
   }
 
   @override
@@ -28,9 +34,31 @@ class _ProfilePageState extends State<ProfilePage> {
   String _username = "";
 
 
+  Future updateBio() async {
+    final CollectionReference userLocations =
+    Firestore.instance.collection('User Settings and Data').document(myId).collection("User Info");
+
+    return await userLocations.document("Basic Credentials").setData({
+      'username': user,
+      'bio': bio,
+    });
+  }
+
+  String returnBio(){
+    return bio;
+  }
+
+
   @override
   Widget build(BuildContext context) {
- /* Future getUserInformation() async {
+
+
+
+
+
+
+
+    /* Future getUserInformation() async {
     UserInformationDatabase userInformationDatabase = UserInformationDatabase();
     String database = userInformationDatabase.getDocumentSnapshot().toString();
     _username = database;
@@ -43,6 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     
     return MaterialApp(
+
       home: StreamProvider<List<UserInformation>>.value(
       value: UserInformationDatabase().userInfo,
         child: Scaffold(
@@ -140,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Align(
                       alignment: Alignment.center,
                       child: Text(
-                       '$_username',
+                       user,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
@@ -152,10 +181,19 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.all(30.0),
                       child: Container(
                         child: TextFormField(
+                          initialValue: returnBio(),
+                            onChanged: (value){
+
+                              setState(() {
+                                bio=value;
+
+                                updateBio();
+                              });
+                            },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                             ),
-                            labelText: 'Bio:',
+                            labelText: 'Bio',
                           )
                         ),
                       ),
@@ -238,4 +276,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+
+
 }

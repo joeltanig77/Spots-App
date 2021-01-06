@@ -21,22 +21,29 @@ import 'package:spots_app/services/userInformationDatabase.dart';
 double long = -75.7009;
 double lat = 45.4236;
 int count = 0;
-bool isDragable = true;
+
 bool activeMarker = false;
-Map<int, Location> markerz = <int, Location>{};
+
 List<Marker> userMarkers = [];
 List<LatLng> coords = [];
-List<Location> locations = [];
 LatLng currentCoords = LatLng(0, 0);
 User usz = User();
 String myId = "";
 String desc="";
 String locationName="";
+TextEditingController _textController=new TextEditingController();
+TextEditingController _textController2=new TextEditingController();
+List<Marker> cloudMarkers=[];
+String user;
+String bio;
+
 
 class Home extends StatefulWidget {
   double lat = 75.7009;
   double long = 45.4236;
   String ide = ""; //The users identification
+
+
 
   Home(latx, laty, uidd) {
     this.lat = latx;
@@ -63,6 +70,7 @@ class _HomeState extends State<Home> {
   double finishedPillPosition = -250;
 
   void _onMapCreated(GoogleMapController controller) {
+    currentUser();
     mapController = controller;
     getLocal();
     mapController.setMapStyle(_mapStyle);
@@ -75,6 +83,8 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+
+
     getLocal();
     super.initState();
 
@@ -87,15 +97,50 @@ class _HomeState extends State<Home> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
-  }
-
-  void getCurrentMarkers(){
-
-
-
-
+    getCurrentMarkers();
 
   }
+
+  void getCurrentMarkers()async{
+    final QuerySnapshot snapCheck =
+        await Firestore.instance.collection('Coordinates').document(myId).collection("User_Locations").getDocuments();
+
+    List<DocumentSnapshot> garbo= snapCheck.documents;
+
+    garbo.forEach((element) {
+      coords.add(LatLng(element.data["lat"],element.data["long"]));
+
+      print("BREAK");
+      MarkerId theMarkerId=MarkerId(element.data["locationName"]);
+      String otherDesc=element.data["desc"];
+      setState(() {
+        //change the marker id property to a iny
+        userMarkers.add (Marker(
+          markerId: theMarkerId,
+          onTap: () {
+            if (!activeMarker) {
+              locationName = theMarkerId.value;
+              desc = otherDesc;
+              setState(() {
+                finishedPillPosition = 85;
+              });
+            }
+          },
+          infoWindow: InfoWindow(
+            title: element.data["locationName"],
+          ),
+          draggable: false,
+          icon: pinLocationIcon,
+          position: LatLng(element.data["lat"], element.data["long"]),
+        ));
+        count++;
+      });
+    });
+        }
+
+
+
+
 
   //Replaces marker with the same marker but with undraggable property.
   Future replaceMarker(MarkerId id) async {
@@ -103,17 +148,27 @@ class _HomeState extends State<Home> {
 
     String valueOfMarker = id.value;
     int toIntValue = int.parse(valueOfMarker);
+    id=MarkerId(locationName);
+
+    String otherDesc=desc;
+
+
+
     setState(() {
       //change the marker id property to a iny
       userMarkers[toIntValue] = (Marker(
         markerId: id,
         onTap: () {
-          setState(() {
-            finishedPillPosition = 85;
-          });
+          if (!activeMarker) {
+            locationName = id.value;
+            desc = otherDesc;
+            setState(() {
+              finishedPillPosition = 85;
+            });
+          }
         },
         infoWindow: InfoWindow(
-          title: userMarkers[toIntValue].infoWindow.title,
+          title: locationName,
         ),
         draggable: false,
         icon: pinLocationIcon,
@@ -127,9 +182,8 @@ class _HomeState extends State<Home> {
         locationName, desc,
         0,
         myId);
-    garb.getDocumentSnapshot(myId);
-    desc="";
-    locationName="";
+
+
   }
 
 
@@ -200,11 +254,13 @@ class _HomeState extends State<Home> {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onPressed: () async {
+                await currentUser();
+                await currentBio();
                 Navigator.push(
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                        ProfilePage(myId),
+                        ProfilePage(myId, user, bio),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
@@ -258,7 +314,7 @@ class _HomeState extends State<Home> {
                               alignment: Alignment.centerLeft,
                               color: Colors.amber[600],
                               child: Text(
-                                    'Name'
+                                    'Name: '+ locationName,
                                 ),
                               ),
                             ),
@@ -270,7 +326,7 @@ class _HomeState extends State<Home> {
                               height: 50,
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                    'Description'
+                                    'Description: '+desc,
                               ),
                             ),
                           ),
@@ -307,10 +363,13 @@ class _HomeState extends State<Home> {
                                 child: Container(
                                   color: Colors.amber[600],
                                   child: TextField(
+                                    controller: _textController,
+
                                     onChanged: (value){
                                       setState(() {
                                         locationName=value;
-                                        value="";
+
+
                                       });
                                     },
                                     decoration: InputDecoration(
@@ -328,6 +387,7 @@ class _HomeState extends State<Home> {
                                   color: Colors.amber[600],
                                   height: 50,
                                   child: TextField(
+                                    controller: _textController2,
                                       onChanged: (value){
                                         setState(() {
                                           desc=value;
@@ -356,15 +416,20 @@ class _HomeState extends State<Home> {
                               color: Colors.green,
                             ),
                             onPressed: () {
+                              activeMarker=false;
                               final ident = MarkerId(count.toString());
 
                               coords.add(currentCoords);
-                              _saveLocal(ident);
+                              count++;
                               setState(() {
                                 pinPillPosition = -250;
                               });
                               // Turn off the dragable property
                               replaceMarker(ident);
+                              _textController.clear();
+                              _textController2.clear();
+
+
                             },
                         ),
                       ),
@@ -387,7 +452,7 @@ class _HomeState extends State<Home> {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          ProfilePage(myId),
+                          ProfilePage(myId, user, bio),
                       transitionDuration: Duration(seconds: 0),
                     ),
                   );
@@ -424,30 +489,33 @@ class _HomeState extends State<Home> {
               child: Icon(Icons.add_location),
               backgroundColor: Colors.orange[300],
               onPressed: () {
-                currentCoords = LatLng(getLat(), getLong());
-                setState(() {
-                  userMarkers.add(
-                    Marker(
-                      markerId: MarkerId(count.toString()),
-                      infoWindow: InfoWindow(
-                        title: count.toString(),
+                if (!activeMarker) {
+                  activeMarker=true;
+                  currentCoords = LatLng(getLat(), getLong());
+                  setState(() {
+                    userMarkers.add(
+                      Marker(
+                        markerId: MarkerId(count.toString()),
+                        infoWindow: InfoWindow(
+                          title: count.toString(),
+                        ),
+                        icon: pinLocationIcon,
+                        draggable: true,
+                        onDragEnd: ((newMarker) {
+                          //Updates location after dragging
+                          currentCoords =
+                              LatLng(newMarker.latitude, newMarker.longitude);
+                        }),
+                        onTap: () {
+                          setState(() {
+                            pinPillPosition = 85;
+                          });
+                        },
+                        position: LatLng(getLat(), getLong()),
                       ),
-                      icon: pinLocationIcon,
-                      draggable: true,
-                      onDragEnd: ((newMarker) {
-                        //Updates location after dragging
-                        currentCoords =
-                            LatLng(newMarker.latitude, newMarker.longitude);
-                      }),
-                      onTap: () {
-                        setState(() {
-                          pinPillPosition = 85;
-                        });
-                      },
-                      position: LatLng(getLat(), getLong()),
-                    ),
-                  );
-                });
+                    );
+                  });
+                };
               },
             ),
           ),
@@ -457,21 +525,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-_saveLocal(MarkerId id) {
-  String valueOfMarker = id.value;
-  int toIntValue = int.parse(valueOfMarker);
 
-  Location locationOfMarker = new Location(
-      lat: coords[toIntValue].latitude, long: coords[toIntValue].longitude);
-  locations.add(locationOfMarker);
-
-  //if (int.parse(garb)==count){
-  activeMarker = false;
-  isDragable = true;
-  if (toIntValue == count) {
-    count++;
-  }
-}
 
 Future getLocal() async {
   final location = await Geolocator.getCurrentPosition(
@@ -493,6 +547,30 @@ double getLat() {
   return lat;
 }
 
-List<Location> getLocations() {
-  return locations;
+Future currentUser() async {
+  final QuerySnapshot snapCheck =
+  await Firestore.instance.collection('User Settings and Data')
+      .document(myId)
+      .collection("User Info")
+      .getDocuments();
+
+  List<DocumentSnapshot> garbo = snapCheck.documents;
+  user=garbo[0]["username"];
+  print(user);
+
 }
+
+
+Future currentBio() async {
+  final QuerySnapshot snapCheck =
+  await Firestore.instance.collection('User Settings and Data')
+      .document(myId)
+      .collection("User Info")
+      .getDocuments();
+  List<DocumentSnapshot> garbo = snapCheck.documents;
+
+    bio=garbo[0]["bio"];
+
+
+}
+

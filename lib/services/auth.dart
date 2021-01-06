@@ -74,14 +74,14 @@ class Service {
       FirebaseUser firebaseUser = authResult.user;
 
       final CollectionReference theTest =
-      Firestore.instance.collection('User Settings and Data');
+        Firestore.instance.collection('User Settings and Data').document(firebaseUser.uid).collection("User Info");
 
       theFirebaseUser = firebaseUser.uid;
 
-      return await theTest.document(theFirebaseUser).setData({
+      return await theTest.document("Basic Credentials").setData({
         'username': username,
-        'password': password,
-        'email': email
+        'bio':"",
+
       });
 
 
