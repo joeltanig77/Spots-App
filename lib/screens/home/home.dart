@@ -306,6 +306,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Column(
                         children: [
+                          //finished image
                           Image.asset('images/stockSpots.jpg'),
                           Padding(
                             padding: const EdgeInsets.symmetric(
