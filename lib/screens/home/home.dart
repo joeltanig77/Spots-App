@@ -356,7 +356,18 @@ class _HomeState extends State<Home> {
                         children: [
                           Column(
                             children: [
-                              Image.asset('images/stockSpots.jpg'),
+                              FlatButton(
+                                  color: Colors.amber[600],
+                                  height: 70,
+                                  minWidth: 330,
+                                  onPressed: () {
+
+                                  },
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.white,
+                                  ),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4.0, horizontal: 8.0),
