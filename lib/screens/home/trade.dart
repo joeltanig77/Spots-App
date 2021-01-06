@@ -17,11 +17,8 @@ class TradePage extends StatefulWidget  {
 class _TradePageState extends State<TradePage>  {
 
   //final Service _auth = Service();
-
   @override
   Widget build(BuildContext context) {
-
-
 
     return MaterialApp(
       home: Scaffold(
