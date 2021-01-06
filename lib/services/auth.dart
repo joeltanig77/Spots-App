@@ -84,10 +84,6 @@ class Service {
 
       });
 
-
-
-
-      return _justTheUser(firebaseUser);
     }
     catch(e) {
       print(e.toString());
@@ -122,21 +118,8 @@ class Service {
 
   }
 
-  //TODO: Do this firstttt
-  getUsernameFromAccount(String uid) async {
-    //UserName should already be saved, we are just saving it
-    final DocumentSnapshot snapshot =
-        await Firestore.instance.collection('User Settings and Data').document(uid).get();
 
 
-    var doc = snapshot.data;
-
-    var userName = doc['username'];
-
-    String plz = userName.toString();
-
-    return plz;
-  }
 
 
 }

@@ -9,7 +9,7 @@ import 'package:spots_app/screens/authenticate/authenticate.dart';
 import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/services/userInformationDatabase.dart';
 
-String myId = "";
+
 String user;
 String bio="TEST";
 final Service _auth = Service();
@@ -29,9 +29,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  //String garb = _auth.getUsernameFromAccount(myId);
-
-  String _username = "";
 
 
   Future updateBio() async {
@@ -51,23 +48,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
-
-
-
-    /* Future getUserInformation() async {
-    UserInformationDatabase userInformationDatabase = UserInformationDatabase();
-    String database = userInformationDatabase.getDocumentSnapshot().toString();
-    _username = database;
-
-    //TODO: Do stuff to get stuff from the database into the profile!!
-    
-  }*/
-    //getUserInformation();
-//print(garb);
 
     
     return MaterialApp(
