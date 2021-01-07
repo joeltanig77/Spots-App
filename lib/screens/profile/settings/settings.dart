@@ -84,7 +84,7 @@ class _SettingsPageState extends State<SettingsPage> {
               margin: EdgeInsets.all(8),
               color: Colors.white,
               child: ListTile(
-                title: Text("About"),
+                title: Text("Change Password"),
                 onTap: () {
                   print("Change Password button pressed");
                 },
