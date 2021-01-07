@@ -465,20 +465,20 @@ class _HomeState extends State<Home> {
                               color: Colors.green,
                             ),
                             onPressed: () {
-                              activeMarker=false;
-                              final ident = MarkerId(count.toString());
+                              if (locationName!="" && desc!="" && currentImageUrl!="") {
+                                activeMarker = false;
+                                final ident = MarkerId(count.toString());
 
-                              coords.add(currentCoords);
-                              count++;
-                              setState(() {
-                                pinPillPosition = -250;
-                              });
-                              // Turn off the dragable property
-                              replaceMarker(ident);
-                              _textController.clear();
-                              _textController2.clear();
-
-
+                                coords.add(currentCoords);
+                                count++;
+                                setState(() {
+                                  pinPillPosition = -250;
+                                });
+                                // Turn off the dragable property
+                                replaceMarker(ident);
+                                _textController.clear();
+                                _textController2.clear();
+                              }
                             },
                         ),
                       ),
@@ -589,6 +589,7 @@ class _HomeState extends State<Home> {
               backgroundColor: Colors.orange[300],
               onPressed: () {
                 if (!activeMarker) {
+                  currentImageUrl="";
                   activeMarker=true;
                   currentCoords = LatLng(getLat(), getLong());
                   setState(() {
