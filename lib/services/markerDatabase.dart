@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:spots_app/models/locations.dart';
+import 'package:spots_app/screens/home/home.dart';
 
 QuerySnapshot stolenLocation;
 
@@ -83,8 +84,19 @@ class MarkerDatabase{
         });
       }
     });
-    print("Data has been deleted");
+    print("Data has been deleted for markers");
+
+    //This is for deleting images in the database
+    //TODO: Fix this
+    String pathUID = uid;
+    print(pathUID);
+    await imageDatabase.ref()
+        .child(pathUID)
+        .delete();
+
+    print("Data has been deleted for images");
   }
+
 
 }
 
