@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spots_app/models/user.dart';
+import 'package:spots_app/screens/profile/settings/settings.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/screens/home/trade.dart';
 import 'package:spots_app/screens/home/home.dart';
@@ -95,7 +96,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     
     return MaterialApp(
-
       home: StreamProvider<List<UserInformation>>.value(
       value: UserInformationDatabase().userInfo,
         child: Scaffold(
@@ -300,9 +300,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   alignment: Alignment.topRight,
                   child: FlatButton.icon(
                     icon: Icon(Icons.settings),
-                    onPressed:  ()  async {
+                    onPressed:  () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>  SettingsPage(myId),
+                          transitionDuration: Duration(seconds: 1),
+                        ),
+                      );
                     },
-
                     label: Text("Settings",
                         style: TextStyle(
                         color: Colors.white70,

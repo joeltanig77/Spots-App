@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spots_app/models/user.dart';
@@ -11,7 +12,7 @@ QuerySnapshot stolenLocation;
 class MarkerDatabase{
   final String user;
   MarkerDatabase({this.user});
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
   // Tells us the change of the doc in any certain point using a stream
@@ -68,9 +69,21 @@ class MarkerDatabase{
       "url":url
     });
 
+  }
 
 
 
+  //TODO: Find out how to also do notifications to ask if you want to delete the data or not (pop up)
+  Future deleteAllData(String uid) async {
+    CollectionReference _documentRef = Firestore.instance.collection("Coordinates").document(uid).collection("User_Locations");
+    _documentRef.getDocuments().then((ds){
+      if(ds!=null){
+        ds.documents.forEach((value)  {
+          value.reference.delete();
+        });
+      }
+    });
+    print("Data has been deleted");
   }
 
 }

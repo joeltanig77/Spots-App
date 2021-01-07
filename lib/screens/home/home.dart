@@ -239,7 +239,6 @@ class _HomeState extends State<Home> {
     });
 
 
-    /*storeUserInformation("Im a happy boy hehe");*/
     return MaterialApp(
         home: StreamProvider<List<Location>>.value(
       value: MarkerDatabase().locations,
