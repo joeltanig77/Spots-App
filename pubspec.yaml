@@ -36,7 +36,7 @@ dependencies:
   geolocator: ^6.1.13
   image_picker: ^0.6.7+17
   material_floating_search_bar: ^0.2.6
-
+  firebase_storage: ^3.0.8
 
 dev_dependencies:
   flutter_test:

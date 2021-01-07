@@ -42,13 +42,11 @@ class MarkerDatabase{
     final QuerySnapshot snapCheck =
     await Firestore.instance.collection('Coordinates').document(userz).collection("User_Locations").getDocuments();
 
-    print("Reading Database...");
 
     List<DocumentSnapshot> garbo= snapCheck.documents;
-    print(garbo.toString());
+
     garbo.forEach((element) {
-      print(element.data);
-      print("BREAK");
+
 
     }
 
@@ -56,7 +54,7 @@ class MarkerDatabase{
   }
 
 
-  Future updateData(double lat, double long, String locationName, String desc, int radius, String uid) async {
+  Future updateData(double lat, double long, String locationName, String desc, int radius, String uid, String url) async {
     final CollectionReference userLocations =
     Firestore.instance.collection('Coordinates').document(user).collection("User_Locations");
 
@@ -66,7 +64,8 @@ class MarkerDatabase{
       "locationName": locationName,
       "desc": desc,
       "radius": radius,
-      "uid":uid
+      "uid":uid,
+      "url":url
     });
 
 

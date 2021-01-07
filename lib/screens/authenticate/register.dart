@@ -121,8 +121,7 @@ class _RegisterState extends State<Register> {
 
                         }
 
-                        print(email);
-                        print(password);
+
                       }
                     },
                     color: Colors.orange[300],

@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/screens/authenticate/register.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
-
+import 'dart:io';
 import 'package:geolocator/geolocator.dart';
 import 'package:spots_app/models/locations.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -18,6 +20,8 @@ import 'package:spots_app/models/user.dart';
 import 'package:spots_app/screens/home/trade.dart';
 import 'package:spots_app/services/userInformationDatabase.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+
+FirebaseStorage imageDatabase = FirebaseStorage.instance;
 
 double long = -75.7009;
 double lat = 45.4236;
@@ -37,7 +41,8 @@ TextEditingController _textController2=new TextEditingController();
 List<Marker> cloudMarkers=[];
 String user;
 String bio;
-
+File userImage;
+String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";
 
 class Home extends StatefulWidget {
   double lat = 75.7009;
@@ -86,6 +91,7 @@ class _HomeState extends State<Home> {
   void initState() {
 
 
+
     getLocal();
     super.initState();
 
@@ -111,9 +117,10 @@ class _HomeState extends State<Home> {
     garbo.forEach((element) {
       coords.add(LatLng(element.data["lat"],element.data["long"]));
 
-      print("BREAK");
+
       MarkerId theMarkerId=MarkerId(element.data["locationName"]);
       String otherDesc=element.data["desc"];
+      String otherUrl=element.data["url"];
       setState(() {
         //change the marker id property to a iny
         userMarkers.add (Marker(
@@ -122,6 +129,7 @@ class _HomeState extends State<Home> {
             if (!activeMarker) {
               locationName = theMarkerId.value;
               desc = otherDesc;
+              currentImageUrl=otherUrl;
               setState(() {
                 finishedPillPosition = 85;
               });
@@ -140,6 +148,27 @@ class _HomeState extends State<Home> {
         }
 
 
+  Future getImageFromGallery() async {
+    var locationImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    userImage=File(locationImage.path);
+    String currentPath=myId+'/'+locationName;
+
+    if (locationImage!=null){
+      await imageDatabase.ref()
+          .child(currentPath)
+          .putFile(userImage)
+          .onComplete;
+
+
+       String funTimes= await (imageDatabase.ref().child(currentPath).getDownloadURL());
+
+      currentImageUrl=funTimes;
+    }
+  }
+
+
+
 
 
 
@@ -152,7 +181,7 @@ class _HomeState extends State<Home> {
     id=MarkerId(locationName);
 
     String otherDesc=desc;
-
+    String otherUrl=currentImageUrl;
 
 
     setState(() {
@@ -163,6 +192,7 @@ class _HomeState extends State<Home> {
           if (!activeMarker) {
             locationName = id.value;
             desc = otherDesc;
+            currentImageUrl=otherUrl;
             setState(() {
               finishedPillPosition = 85;
             });
@@ -182,7 +212,7 @@ class _HomeState extends State<Home> {
         coords[toIntValue].longitude,
         locationName, desc,
         0,
-        myId);
+        myId, currentImageUrl);
 
 
   }
@@ -220,6 +250,7 @@ class _HomeState extends State<Home> {
           // Note, This is actions for the appbar like the log in button
 
           actions: [
+            //TRADE
             FlatButton(
               padding: EdgeInsets.only(right: 60.0),
               splashColor: Colors.transparent,
@@ -240,6 +271,7 @@ class _HomeState extends State<Home> {
                     fontSize: 20.0,
                   )),
             ),
+            //MAP
             FlatButton(
               padding: EdgeInsets.only(right: 60.0),
               splashColor: Colors.transparent,
@@ -310,8 +342,9 @@ class _HomeState extends State<Home> {
                       Column(
                         children: [
                           //finished image
-                          Image.asset('images/stockSpots.jpg'),
+                          Image.network(currentImageUrl),
                           Padding(
+
                             padding: const EdgeInsets.symmetric(
                                 vertical: 4.0, horizontal: 8.0),
                             child: Container(
@@ -365,6 +398,7 @@ class _HomeState extends State<Home> {
                                   height: 70,
                                   minWidth: 330,
                                   onPressed: () {
+                                    getImageFromGallery();
 
                                   },
                                   child: Icon(
@@ -621,7 +655,7 @@ Future currentUser() async {
 
   List<DocumentSnapshot> garbo = snapCheck.documents;
   user=garbo[0]["username"];
-  print(user);
+
 
 }
 
