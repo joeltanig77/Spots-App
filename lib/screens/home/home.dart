@@ -43,6 +43,9 @@ String user;
 String bio;
 File userImage;
 String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";
+String searchQuery;
+List<String> queryLocations=[];
+
 
 class Home extends StatefulWidget {
   double lat = 75.7009;
@@ -146,6 +149,29 @@ class _HomeState extends State<Home> {
       });
     });
         }
+
+
+  void getMarkersFromSearch()async{
+    final QuerySnapshot snapCheck =
+    await Firestore.instance.collection('Coordinates').document(myId).collection("User_Locations").getDocuments();
+    List<String> queryLocations=[];
+    List<DocumentSnapshot> garbo= snapCheck.documents;
+
+    garbo.forEach((element) {
+      int currLength=searchQuery.length;
+      String locationNamez=(element.data["locationName"]);
+
+      if (locationNamez.length>=currLength) {
+
+        if (locationNamez.substring(0, currLength) == searchQuery) {
+          queryLocations.add(locationNamez);
+          print(queryLocations);
+        }
+      }
+
+
+    });
+  }
 
 
   Future getImageFromGallery() async {
@@ -533,6 +559,14 @@ class _HomeState extends State<Home> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0,7,0,0),
             child: FloatingSearchBar(
+              onQueryChanged:(value){
+                      setState(() {
+
+                        searchQuery=value;
+                        getMarkersFromSearch();
+                           });},
+
+
               hint: 'Search...',
               scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
               transitionDuration: const Duration(milliseconds: 800),
@@ -543,9 +577,7 @@ class _HomeState extends State<Home> {
               height: 37,
               maxWidth: isPortrait ? 250 : 500,
               debounceDelay: const Duration(milliseconds: 500),
-              onQueryChanged: (query) {
-                // Call your model, bloc, controller here.
-              },
+
               // Specify a custom transition to be used for
               // animating between opened and closed stated.
               transition: CircularFloatingSearchBarTransition(),
