@@ -9,7 +9,7 @@ import 'package:spots_app/screens/authenticate/authenticate.dart';
 import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/services/userInformationDatabase.dart';
 
-
+String myId = "";
 String user;
 String bio="TEST";
 final Service _auth = Service();
@@ -26,9 +26,36 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 
 }
+Widget Spot(String name) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+      child: Card(
+        color: Colors.amberAccent,
+        child: InkWell(
+          splashColor: Colors.amber,
+          onTap: () {
+            print('Card tapped.');
+          },
+          child: Container(
+            width: 112,
+            height: 100,
+            child: Align(
+                child: Text(name)
+            ),
+          ),
+        ),
+      ),
+    );
+
+}
+
+
 
 class _ProfilePageState extends State<ProfilePage> {
 
+  //String garb = _auth.getUsernameFromAccount(myId);
+
+  String _username = "";
 
 
   Future updateBio() async {
@@ -49,6 +76,23 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
+
+
+
+
+
+
+    /* Future getUserInformation() async {
+    UserInformationDatabase userInformationDatabase = UserInformationDatabase();
+    String database = userInformationDatabase.getDocumentSnapshot().toString();
+    _username = database;
+
+    //TODO: Do stuff to get stuff from the database into the profile!!
+    
+  }*/
+    //getUserInformation();
+//print(garb);
+
     
     return MaterialApp(
 
@@ -58,6 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: Colors.amber[100],
           appBar: AppBar(
             // Note, This is actions for the appbar like the log in button
+            backgroundColor: Colors.orange[300],
             actions: [
               FlatButton(
                 padding:  EdgeInsets.only(right: 60.0),
@@ -135,63 +180,100 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: MediaQuery.of(context).size.height/2.6,
                 ),
                 ListView(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          backgroundImage: NetworkImage("https://i.pinimg.com/originals/1c/0d/f9/1c0df903d94f7e5ad087ae072f0b8997.jpg"),
-                          radius: 100,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.black,
+                            backgroundImage: NetworkImage("https://i.pinimg.com/originals/1c/0d/f9/1c0df903d94f7e5ad087ae072f0b8997.jpg"),
+                            radius: 100,
+                          ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                       user,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        )
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Container(
-                        child: TextFormField(
-                          initialValue: returnBio(),
-                            onChanged: (value){
-
-                              setState(() {
-                                bio=value;
-
-                                updateBio();
-                              });
-                            },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                            ),
-                            labelText: 'Bio',
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                         user,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
                           )
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
+                      Padding(
                         padding: const EdgeInsets.all(30.0),
-                        child: Text(
-                        "Inventory: ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 26,
-                        )
+                        child: Container(
+                          child: TextFormField(
+                            initialValue: returnBio(),
+                              onChanged: (value){
+
+                                setState(() {
+                                  bio=value;
+
+                                  updateBio();
+                                });
+                              },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                              ),
+                              labelText: 'Bio',
+                            )
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+                          child: Text(
+                          "Inventory",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 26,
+                          )
+                          ),
+                        ),
+                      ),
+                      Divider(),
+                      Container(
+                        color: Colors.transparent,
+                        alignment: Alignment.bottomCenter,
+                        height: 250,
+                        width: MediaQuery.of(context).size.width ,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Column(
+                              children: [
+                                Spot('Ronny Ronny Ronny'),
+                                Spot('Mcdonalds')
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Spot('Drakes Smokehouse'),
+                                Spot('El Dorado'),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Spot('Boodock Base'),
+                                Spot('WSU'),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Spot('Britain'),
+                                Spot('Ottawa'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                  ]
                 ),
                 FlatButton.icon(
                   icon: Icon(Icons.logout),
@@ -250,9 +332,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-              ]
-          ),
+
+      ]
         ),
+      ),
       ),
     );
   }
