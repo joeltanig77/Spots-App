@@ -467,6 +467,7 @@ class _HomeState extends State<Home> {
                             onPressed: () {
                               if (locationName!="" && desc!="" && currentImageUrl!="") {
                                 activeMarker = false;
+
                                 final ident = MarkerId(count.toString());
 
                                 coords.add(currentCoords);
@@ -589,8 +590,10 @@ class _HomeState extends State<Home> {
               backgroundColor: Colors.orange[300],
               onPressed: () {
                 if (!activeMarker) {
-                  currentImageUrl="";
+                  currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";;
                   activeMarker=true;
+                  locationName="";
+                  desc="";
                   currentCoords = LatLng(getLat(), getLong());
                   setState(() {
                     userMarkers.add(
