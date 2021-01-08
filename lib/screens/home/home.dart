@@ -45,6 +45,7 @@ File userImage;
 String currentImageUrl= "https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FThis%20should%20be%20in%20my%20own%20folder!?alt=media&token=7404a6a8-5977-4050-b500-f338e13f2a3c";
 String searchQuery;
 List<String> queryLocations=[];
+Image currImage;
 
 
 class Home extends StatefulWidget {
@@ -175,12 +176,16 @@ class _HomeState extends State<Home> {
 
 
   Future getImageFromGallery() async {
-    var locationImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var locationImage = await ImagePicker.pickImage(
+        source: ImageSource.gallery);
 
-    userImage=File(locationImage.path);
-    String currentPath=myId+'/'+locationName;
+    userImage = File(locationImage.path);
+    String currentPath = myId + '/' + locationName;
+  }
 
-    if (locationImage!=null){
+  Future sendImage() async {
+    String currentPath = myId + '/' + locationName;
+    if (userImage!=null){
       await imageDatabase.ref()
           .child(currentPath)
           .putFile(userImage)
@@ -504,6 +509,8 @@ class _HomeState extends State<Home> {
                                 replaceMarker(ident);
                                 _textController.clear();
                                 _textController2.clear();
+                                sendImage();
+                                userImage=null;
                               }
                             },
                         ),
