@@ -42,7 +42,7 @@ List<Marker> cloudMarkers=[];
 String user;
 String bio;
 File userImage;
-String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";
+String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/B9gKstPz8QWQ6EIwg6fRFqzajFw1%2Fpot?alt=media&token=defe9bdd-7124-4f10-b378-c18db7731684";
 String searchQuery;
 List<String> queryLocations=[];
 
@@ -185,6 +185,7 @@ class _HomeState extends State<Home> {
           .child(currentPath)
           .putFile(userImage)
           .onComplete;
+
 
 
       String funTimes= await (imageDatabase.ref().child(currentPath).getDownloadURL());
@@ -490,7 +491,7 @@ class _HomeState extends State<Home> {
                                 color: Colors.green,
                               ),
                               onPressed: () {
-                                if (locationName!="" && desc!="" && currentImageUrl!="") {
+                                if (locationName!="" && desc!="" && userImage!=null) {
                                   activeMarker = false;
 
                                   final ident = MarkerId(count.toString());
@@ -504,6 +505,7 @@ class _HomeState extends State<Home> {
                                   replaceMarker(ident);
                                   _textController.clear();
                                   _textController2.clear();
+                                  userImage=null;
                                 }
                               },
                             ),
