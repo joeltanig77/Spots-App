@@ -86,7 +86,6 @@ class Service {
 
 
 
-
       return _justTheUser(firebaseUser);
     }
     catch(e) {
@@ -122,22 +121,16 @@ class Service {
 
   }
 
-  //TODO: Do this firstttt
-  getUsernameFromAccount(String uid) async {
-    //UserName should already be saved, we are just saving it
-    final DocumentSnapshot snapshot =
-        await Firestore.instance.collection('User Settings and Data').document(uid).get();
+  Future resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    }
+    catch(e) {
+      print(e.toString());
+      return null;
+    }
 
-
-    var doc = snapshot.data;
-
-    var userName = doc['username'];
-
-    String plz = userName.toString();
-
-    return plz;
   }
-
 
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spots_app/const/sharedStyles.dart';
+import 'package:spots_app/main.dart';
 import 'package:spots_app/screens/home/home.dart';
 import 'package:spots_app/services/markerDatabase.dart';
 import 'package:spots_app/screens/profile/settings/about.dart';
@@ -42,6 +43,10 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text("About"),
             onTap: () {
               print("About button pressed");
+              showAboutDialog(
+                context: context,
+                applicationVersion: '1.0.0',
+              );
             },
           ),
         ),
@@ -64,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text("Delete all Markers"),
                 onTap: () {
                   print("Delete all marker markers pressed");
-                  _markerDatabase.deleteAllData(thisUID);
+                  showAlertNoti(context);
                 },
               ),
             ),
@@ -87,6 +92,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text("Change Password"),
                 onTap: () {
                   print("Change Password button pressed");
+
                 },
               ),
             ),
@@ -96,7 +102,39 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  showAlertNoti(BuildContext context) {
+      Widget cancelButton = FlatButton(
+        child: Text('Cancel'),
+        onPressed: () {
+            Navigator.of(context).pop();
+        }
+      );
+      Widget continueButton = FlatButton(
+        child: Text('Continue'),
+        onPressed: (){
+          _markerDatabase.deleteAllData(thisUID);
+          Navigator.of(context).pop();
+        },
+      );
+      AlertDialog alertDialog = AlertDialog(
+        title: Text(
+          'Delete all Markers?'
+        ),
+        content: Text('All markers will be deleted from your map, this action cannot be undone. '
+            'Are your sure you still want to continue?'),
+        actions: [
+          cancelButton,
+          continueButton,
+        ],
+      );
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertDialog;
+        }
+      );
 
+  }
 
 }
 

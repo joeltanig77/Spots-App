@@ -77,23 +77,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-
-
-
-
-
-
-    /* Future getUserInformation() async {
-    UserInformationDatabase userInformationDatabase = UserInformationDatabase();
-    String database = userInformationDatabase.getDocumentSnapshot().toString();
-    _username = database;
-
-    //TODO: Do stuff to get stuff from the database into the profile!!
-    
-  }*/
-    //getUserInformation();
-//print(garb);
-
     
     return MaterialApp(
       home: StreamProvider<List<UserInformation>>.value(
