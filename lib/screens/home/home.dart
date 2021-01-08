@@ -495,7 +495,7 @@ class _HomeState extends State<Home> {
                               color: Colors.green,
                             ),
                             onPressed: () {
-                              if (locationName!="" && desc!="" && currentImageUrl!="") {
+                              if (locationName!="" && desc!="" && userImage!=null) {
                                 activeMarker = false;
 
                                 final ident = MarkerId(count.toString());
