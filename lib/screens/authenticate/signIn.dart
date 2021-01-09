@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spots_app/const/loading.dart';
-import 'package:spots_app/screens/authenticate/forgotPassword.dart';
+
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/const/sharedStyles.dart';
 class SignIn extends StatefulWidget {
@@ -94,20 +94,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   SizedBox(height: 14.0,),
                   //TODO: UI team please make my ui/button better lol just keep the function nav I have
-                  RaisedButton(
-                      onPressed: (){
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) => ForgotPassword(),
-                            transitionDuration: Duration(seconds: 0),
-                          ),
-                        );
-                      },
-                    child: Text("Forget Password?"),
-                    color: Colors.orange[300],
-                    textColor: Colors.white,
-                  ),
+
                   SizedBox(height: 20.0,),
                   Text(error,
                     style: TextStyle(
