@@ -18,8 +18,41 @@ class _ChangePasswordState extends State<ChangePassword> {
   final Service _auth = Service();
   final _formKey = GlobalKey<FormState>();
   bool areWeLoading = false;
+  dynamic result;
 
 
+  showAlertNoti(BuildContext context) {
+    Widget cancelButton = FlatButton(
+        child: Text('Cancel'),
+        onPressed: () {
+          Navigator.of(context).pop();
+        }
+    );
+    Widget continueButton = FlatButton(
+      child: Text('Continue'),
+      onPressed: () async {
+        result = await _auth.changePassword(password);
+        print("Password has been changed");
+        Navigator.of(context).pop();
+      },
+    );
+    AlertDialog alertDialog = AlertDialog(
+      title: Text(
+          'Change Password?'
+      ),
+      content: Text('Are you sure you want to change your password?'),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertDialog;
+        }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +93,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                         setState(() {
                           areWeLoading = true;
                         });
-                        // Futures always await
-                        dynamic resultFromResetPassword = await _auth.changePassword(password);
-                        if(resultFromResetPassword == null){
-                          setState(() {
-                            areWeLoading = false;
-                          });
+                        if(result == null) {
+                          error = "Log in again before retrying this request";
+                          areWeLoading = false;
                         }
-                        print("Password has been changed");
+                        showAlertNoti(context);
+                        areWeLoading = false;
                         //Snack Bar here
                       }
                     },

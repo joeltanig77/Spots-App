@@ -143,14 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
       );
   }
 
-  showAlertNoti2(BuildContext context) {
-    Widget okButton = FlatButton(
-      child: Text('Continue'),
-      onPressed: () {
 
-      },
-    );
-  }
 
 
 

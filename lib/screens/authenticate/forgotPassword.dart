@@ -33,6 +33,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   }
 
+
   @override
   Widget build(BuildContext context) {
     return areWeLoading ? LoadingAnimation() : Scaffold(
