@@ -16,6 +16,7 @@ class Service {
   // Reference the class first
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
   // Create a user object for the uid
   User _justTheUser(FirebaseUser user) {
     return user != null ? User(uid:user.uid) : null;
@@ -52,10 +53,7 @@ class Service {
     try{
       AuthResult authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
-
       theFirebaseUser = firebaseUser.uid;
-
-
       return _justTheUser(firebaseUser);
     }
     catch(e) {
@@ -84,9 +82,6 @@ class Service {
 
       });
 
-
-
-      return _justTheUser(firebaseUser);
     }
     catch(e) {
       print(e.toString());
@@ -131,6 +126,21 @@ class Service {
     }
 
   }
+
+  Future changePassword(String password) async {
+    final FirebaseUser _currentUser = await FirebaseAuth.instance.currentUser();
+    try{
+      await _currentUser.updatePassword(password);
+    }
+    catch(e) {
+      print(e.toString());
+      return null;
+    }
+
+  }
+
+
+
 
 }
 

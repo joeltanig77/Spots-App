@@ -3,13 +3,15 @@ import 'package:spots_app/const/loading.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/const/sharedStyles.dart';
 
-class ForgotPassword extends StatefulWidget {
 
+class ChangePassword extends StatefulWidget {
   @override
-  _ForgotPasswordState createState() => _ForgotPasswordState();
+  _ChangePasswordState createState() => _ChangePasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+//await _auth.changePassword(password)
+
+class _ChangePasswordState extends State<ChangePassword> {
   String error = '';
   String email = "";
   String password = "";
@@ -18,20 +20,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   bool areWeLoading = false;
 
 
-
-  Widget snackBarrr (BuildContext context) {
-    final snackBar = SnackBar(
-      content: Text(
-          "The email link for a password reset has been sent"
-      ),
-      duration: Duration(
-        seconds: 8
-      ),
-    );
-    //TODO: Turn this on at the end
-    //ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,18 +41,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   Image.asset('images/spots_logo1.png'),
                   SizedBox(height: 20.0),
                   TextFormField(
-                      validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                      validator: (val) => val.isEmpty ? 'Enter a password' : null,
                       onChanged: (val) {
                         setState(() {
-                          email = val.trim();
+                          password = val.trim();
                         });
                       },
-                      decoration: textInputStyle
+                      decoration: textInputStyle.copyWith(labelText: "New Password"),
                   ),
                   SizedBox(height: 20),
-                  RaisedButton.icon(
-                    icon: Icon(Icons.email),
-                    label: Text(
+                  RaisedButton(
+                    child: Text(
                       "Reset Password",
                       style: TextStyle(color:Colors.white),
                     ),
@@ -74,14 +61,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           areWeLoading = true;
                         });
                         // Futures always await
-                        dynamic resultFromResetPassword = await _auth.resetPassword(email);
+                        dynamic resultFromResetPassword = await _auth.changePassword(password);
                         if(resultFromResetPassword == null){
                           setState(() {
                             areWeLoading = false;
                           });
                         }
+                        print("Password has been changed");
                         //Snack Bar here
-                          snackBarrr(context);
                       }
                     },
                     color: Colors.orange[300],
@@ -101,4 +88,3 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 }
-

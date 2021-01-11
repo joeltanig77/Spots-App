@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spots_app/const/sharedStyles.dart';
 import 'package:spots_app/main.dart';
+import 'package:spots_app/screens/authenticate/changePassword.dart';
+import 'package:spots_app/screens/authenticate/forgotPassword.dart';
 import 'package:spots_app/screens/home/home.dart';
 import 'package:spots_app/services/markerDatabase.dart';
 import 'package:spots_app/screens/profile/settings/about.dart';
@@ -92,7 +94,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text("Change Password"),
                 onTap: () {
                   print("Change Password button pressed");
-
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) => ChangePassword(),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
                 },
               ),
             ),
@@ -133,8 +141,19 @@ class _SettingsPageState extends State<SettingsPage> {
           return alertDialog;
         }
       );
-
   }
+
+  showAlertNoti2(BuildContext context) {
+    Widget okButton = FlatButton(
+      child: Text('Continue'),
+      onPressed: () {
+
+      },
+    );
+  }
+
+
+
 
 }
 
