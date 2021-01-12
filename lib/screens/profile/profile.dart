@@ -74,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return bio;
   }
 
-  //Make a folder called profile pictures
+  //Make a folder called profile picturess
   Future getAvatarFromGallery() async {
     var locationImage =
     await ImagePicker.pickImage(source: ImageSource.gallery);
