@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/material/scaffold.dart';
 import 'package:spots_app/const/loading.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/const/sharedStyles.dart';
@@ -28,11 +29,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         seconds: 8
       ),
     );
-    //TODO: Turn this on at the end
-    //ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
+    Scaffold.of(context).showSnackBar(snackBar);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +79,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             areWeLoading = false;
                           });
                         }
+
                         //Snack Bar here
                           snackBarrr(context);
+
                       }
                     },
                     color: Colors.orange[300],

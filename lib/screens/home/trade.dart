@@ -20,29 +20,45 @@ class _TradePageState extends State<TradePage>  {
   @override
   Widget build(BuildContext context) {
 
+    final screenSize = MediaQuery.of(context).size;
+    final TabFontSize = screenSize.width / 19;
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.amber[100],
         appBar: AppBar(
           backgroundColor: Colors.orange[300],
           // Note, This is actions for the appbar like the log in button
-          actions: [
-            FlatButton(
-              padding: EdgeInsets.only(right: 60.0),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () async {},
-              child: Text("Trade",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  )),
-            ),
-            FlatButton(
-              padding: EdgeInsets.only(right: 60.0),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () async {
+        actions: [
+        Expanded(
+        child: Container(
+        //color: Colors.blue,
+        alignment: Alignment.center,
+        child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+        Align(
+        alignment: Alignment.centerLeft,
+        child: FlatButton(
+        //padding:  EdgeInsets.only(right: screenSize.width/6.5 ),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onPressed: () async {},
+    child: Text("Trade",
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: TabFontSize,
+    )),
+    ),
+    ),
+    Align(
+    alignment: Alignment.center,
+    child: FlatButton(
+    padding: EdgeInsets.symmetric(
+    horizontal: screenSize.width / 8),
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
+    onPressed: () async {
                 Navigator.pop(
                   context,
                   PageRouteBuilder(
@@ -51,18 +67,21 @@ class _TradePageState extends State<TradePage>  {
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
-              },
-              child: Text("Map",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 20.0,
-                  )),
-            ),
-            FlatButton(
-              padding: EdgeInsets.only(right: 60.0),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () async {
+    },
+    child: Text("Map",
+    style: TextStyle(
+    color: Colors.white70,
+    fontSize: TabFontSize,
+    )),
+    ),
+    ),
+    Align(
+    alignment: Alignment.center,
+    child: FlatButton(
+    //padding:  EdgeInsets.only(right: screenSize.width/6.5),
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
+    onPressed: () async {
                 Navigator.pop(
                     context,
                     PageRouteBuilder(
@@ -78,14 +97,19 @@ class _TradePageState extends State<TradePage>  {
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
-              },
-              child: Text("Profile",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 20.0,
-                  )),
-            ),
-          ],
+    },
+      child: Text("Profile",
+          style: TextStyle(
+            color: Colors.white70,
+            fontSize: TabFontSize,
+          )),
+    ),
+    ),
+        ],
+        ),
+        ),
+        ),
+        ],
         ),
         body: Stack(
           children: [

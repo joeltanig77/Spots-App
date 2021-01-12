@@ -13,13 +13,18 @@ import 'package:spots_app/services/userInformationDatabase.dart';
 String myId = "";
 String user;
 String bio="TEST";
+
+//dimensions
+
+
 final Service _auth = Service();
+
 class ProfilePage extends StatefulWidget {
 
   ProfilePage(String uid, String user1, String bio1) {
     myId = uid;
-    user=user1;
-    bio=bio1;
+    user = user1;
+    bio = bio1;
 
   }
 
@@ -28,6 +33,7 @@ class ProfilePage extends StatefulWidget {
 
 }
 Widget Spot(String name) {
+
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, top: 8.0),
       child: Card(
@@ -77,6 +83,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
+    final screenSize = MediaQuery.of(context).size;
+    final TabFontSize = screenSize.width / 19;
     
     return MaterialApp(
       home: StreamProvider<List<UserInformation>>.value(
@@ -85,68 +93,90 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: Colors.amber[100],
           appBar: AppBar(
             // Note, This is actions for the appbar like the log in button
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.orange[300],
+
             actions: [
-              FlatButton(
-                padding:  EdgeInsets.only(right: 60.0),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: () async {
-                  Navigator.pop(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          Home(null, null, null),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => TradePage(),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
-                },
-                child: Text(
-                    "Trade",
-                    style:  TextStyle(
-                      color: Colors.white70,
-                      fontSize: 20.0,
-                    )),
-              ),
-              FlatButton(
-                padding:  EdgeInsets.only(right: 60.0),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: () async {
-                  Navigator.pop(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => Home(null, null, null),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
-                },
-                child: Text(
-                    "Map",
-                    style:  TextStyle(
-                      color: Colors.white70,
-                      fontSize: 20.0,
-                    )),
-              ),
-              FlatButton(
-                padding:  EdgeInsets.only(right: 60.0),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: () async {
-                },
-                child: Text(
-                    "Profile",
-                    style:  TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                    )),
+              Expanded(
+                child: Container(
+                  //color: Colors.blue,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center ,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: FlatButton(
+                          //padding:  EdgeInsets.only(right: screenSize.width/6.5 ),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: () async {
+                            Navigator.pop(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) =>
+                                    Home(null, null, null),
+                                transitionDuration: Duration(seconds: 0),
+                              ),
+                            );
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => TradePage(),
+                                transitionDuration: Duration(seconds: 0),
+                              ),
+                            );
+                          },
+                          child: Text(
+                              "Trade",
+                              style:  TextStyle(
+                                color: Colors.white70,
+                                fontSize: TabFontSize,
+                              )),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: FlatButton(
+                          padding:  EdgeInsets.symmetric(horizontal: screenSize.width/8),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: () async {
+                            Navigator.pop(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => Home(null, null, null),
+                                transitionDuration: Duration(seconds: 0),
+                              ),
+                            );
+                          },
+                          child: Text(
+                              "Map",
+                              style:  TextStyle(
+                                color: Colors.white70,
+                                fontSize: TabFontSize,
+                              )),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: FlatButton(
+                          //padding:  EdgeInsets.only(right: screenSize.width/6.5),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: () async {
+                          },
+                          child: Text(
+                              "Profile",
+                              style:  TextStyle(
+                                color: Colors.white,
+                                fontSize: TabFontSize,
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -163,7 +193,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: MediaQuery.of(context).size.height/2.6,
                 ),
                 ListView(
-                    physics: const NeverScrollableScrollPhysics(),
+                    //physics: const NeverScrollableScrollPhysics(),
                     children: [
                       Center(
                         child: Padding(
@@ -171,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: CircleAvatar(
                             backgroundColor: Colors.black,
                             backgroundImage: NetworkImage("https://i.pinimg.com/originals/1c/0d/f9/1c0df903d94f7e5ad087ae072f0b8997.jpg"),
-                            radius: 100,
+                            radius: MediaQuery.of(context).size.height/7,
                           ),
                         ),
                       ),
