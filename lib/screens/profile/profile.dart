@@ -223,7 +223,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.black,
-                              backgroundImage: NetworkImage(currentImageUrl2), //TODO: And this
+                              backgroundImage: NetworkImage(currentImageUrl2),
                               radius: MediaQuery.of(context).size.height/7,
                             ),
                           ),
