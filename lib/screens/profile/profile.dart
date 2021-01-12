@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:spots_app/models/user.dart';
 import 'package:spots_app/screens/profile/settings/settings.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/screens/home/trade.dart';
 import 'package:spots_app/screens/home/home.dart';
-import 'package:spots_app/screens/authenticate/authenticate.dart';
 import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/services/userInformationDatabase.dart';
+import 'dart:io';
 
+String currentImageUrl2 =
+    "https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
 String myId = "";
 String user;
 String bio="TEST";
-
-//dimensions
 
 
 final Service _auth = Service();
@@ -25,7 +25,6 @@ class ProfilePage extends StatefulWidget {
     myId = uid;
     user = user1;
     bio = bio1;
-
   }
 
   @override
@@ -60,10 +59,6 @@ Widget Spot(String name) {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  //String garb = _auth.getUsernameFromAccount(myId);
-
-  String _username = "";
-
 
   Future updateBio() async {
     final CollectionReference userLocations =
@@ -78,6 +73,30 @@ class _ProfilePageState extends State<ProfilePage> {
   String returnBio(){
     return bio;
   }
+
+  //Make a folder called profile pictures
+  Future getAvatarFromGallery() async {
+    var locationImage =
+    await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    userImage = File(locationImage.path);
+    String currentPath = 'Profile Pictures' + '/' + myId;
+
+    if (locationImage != null) {
+      await imageDatabase
+          .ref()
+          .child(currentPath)
+          .putFile(userImage)
+          .onComplete;
+
+      String funTimes =
+      await (imageDatabase.ref().child(currentPath).getDownloadURL());
+      currentImageUrl2 = funTimes;
+    }
+  }
+
+
+
 
 
   @override
@@ -198,10 +217,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(15),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.black,
-                            backgroundImage: NetworkImage("https://i.pinimg.com/originals/1c/0d/f9/1c0df903d94f7e5ad087ae072f0b8997.jpg"),
-                            radius: MediaQuery.of(context).size.height/7,
+                          child: GestureDetector(
+                            onTap: () {
+                              getAvatarFromGallery();
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              backgroundImage: NetworkImage(currentImageUrl2), //TODO: And this
+                              radius: MediaQuery.of(context).size.height/7,
+                            ),
                           ),
                         ),
                       ),

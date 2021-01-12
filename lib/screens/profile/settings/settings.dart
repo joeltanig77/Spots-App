@@ -72,6 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () {
                   print("Delete all marker markers pressed");
                   showAlertNoti(context);
+
                 },
               ),
             ),
@@ -122,6 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
         onPressed: (){
           _markerDatabase.deleteAllData(thisUID);
           Navigator.of(context).pop();
+          showAlertNoti2(context);
         },
       );
       AlertDialog alertDialog = AlertDialog(
@@ -141,6 +143,28 @@ class _SettingsPageState extends State<SettingsPage> {
           return alertDialog;
         }
       );
+  }
+
+  showAlertNoti2(BuildContext context) {
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );  // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Markers have been deleted"),
+      content: Text("The markers will be deleted once you sign out of your account."),
+      actions: [
+        okButton,
+      ],
+    );  // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
 
