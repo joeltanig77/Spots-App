@@ -5,9 +5,9 @@ import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spots_app/services/markerDatabase.dart';
+import 'package:device_preview/device_preview.dart';
 
 
-/*
 //RUN APP WITH DEVICE PREVIEW
 void main() => runApp(
   DevicePreview(
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-*/
+/*
 
 //RUN APP ALONE
 void main() {
@@ -52,3 +52,4 @@ class MyApp extends StatelessWidget {
   }
 }
 
+*/
