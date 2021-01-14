@@ -13,7 +13,7 @@ import 'package:spots_app/services/userInformationDatabase.dart';
 import 'dart:io';
 
 String currentImageUrl2 =
-    "https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
+    "https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2FblankProfile.png?alt=media&token=7253f087-a5ce-402f-844b-24789c9aafaf";
 String myId = "";
 String user;
 String bio = "TEST";
@@ -221,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.black,
-                              backgroundImage: AssetImage('images/blankProfile.png'),
+                              backgroundImage: NetworkImage(currentImageUrl2),
                               radius: MediaQuery.of(context).size.height / 7,
                             ),
                           ),
