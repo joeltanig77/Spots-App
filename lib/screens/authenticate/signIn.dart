@@ -3,6 +3,8 @@ import 'package:spots_app/const/loading.dart';
 
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/const/sharedStyles.dart';
+
+import 'forgotPassword.dart';
 class SignIn extends StatefulWidget {
 
   final Function toggleView;
@@ -100,6 +102,22 @@ class _SignInState extends State<SignIn> {
                   ),
                   SizedBox(height: 14.0,),
                   //TODO: UI team please make my ui/button better lol just keep the function nav I have
+                  RaisedButton(
+                    child: Text(
+                      "Forgot Password",
+                      style: TextStyle(color:Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) => ForgotPassword(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    },
+                    color: Colors.orange[300],
+                  ),
 
                   SizedBox(height: 20.0,),
                   Text(error,

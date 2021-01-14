@@ -29,7 +29,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         seconds: 8
       ),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    //Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
