@@ -9,7 +9,7 @@ import 'package:device_preview/device_preview.dart';
 
 
 //RUN APP WITH DEVICE PREVIEW
-void main() => runApp(
+/*void main() => runApp(
   DevicePreview(
     builder: (context) => MyApp(), // Wrap your app
   ),
@@ -29,8 +29,7 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
-/*
+}*/
 
 //RUN APP ALONE
 void main() {
@@ -52,4 +51,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-*/

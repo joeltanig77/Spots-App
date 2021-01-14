@@ -162,20 +162,22 @@ class _TradePageState extends State<TradePage>  {
                     ],
                   ),
                   Center(
-                    child: Column(
-                      children: [
-                        Image.asset('images/sampleChat.jpg'),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(
-                            ' Sample Chat Above\nNot Yet Implemented',
-                          style: TextStyle(
-                            fontSize: 20.0,
+                    child: ListView(
+                      children: [ Column(
+                        children: [
+                          Image.asset('images/sampleChat.jpg'),
+                          SizedBox(
+                            height: 20.0,
                           ),
-                        ),
-                      ],
-                    ),
+                          Text(
+                              ' Sample Chat Above\nNot Yet Implemented',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]),
                   ),
                 ],
               ),
