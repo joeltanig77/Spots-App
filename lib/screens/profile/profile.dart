@@ -221,9 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.black,
-                              backgroundImage: NetworkImage(
-                                  currentImageUrl2
-                              ),
+                              backgroundImage: AssetImage('images/blankProfile.png'),
                               radius: MediaQuery.of(context).size.height / 7,
                             ),
                           ),

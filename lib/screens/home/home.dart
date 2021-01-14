@@ -639,6 +639,7 @@ class _HomeState extends State<Home> {
                       queryList = await searchResults();
                       tempLen = await getMarkersFromSearch();
                       print('in widget ' + tempLen.toString());
+
                     });},
 
 
@@ -674,15 +675,15 @@ class _HomeState extends State<Home> {
                       child: Material(
                         color: Colors.white,
                         elevation: 4.0,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: Colors.accents.map((color) {
-                            return Column(
+                        child: Row(
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: (
-                                  queryList
-                              ),
-                            );
-                          }).toList(),
+                                queryList
+                            )),
+                            SizedBox(),
+                          ],
                         ),
                       ),
                     );
