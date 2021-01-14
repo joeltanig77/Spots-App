@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -38,6 +40,7 @@ String desc="";
 String locationName="";
 TextEditingController _textController=new TextEditingController();
 TextEditingController _textController2=new TextEditingController();
+FloatingSearchBarController _searchcontroller= new FloatingSearchBarController();
 List<Marker> cloudMarkers=[];
 String user;
 String bio;
@@ -217,18 +220,33 @@ class _HomeState extends State<Home> {
   }
 
   Future<List<Widget>> searchResults ()async {
-    for (int i = 0; i < queryLocations.length; i++) {
+    final QuerySnapshot snapCheck =
+    await Firestore.instance.collection('Coordinates').document(myId).collection("User_Locations").getDocuments();
+    List<DocumentSnapshot> garbo= snapCheck.documents;
+      for (int i = 0; i < queryLocations.length; i++) {
+        var element=garbo[i];
+        MarkerId theMarkerId=MarkerId(element.data["locationName"]);
+        String otherDesc=element.data["desc"];
+        String otherUrl=element.data["url"];
+
 
       queryList.add(FlatButton(
         child: Text(queryLocations[i]),
         onPressed: () {
           setState(() {
-            //Update the camera
-            mapController.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(target: LatLng(getLat(), getLong()), zoom: 20.0),
-                )
-            );
+            if (!activeMarker) {
+              locationName = theMarkerId.value;
+              desc = otherDesc;
+              currentImageUrl=otherUrl;
+              //Update the camera
+              mapController.animateCamera(
+                  CameraUpdate.newCameraPosition(
+                    CameraPosition(target: LatLng(element.data["lat"],element.data["long"]),zoom: 20.0),
+                  )
+              );
+
+          }
+
             //Open the Location cardview
             finishedPillPosition = 85;
             //Should close the search bar dropdown
@@ -628,9 +646,9 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0,7,0,0),
                 child: FloatingSearchBar(
+                    controller: _searchcontroller,
                   onQueryChanged:(value){
                     setState(()async {
-
                       searchQuery=value;
                       //await getMarkersFromSearch();
                       queryLocations = await getMarkersFromSally();
@@ -639,6 +657,8 @@ class _HomeState extends State<Home> {
                       queryList = await searchResults();
                       tempLen = await getMarkersFromSearch();
                       print('in widget ' + tempLen.toString());
+                      _searchcontroller.close();
+                      _searchcontroller.open();
                     });},
 
 
@@ -658,6 +678,7 @@ class _HomeState extends State<Home> {
                   transition: CircularFloatingSearchBarTransition(),
                   actions: [
                     FloatingSearchBarAction(
+
                       showIfOpened: false,
                       child: CircularButton(
                         icon: const Icon(Icons.place),
@@ -674,15 +695,15 @@ class _HomeState extends State<Home> {
                       child: Material(
                         color: Colors.white,
                         elevation: 4.0,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: Colors.accents.map((color) {
-                            return Column(
+                        child: Row(
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: (
-                                  queryList
-                              ),
-                            );
-                          }).toList(),
+                                queryList
+                            )),
+                            SizedBox(),
+                          ],
                         ),
                       ),
                     );
