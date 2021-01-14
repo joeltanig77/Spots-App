@@ -49,6 +49,7 @@ Widget settingsCard(String text, dynamic function){
       title: Text(text),
       onTap: () {
         print("Button in settings clicked");
+        print(function.toString());
         function;
   },
   ),

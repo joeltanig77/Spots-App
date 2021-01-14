@@ -16,6 +16,7 @@ class Service {
   // Reference the class first
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
   // Create a user object for the uid
   User _justTheUser(FirebaseUser user) {
     return user != null ? User(uid:user.uid) : null;
@@ -52,10 +53,7 @@ class Service {
     try{
       AuthResult authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
-
       theFirebaseUser = firebaseUser.uid;
-
-
       return _justTheUser(firebaseUser);
     }
     catch(e) {
@@ -84,10 +82,6 @@ class Service {
 
       });
 
-
-
-
-      return _justTheUser(firebaseUser);
     }
     catch(e) {
       print(e.toString());
@@ -122,21 +116,30 @@ class Service {
 
   }
 
-  //TODO: Do this firstttt
-  getUsernameFromAccount(String uid) async {
-    //UserName should already be saved, we are just saving it
-    final DocumentSnapshot snapshot =
-        await Firestore.instance.collection('User Settings and Data').document(uid).get();
+  Future resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    }
+    catch(e) {
+      print(e.toString());
+      return null;
+    }
 
-
-    var doc = snapshot.data;
-
-    var userName = doc['username'];
-
-    String plz = userName.toString();
-
-    return plz;
   }
+
+  Future changePassword(String password) async {
+    final FirebaseUser _currentUser = await FirebaseAuth.instance.currentUser();
+    try{
+      await _currentUser.updatePassword(password);
+    }
+    catch(e) {
+      print(e.toString());
+      return null;
+    }
+
+  }
+
+
 
 
 }

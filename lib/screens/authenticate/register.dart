@@ -115,13 +115,9 @@ class _RegisterState extends State<Register> {
 
                         dynamic resultOfAccountCreation = await _auth.registerAccount(email, password, username);
                         if(resultOfAccountCreation == null) {
-
                             error = 'This is not a legal email address, please try again';
                             areWeLoading = false;
-
                         }
-
-
                       }
                     },
                     color: Colors.orange[300],
