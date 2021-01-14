@@ -42,9 +42,11 @@ List<Marker> cloudMarkers=[];
 String user;
 String bio;
 File userImage;
-String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/B9gKstPz8QWQ6EIwg6fRFqzajFw1%2Fpot?alt=media&token=defe9bdd-7124-4f10-b378-c18db7731684";
+String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";
 String searchQuery;
 List<String> queryLocations=[];
+var queryList = List<Widget>();
+int tempLen = 0;
 
 
 class Home extends StatefulWidget {
@@ -151,7 +153,7 @@ class _HomeState extends State<Home> {
   }
 
 
-  void getMarkersFromSearch()async{
+  Future<int> getMarkersFromSearch()async{
     final QuerySnapshot snapCheck =
     await Firestore.instance.collection('Coordinates').document(myId).collection("User_Locations").getDocuments();
     List<String> queryLocations=[];
@@ -165,14 +167,81 @@ class _HomeState extends State<Home> {
 
         if (locationNamez.substring(0, currLength) == searchQuery) {
           queryLocations.add(locationNamez);
+          print('This is from Function' + queryLocations.length.toString());
           print(queryLocations);
         }
       }
 
 
     });
+    return queryLocations.length;
   }
 
+  Future<List<String>> getMarkersFromSally()async{
+    final QuerySnapshot snapCheck =
+    await Firestore.instance.collection('Coordinates').document(myId).collection("User_Locations").getDocuments();
+    List<String> queryLocations=[];
+    List<DocumentSnapshot> garbo= snapCheck.documents;
+
+    garbo.forEach((element) {
+      int currLength=searchQuery.length;
+      String locationNamez=(element.data["locationName"]);
+
+      if (locationNamez.length>=currLength) {
+
+        if (locationNamez.substring(0, currLength) == searchQuery) {
+          queryLocations.add(locationNamez);
+          print('This is from Function' + queryLocations.length.toString());
+          print(queryLocations);
+        }
+      }
+
+
+    });
+    return queryLocations;
+  }
+
+  int localIterator = 0;
+  Future<String> printLocations()async {
+    print('This is from print Local ' + tempLen.toString());
+    //print(queryLocations.length);
+    if ((localIterator == tempLen) && (tempLen != 0)) {
+      print('peanut');
+      return 'empty';
+    }
+    if (tempLen == 0) {
+      return '';
+    }
+    print(queryLocations[localIterator]);
+    return queryLocations[localIterator++];
+  }
+
+  Future<List<Widget>> searchResults ()async {
+    for (int i = 0; i < queryLocations.length; i++) {
+
+      queryList.add(FlatButton(
+        child: Text(queryLocations[i]),
+        onPressed: () {
+          setState(() {
+            //Update the camera
+            mapController.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(target: LatLng(getLat(), getLong()), zoom: 20.0),
+                )
+            );
+            //Open the Location cardview
+            finishedPillPosition = 85;
+            //Should close the search bar dropdown
+
+            //Empty the query
+            queryList = [];
+          });
+        },)
+      );
+
+    }
+    return queryList;
+  }
 
   Future getImageFromGallery() async {
     var locationImage = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -185,7 +254,6 @@ class _HomeState extends State<Home> {
           .child(currentPath)
           .putFile(userImage)
           .onComplete;
-
 
 
       String funTimes= await (imageDatabase.ref().child(currentPath).getDownloadURL());
@@ -491,7 +559,7 @@ class _HomeState extends State<Home> {
                                 color: Colors.green,
                               ),
                               onPressed: () {
-                                if (locationName!="" && desc!="" && userImage!=null) {
+                                if (locationName!="" && desc!="" && currentImageUrl!="") {
                                   activeMarker = false;
 
                                   final ident = MarkerId(count.toString());
@@ -505,7 +573,6 @@ class _HomeState extends State<Home> {
                                   replaceMarker(ident);
                                   _textController.clear();
                                   _textController2.clear();
-                                  userImage=null;
                                 }
                               },
                             ),
@@ -562,10 +629,16 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.fromLTRB(0,7,0,0),
                 child: FloatingSearchBar(
                   onQueryChanged:(value){
-                    setState(() {
+                    setState(()async {
 
                       searchQuery=value;
-                      getMarkersFromSearch();
+                      //await getMarkersFromSearch();
+                      queryLocations = await getMarkersFromSally();
+                      localIterator = 0;
+                      queryList = [];
+                      queryList = await searchResults();
+                      tempLen = await getMarkersFromSearch();
+                      print('in widget ' + tempLen.toString());
                     });},
 
 
@@ -604,7 +677,11 @@ class _HomeState extends State<Home> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: Colors.accents.map((color) {
-                            return Container(height: 112, color: color);
+                            return Column(
+                              children: (
+                                  queryList
+                              ),
+                            );
                           }).toList(),
                         ),
                       ),
@@ -709,4 +786,3 @@ Future currentBio() async {
 
 
 }
-
