@@ -4,8 +4,10 @@ import 'package:spots_app/main.dart';
 import 'package:spots_app/screens/authenticate/changePassword.dart';
 import 'package:spots_app/screens/authenticate/forgotPassword.dart';
 import 'package:spots_app/screens/home/home.dart';
+import 'package:spots_app/screens/profile/settings/privacyDialog.dart';
 import 'package:spots_app/services/markerDatabase.dart';
 import 'package:spots_app/screens/profile/settings/about.dart';
+
 
 String thisUID = "";
 String stolenID = "";
@@ -47,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
               print("About button pressed");
               showAboutDialog(
                 context: context,
-                applicationVersion: '1.0.0',
+                applicationVersion: '0.0.1',
               );
             },
           ),
@@ -60,6 +62,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text("Privacy"),
                 onTap: () {
                   print("Privacy button pressed");
+                  showDialog(context: context, builder: (context)
+                  {
+                    return PolicyDialog(mdFileName: 'privacy.md');
+                  },);
                 },
               ),
             ),
@@ -73,17 +79,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   print("Delete all marker markers pressed");
                   showAlertNoti(context);
 
-                },
-              ),
-            ),
-            Card(
-              elevation: 0,
-              margin: EdgeInsets.all(8),
-              color: Colors.white,
-              child: ListTile(
-                title: Text("Change Email"),
-                onTap: () {
-                  print("Change Email button pressed");
                 },
               ),
             ),

@@ -93,8 +93,13 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
+
     final screenSize = MediaQuery.of(context).size;
     final TabFontSize = screenSize.width / 19;
     final bgColor  = Color(0xffEFE2C8);
