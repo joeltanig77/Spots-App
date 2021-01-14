@@ -341,6 +341,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     getLocal();
     setState(() {
@@ -670,7 +671,7 @@ class _HomeState extends State<Home> {
                   axisAlignment: isPortrait ? 0.0 : -1.0,
                   openAxisAlignment: 0.0,
                   height: 37,
-                  maxWidth: isPortrait ? 250 : 500,
+                  maxWidth: isPortrait ? screenSize.width / 2 : 500,
                   debounceDelay: const Duration(milliseconds: 500),
 
                   // Specify a custom transition to be used for

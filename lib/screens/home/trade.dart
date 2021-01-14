@@ -20,6 +20,7 @@ class _TradePageState extends State<TradePage>  {
   //final Service _auth = Service();
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
 
     return MaterialApp(
       home: DefaultTabController(
@@ -123,7 +124,7 @@ class _TradePageState extends State<TradePage>  {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
+                                        fontSize: screenSize.width / 20,
                                       ),
                                   ),
                                 ),
@@ -138,7 +139,12 @@ class _TradePageState extends State<TradePage>  {
                                         child: FlatButton(
                                           textColor: Colors.yellow[300],
                                           onPressed: (){},
-                                          child: Text('TRADE'),
+                                          child: Text(
+                                            'TRADE',
+                                            style: TextStyle(
+                                              fontSize: screenSize.width / 35,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -148,7 +154,12 @@ class _TradePageState extends State<TradePage>  {
                                         child: FlatButton(
                                           textColor: Colors.yellow[300],
                                           onPressed: (){},
-                                          child: Text('TEXT'),
+                                          child: Text(
+                                              'TEXT',
+                                              style: TextStyle(
+                                                fontSize: screenSize.width / 35,
+                                              ),
+                                          ),
                                         ),
                                       ),
                                     ),
