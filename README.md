@@ -4,7 +4,7 @@ This app is designed for exchanging locations of abandoned places to one another
 
 ## Installation
 
-Use the git clone link on GitHub to download and run the app from an android or an IOS emulator. 
+Use the git clone link on GitHub to download and run the app from an Android or an IOS emulator. 
 
 
 ## Example
