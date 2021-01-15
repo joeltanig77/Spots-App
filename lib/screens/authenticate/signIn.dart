@@ -116,7 +116,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       );
                     },
-                    color: Colors.orange[300],
+                    color: barColor,
                   ),
 
                   SizedBox(height: 20.0,),

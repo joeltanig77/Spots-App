@@ -29,11 +29,15 @@ Home home = Home(null,null,null);
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final bgColor  = Color(0xffEFE2C8);
+    final barColor = Color(0xFF4a6299);
+    final gColor1  = Color(0xffd8a156);
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bgColor,
       appBar: AppBar(
         title: Text('Settings'),
-        backgroundColor: Colors.amber,
+        backgroundColor: barColor,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -42,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Card(
           elevation: 0,
           margin: EdgeInsets.all(8),
-          color: Colors.white,
+          color: bgColor,
           child: ListTile(
             title: Text("About"),
             onTap: () {
@@ -57,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Card(
               elevation: 0,
               margin: EdgeInsets.all(8),
-              color: Colors.white,
+              color: bgColor,
               child: ListTile(
                 title: Text("Privacy"),
                 onTap: () {
@@ -72,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Card(
               elevation: 0,
               margin: EdgeInsets.all(8),
-              color: Colors.white,
+              color: bgColor,
               child: ListTile(
                 title: Text("Delete all Markers"),
                 onTap: () {
@@ -85,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Card(
               elevation: 0,
               margin: EdgeInsets.all(8),
-              color: Colors.white,
+              color: bgColor,
               child: ListTile(
                 title: Text("Change Password"),
                 onTap: () {
