@@ -498,7 +498,7 @@ class _HomeState extends State<Home> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 4.0, horizontal: 8.0),
                             child: Container(
-                              color: Colors.amber[600],
+                              color: bgColor,
                               height: 50,
                               alignment: Alignment.centerLeft,
                               child: Text(
