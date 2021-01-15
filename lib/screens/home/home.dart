@@ -72,7 +72,6 @@ class _HomeState extends State<Home> {
 
   double finishedPillPosition = -250;
 
-
   void _onMapCreated(GoogleMapController controller) {
     currentUser();
     mapController = controller;

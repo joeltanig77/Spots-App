@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:spots_app/const/loading.dart';
-import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/const/sharedStyles.dart';
 import 'package:spots_app/models/user.dart';
-import 'package:spots_app/services/userInformationDatabase.dart';
 
 
 class Register extends StatefulWidget {

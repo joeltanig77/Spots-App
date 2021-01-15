@@ -53,7 +53,6 @@ class MarkerDatabase {
     });
   }
 
-  //TODO: Find out how to also do notifications to ask if you want to delete the data or not (pop up)
   Future deleteAllData(String uid) async {
     CollectionReference _documentRef = Firestore.instance
         .collection("Coordinates")
