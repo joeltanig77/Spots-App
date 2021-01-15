@@ -5,7 +5,6 @@ import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:spots_app/services/markerDatabase.dart';
-import 'package:device_preview/device_preview.dart';
 
 
 //RUN APP WITH DEVICE PREVIEW
@@ -31,23 +30,23 @@ class MyApp extends StatelessWidget {
   }
 }*/
 
-//RUN APP ALONE
-void main() {
-  runApp(MyApp());
-}
+ //RUN APP ALONE
+ void main() {
+   runApp(MyApp());
+ }
 
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    // Now every widget listening to the Wrapper root can access this stream of log in/ log out data
-    return StreamProvider<User>.value(
-      value: Service().user,
-      child: MaterialApp(
-        home: Wrapper(),
-      ),
-    );
-  }
-}
+ class MyApp extends StatelessWidget {
+   // This widget is the root of your application.
+   @override
+   Widget build(BuildContext context) {
+     // Now every widget listening to the Wrapper root can access this stream of log in/ log out data
+     return StreamProvider<User>.value(
+       value: Service().user,
+       child: MaterialApp(
+         home: Wrapper(),
+       ),
+     );
+   }
+ }
 

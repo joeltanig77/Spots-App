@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Location {
   String uid;
   double lat;

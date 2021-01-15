@@ -47,7 +47,7 @@ String bio;
 File userImage;
 String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
 String searchQuery;
-List<String> queryLocations=[];
+List<String> queryLocations = [];
 var queryList = List<Widget>();
 int tempLen = 0;
 
@@ -65,6 +65,7 @@ class Home extends StatefulWidget {
     this.ide = uidd;
     myId = this.ide;
   }
+
   // Reference our service class
   @override
   _HomeState createState() => _HomeState();
@@ -104,7 +105,7 @@ class _HomeState extends State<Home> {
     super.initState();
 
     BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5), 'assets/marker4.png')
+            ImageConfiguration(devicePixelRatio: 2.5), 'assets/marker4.png')
         .then((icon) {
       pinLocationIcon = icon;
     });
@@ -342,8 +343,15 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final TabFontSize = screenSize.width / 19;
 
-    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    final bgColor = Color(0xffEFE2C8);
+    final barColor = Color(0xFF4a6299);
+    final gColor1 = Color(0xffd8a156);
+
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
     getLocal();
     setState(() {
 

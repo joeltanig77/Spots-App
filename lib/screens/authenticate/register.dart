@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:spots_app/const/loading.dart';
-import 'package:spots_app/models/userInformation.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:spots_app/const/sharedStyles.dart';
 import 'package:spots_app/models/user.dart';
-import 'package:spots_app/services/userInformationDatabase.dart';
 
 
 class Register extends StatefulWidget {
@@ -31,12 +28,14 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-
+    final bgColor  = Color(0xffEFE2C8);
+    final barColor = Color(0xFF4a6299);
+    final gColor1  = Color(0xffd8a156);
 
     return areWeLoading ? LoadingAnimation() : Scaffold(
-      backgroundColor: Colors.amber[100],
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.orange[300],
+        backgroundColor: barColor,
         title: Text("Register to Spots"),
         actions: [
           FlatButton.icon(
@@ -120,7 +119,7 @@ class _RegisterState extends State<Register> {
                         }
                       }
                     },
-                    color: Colors.orange[300],
+                    color: barColor,
                   ),
                   SizedBox(height: 20.0,),
                   Text(error,
