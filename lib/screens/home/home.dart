@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:spots_app/models/userInformation.dart';
-import 'package:spots_app/screens/authenticate/register.dart';
-import 'package:spots_app/services/auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
 import 'dart:io';
@@ -15,10 +11,8 @@ import 'package:spots_app/models/locations.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'package:spots_app/services/markerDatabase.dart';
-import 'package:spots_app/models/locations.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:spots_app/screens/home/trade.dart';
-import 'package:spots_app/services/userInformationDatabase.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 FirebaseStorage imageDatabase = FirebaseStorage.instance;
@@ -62,6 +56,7 @@ class Home extends StatefulWidget {
     this.ide = uidd;
     myId = this.ide;
   }
+
   // Reference our service class
   @override
   _HomeState createState() => _HomeState();
@@ -70,14 +65,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   BitmapDescriptor pinLocationIcon;
 
-  final Service _auth = Service();
-
   String _mapStyle;
   GoogleMapController mapController;
 
   double pinPillPosition = -250;
 
   double finishedPillPosition = -250;
+
 
   void _onMapCreated(GoogleMapController controller) {
     currentUser();
@@ -198,6 +192,7 @@ class _HomeState extends State<Home> {
   }
 
   int localIterator = 0;
+
   Future<String> printLocations() async {
     print('This is from print Local ' + tempLen.toString());
     //print(queryLocations.length);
@@ -240,11 +235,9 @@ class _HomeState extends State<Home> {
                     zoom: 20.0),
               ));
             }
-
             //Open the Location cardview
             finishedPillPosition = 85;
             //Should close the search bar dropdown
-
             //Empty the query
             queryList = [];
           });
@@ -287,7 +280,7 @@ class _HomeState extends State<Home> {
     String otherUrl = currentImageUrl;
 
     setState(() {
-      //change the marker id property to a iny
+      //change the marker id property to a int
       userMarkers[toIntValue] = (Marker(
         markerId: id,
         onTap: () {
@@ -319,21 +312,14 @@ class _HomeState extends State<Home> {
         currentImageUrl);
   }
 
-/*
-  Future storeUserInformation(String bio) async {
-    String garb4 = Register().userName;
-    await UserInformationDatabase(user: myId).updateData(garb4, bio);
-  }
-*/
-
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final TabFontSize = screenSize.width / 19;
 
-    final bgColor  = Color(0xffEFE2C8);
+    final bgColor = Color(0xffEFE2C8);
     final barColor = Color(0xFF4a6299);
-    final gColor1  = Color(0xffd8a156);
+    final gColor1 = Color(0xffd8a156);
 
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
@@ -364,206 +350,136 @@ class _HomeState extends State<Home> {
           ),
         ),
         home: StreamProvider<List<Location>>.value(
-      value: MarkerDatabase().locations,
-      child: Scaffold(
-        //backgroundColor: Colors.amber[100],
-        appBar: AppBar(
-          //backgroundColor: Colors.orange[300],
-          // Note, This is actions for the appbar like the log in button
+          value: MarkerDatabase().locations,
+          child: Scaffold(
+            //backgroundColor: Colors.amber[100],
+            appBar: AppBar(
+              //backgroundColor: Colors.orange[300],
+              // Note, This is actions for the appbar like the log in button
 
-          actions: [
-            Expanded(
-              child: Container(
-                //color: Colors.blue,
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: FlatButton(
-                        //padding:  EdgeInsets.only(right: screenSize.width/6.5 ),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onPressed: () async {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  TradePage(),
-                              transitionDuration: Duration(seconds: 0),
-                            ),
-                          );
-                        },
-                        child: Text("Trade",
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: TabFontSize,
-                            )),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: FlatButton(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenSize.width / 8),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onPressed: () async {},
-                        child: Text("Map",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: TabFontSize,
-                            )),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: FlatButton(
-                        //padding:  EdgeInsets.only(right: screenSize.width/6.5),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onPressed: () async {
-                          await currentUser();
-                          await currentBio();
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  ProfilePage(myId, user, bio),
-                              transitionDuration: Duration(seconds: 0),
-                            ),
-                          );
-                        },
-                        child: Text("Profile",
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: TabFontSize,
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        body: Stack(children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            myLocationEnabled: true,
-            markers: Set.from(userMarkers),
-
-            //zoomControlsEnabled: false,
-
-            initialCameraPosition:
-                CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
-            onTap: (LatLng location) {
-              setState(() {
-                pinPillPosition = -250;
-                finishedPillPosition = -250;
-              });
-            },
-          ),
-          AnimatedPositioned(
-            bottom: finishedPillPosition,
-            right: 0,
-            left: 0,
-            duration: Duration(milliseconds: 200),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: EdgeInsets.all(20),
-                height: 200,
-                child: Card(
-                  color: barColor,
-                  child: ListView(
-                    children: [
-                      Column(
-                        children: [
-                          //finished image
-                          Image.network(currentImageUrl),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 8.0),
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              ///color: Colors.amber[600],
-                              child: Text(
-                                'Name: ' + locationName,
-                              ),
-                            ),
+              actions: [
+                Expanded(
+                  child: Container(
+                    //color: Colors.blue,
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: FlatButton(
+                            //padding:  EdgeInsets.only(right: screenSize.width/6.5 ),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () async {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          TradePage(),
+                                  transitionDuration: Duration(seconds: 0),
+                                ),
+                              );
+                            },
+                            child: Text("Trade",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: TabFontSize,
+                                )),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 8.0),
-                            child: Container(
-                              color: bgColor,
-                              height: 50,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Description: ' + desc,
-                              ),
-                            ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: FlatButton(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenSize.width / 8),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () async {},
+                            child: Text("Map",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: TabFontSize,
+                                )),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: FlatButton(
+                            //padding:  EdgeInsets.only(right: screenSize.width/6.5),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () async {
+                              await currentUser();
+                              await currentBio();
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          ProfilePage(myId, user, bio),
+                                  transitionDuration: Duration(seconds: 0),
+                                ),
+                              );
+                            },
+                            child: Text("Profile",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: TabFontSize,
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ),
-          AnimatedPositioned(
-            bottom: pinPillPosition,
-            right: 0,
-            left: 0,
-            duration: Duration(milliseconds: 200),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: EdgeInsets.all(20),
-                height: 200,
-                child: Card(
-                  color: barColor,
-                  child: Stack(
-                    children: [
-                      ListView(
+            body: Stack(children: [
+              GoogleMap(
+                onMapCreated: _onMapCreated,
+                myLocationEnabled: true,
+                markers: Set.from(userMarkers),
+
+                //zoomControlsEnabled: false,
+
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(getLat(), getLong()), zoom: 11.0),
+                onTap: (LatLng location) {
+                  setState(() {
+                    pinPillPosition = -250;
+                    finishedPillPosition = -250;
+                  });
+                },
+              ),
+              AnimatedPositioned(
+                bottom: finishedPillPosition,
+                right: 0,
+                left: 0,
+                duration: Duration(milliseconds: 200),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: EdgeInsets.all(20),
+                    height: 200,
+                    child: Card(
+                      color: barColor,
+                      child: ListView(
                         children: [
                           Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4.0, horizontal: 8.0),
-                                child: FlatButton(
-                                  color: gColor1,
-                                  height: 70,
-                                  minWidth: 330,
-                                  onPressed: () {
-                                    getImageFromGallery();
-                                  },
-                                  child: Icon(
-                                    Icons.add_a_photo,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
+                              //finished image
+                              Image.network(currentImageUrl),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4.0, horizontal: 8.0),
                                 child: Container(
-                                  color: bgColor,
-                                  child: TextField(
-                                    controller: _textController,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        locationName = value;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText:
-                                            'Enter a name for the location'),
+                                  alignment: Alignment.centerLeft,
+
+                                  ///color: Colors.amber[600],
+                                  child: Text(
+                                    'Name: ' + locationName,
                                   ),
                                 ),
                               ),
@@ -573,17 +489,9 @@ class _HomeState extends State<Home> {
                                 child: Container(
                                   color: bgColor,
                                   height: 50,
-                                  child: TextField(
-                                    controller: _textController2,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        desc = value;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText:
-                                            'Enter a description for the location'),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Description: ' + desc,
                                   ),
                                 ),
                               ),
@@ -591,197 +499,278 @@ class _HomeState extends State<Home> {
                           ),
                         ],
                       ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: RaisedButton(
-                          color: Colors.white,
-                          shape: CircleBorder(),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.green,
+                    ),
+                  ),
+                ),
+              ),
+              AnimatedPositioned(
+                bottom: pinPillPosition,
+                right: 0,
+                left: 0,
+                duration: Duration(milliseconds: 200),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: EdgeInsets.all(20),
+                    height: 200,
+                    child: Card(
+                      color: barColor,
+                      child: Stack(
+                        children: [
+                          ListView(
+                            children: [
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0, horizontal: 8.0),
+                                    child: FlatButton(
+                                      color: gColor1,
+                                      height: 70,
+                                      minWidth: 330,
+                                      onPressed: () {
+                                        getImageFromGallery();
+                                      },
+                                      child: Icon(
+                                        Icons.add_a_photo,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0, horizontal: 8.0),
+                                    child: Container(
+                                      color: bgColor,
+                                      child: TextField(
+                                        controller: _textController,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            locationName = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText:
+                                                'Enter a name for the location'),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0, horizontal: 8.0),
+                                    child: Container(
+                                      color: bgColor,
+                                      height: 50,
+                                      child: TextField(
+                                        controller: _textController2,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            desc = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText:
+                                                'Enter a description for the location'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          onPressed: () {
-                            if (locationName != "" &&
-                                desc != "" &&
-                                currentImageUrl != "") {
-                              activeMarker = false;
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: RaisedButton(
+                              color: Colors.white,
+                              shape: CircleBorder(),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              ),
+                              onPressed: () {
+                                if (locationName != "" &&
+                                    desc != "" &&
+                                    currentImageUrl != "") {
+                                  activeMarker = false;
 
-                              final ident = MarkerId(count.toString());
+                                  final ident = MarkerId(count.toString());
 
-                              coords.add(currentCoords);
-                              count++;
-                              setState(() {
-                                pinPillPosition = -250;
-                              });
-                              // Turn off the dragable property
-                              replaceMarker(ident);
-                              _textController.clear();
-                              _textController2.clear();
-                            }
-                          },
+                                  coords.add(currentCoords);
+                                  count++;
+                                  setState(() {
+                                    pinPillPosition = -250;
+                                  });
+                                  // Turn off the dragable property
+                                  replaceMarker(ident);
+                                  _textController.clear();
+                                  _textController2.clear();
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: MediaQuery.of(context).size.height,
+                  child: GestureDetector(
+                      onHorizontalDragEnd: (DragEndDetails details) {
+                    if (details.primaryVelocity > 0) {
+                    } else if (details.primaryVelocity < 0) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              ProfilePage(myId, user, bio),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    }
+                  }),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 8,
+                  height: MediaQuery.of(context).size.height,
+                  child: GestureDetector(
+                      onHorizontalDragEnd: (DragEndDetails details) {
+                    if (details.primaryVelocity > 0) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              TradePage(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    } else if (details.primaryVelocity < 0) {}
+                  }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 7, 0, 0),
+                child: FloatingSearchBar(
+                  controller: _searchcontroller,
+                  onQueryChanged: (value) {
+                    setState(() async {
+                      searchQuery = value;
+                      //await getMarkersFromSearch();
+                      queryLocations = await getMarkersFromSally();
+                      localIterator = 0;
+                      queryList = [];
+                      queryList = await searchResults();
+                      tempLen = await getMarkersFromSearch();
+                      print('in widget ' + tempLen.toString());
+                      _searchcontroller.close();
+                      _searchcontroller.open();
+                    });
+                  },
+
+                  hint: 'Search...',
+                  scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+                  transitionDuration: const Duration(milliseconds: 800),
+                  transitionCurve: Curves.easeInOut,
+                  physics: const BouncingScrollPhysics(),
+                  axisAlignment: isPortrait ? 0.0 : -1.0,
+                  openAxisAlignment: 0.0,
+                  height: 37,
+                  maxWidth: isPortrait ? screenSize.width / 2 : 500,
+                  debounceDelay: const Duration(milliseconds: 500),
+
+                  // Specify a custom transition to be used for
+                  // animating between opened and closed stated.
+                  transition: CircularFloatingSearchBarTransition(),
+                  actions: [
+                    FloatingSearchBarAction(
+                      showIfOpened: false,
+                      child: CircularButton(
+                        icon: const Icon(Icons.place),
+                        onPressed: () {},
+                      ),
+                    ),
+                    FloatingSearchBarAction.searchToClear(
+                      showIfClosed: false,
+                    ),
+                  ],
+                  builder: (context, transition) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Material(
+                        color: Colors.white,
+                        elevation: 4.0,
+                        child: Row(
+                          children: [
+                            Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: (queryList)),
+                            SizedBox(),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    );
+                  },
+                ),
+              ),
+            ]),
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(left: 32.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton(
+                  child: Icon(Icons.add_location, color: Colors.white),
+                  backgroundColor: barColor,
+                  onPressed: () {
+                    if (!activeMarker) {
+                      currentImageUrl =
+                          "https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";
+                      activeMarker = true;
+                      locationName = "";
+                      desc = "";
+                      currentCoords = LatLng(getLat(), getLong());
+                      setState(() {
+                        userMarkers.add(
+                          Marker(
+                            markerId: MarkerId(count.toString()),
+                            infoWindow: InfoWindow(
+                              title: count.toString(),
+                            ),
+                            icon: pinLocationIcon,
+                            draggable: true,
+                            onDragEnd: ((newMarker) {
+                              //Updates location after dragging
+                              currentCoords = LatLng(
+                                  newMarker.latitude, newMarker.longitude);
+                            }),
+                            onTap: () {
+                              setState(() {
+                                pinPillPosition = 85;
+                              });
+                            },
+                            position: LatLng(getLat(), getLong()),
+                          ),
+                        );
+                      });
+                    }
+                  },
                 ),
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 4,
-              height: MediaQuery.of(context).size.height,
-              child: GestureDetector(
-                  onHorizontalDragEnd: (DragEndDetails details) {
-                if (details.primaryVelocity > 0) {
-                } else if (details.primaryVelocity < 0) {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          ProfilePage(myId, user, bio),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
-                }
-              }),
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 8,
-              height: MediaQuery.of(context).size.height,
-              child: GestureDetector(
-                  onHorizontalDragEnd: (DragEndDetails details) {
-                if (details.primaryVelocity > 0) {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          TradePage(),
-                      transitionDuration: Duration(seconds: 0),
-                    ),
-                  );
-                } else if (details.primaryVelocity < 0) {}
-              }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 7, 0, 0),
-            child: FloatingSearchBar(
-              controller: _searchcontroller,
-              onQueryChanged: (value) {
-                setState(() async {
-                  searchQuery = value;
-                  //await getMarkersFromSearch();
-                  queryLocations = await getMarkersFromSally();
-                  localIterator = 0;
-                  queryList = [];
-                  queryList = await searchResults();
-                  tempLen = await getMarkersFromSearch();
-                  print('in widget ' + tempLen.toString());
-                  _searchcontroller.close();
-                  _searchcontroller.open();
-                });
-              },
-
-              hint: 'Search...',
-              scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-              transitionDuration: const Duration(milliseconds: 800),
-              transitionCurve: Curves.easeInOut,
-              physics: const BouncingScrollPhysics(),
-              axisAlignment: isPortrait ? 0.0 : -1.0,
-              openAxisAlignment: 0.0,
-              height: 37,
-              maxWidth: isPortrait ? screenSize.width / 2 : 500,
-              debounceDelay: const Duration(milliseconds: 500),
-
-              // Specify a custom transition to be used for
-              // animating between opened and closed stated.
-              transition: CircularFloatingSearchBarTransition(),
-              actions: [
-                FloatingSearchBarAction(
-                  showIfOpened: false,
-                  child: CircularButton(
-                    icon: const Icon(Icons.place),
-                    onPressed: () {},
-                  ),
-                ),
-                FloatingSearchBarAction.searchToClear(
-                  showIfClosed: false,
-                ),
-              ],
-              builder: (context, transition) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Material(
-                    color: Colors.white,
-                    elevation: 4.0,
-                    child: Row(
-                      children: [
-                        Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: (queryList)),
-                        SizedBox(),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ]),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 32.0),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: FloatingActionButton(
-              child: Icon(Icons.add_location, color: Colors.white),
-              backgroundColor: barColor,
-              onPressed: () {
-                if (!activeMarker) {
-                  currentImageUrl =
-                      "https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";
-                  activeMarker = true;
-                  locationName = "";
-                  desc = "";
-                  currentCoords = LatLng(getLat(), getLong());
-                  setState(() {
-                    userMarkers.add(
-                      Marker(
-                        markerId: MarkerId(count.toString()),
-                        infoWindow: InfoWindow(
-                          title: count.toString(),
-                        ),
-                        icon: pinLocationIcon,
-                        draggable: true,
-                        onDragEnd: ((newMarker) {
-                          //Updates location after dragging
-                          currentCoords =
-                              LatLng(newMarker.latitude, newMarker.longitude);
-                        }),
-                        onTap: () {
-                          setState(() {
-                            pinPillPosition = 85;
-                          });
-                        },
-                        position: LatLng(getLat(), getLong()),
-                      ),
-                    );
-                  });
-                }
-                ;
-              },
-            ),
-          ),
-        ),
-      ),
-    ));
+        ));
   }
 }
 
+// Get the marker data we are at
 Future getLocal() async {
   final location = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
@@ -802,6 +791,8 @@ double getLat() {
   return lat;
 }
 
+// We made this not knowing there was a currentUser() method built in into firebase..... called
+// FirebaseAuth.instance.currentUser() so we made one
 Future currentUser() async {
   final QuerySnapshot snapCheck = await Firestore.instance
       .collection('User Settings and Data')
@@ -813,6 +804,7 @@ Future currentUser() async {
   user = garbo[0]["username"];
 }
 
+// Gets the current bio in the bio field of the profile page
 Future currentBio() async {
   final QuerySnapshot snapCheck = await Firestore.instance
       .collection('User Settings and Data')

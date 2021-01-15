@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spots_app/const/sharedStyles.dart';
-import 'package:spots_app/main.dart';
 import 'package:spots_app/screens/authenticate/changePassword.dart';
-import 'package:spots_app/screens/authenticate/forgotPassword.dart';
 import 'package:spots_app/screens/home/home.dart';
 import 'package:spots_app/screens/profile/settings/privacyDialog.dart';
 import 'package:spots_app/services/markerDatabase.dart';
-import 'package:spots_app/screens/profile/settings/about.dart';
 
 
 String thisUID = "";

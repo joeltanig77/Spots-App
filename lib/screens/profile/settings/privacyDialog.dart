@@ -3,16 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class PolicyDialog extends StatelessWidget {
-  
   final double radius;
   final String mdFileName;
 
-    PolicyDialog({Key key, this.radius = 8,  @required this.mdFileName}) : assert(mdFileName.contains('.md')), super(key: key);
-  
-    @override
+  PolicyDialog({Key key, this.radius = 8, @required this.mdFileName})
+      : assert(mdFileName.contains('.md')),
+        super(key: key);
+
+  @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
       child: Column(
         children: [
           Expanded(
