@@ -207,12 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Stack(children: [
                   Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [gColor1, gColor2]),
-                    ),
+
                     height: MediaQuery.of(context).size.height / 2.7,
                   ),
                   Column(
