@@ -45,7 +45,7 @@ List<Marker> cloudMarkers=[];
 String user;
 String bio;
 File userImage;
-String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/B9gKstPz8QWQ6EIwg6fRFqzajFw1%2Fpot?alt=media&token=defe9bdd-7124-4f10-b378-c18db7731684";
+String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
 String searchQuery;
 List<String> queryLocations=[];
 var queryList = List<Widget>();
@@ -117,6 +117,7 @@ class _HomeState extends State<Home> {
   }
 
   void getCurrentMarkers()async{
+    userMarkers=[];
     final QuerySnapshot snapCheck =
     await Firestore.instance.collection('Coordinates').document(myId).collection("User_Locations").getDocuments();
 
@@ -341,6 +342,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     getLocal();
     setState(() {
@@ -721,7 +723,7 @@ class _HomeState extends State<Home> {
                   backgroundColor: Colors.orange[300],
                   onPressed: () {
                     if (!activeMarker) {
-                      currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";
+                      currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
                       activeMarker=true;
                       locationName="";
                       desc="";
