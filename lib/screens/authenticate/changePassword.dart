@@ -56,10 +56,14 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    final bgColor  = Color(0xffEFE2C8);
+    final barColor = Color(0xFF4a6299);
+    final gColor1  = Color(0xffd8a156);
+
     return areWeLoading ? LoadingAnimation() : Scaffold(
-      backgroundColor: Colors.amber[100],
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.orange[300],
+        backgroundColor: barColor,
         title: Text("Reset Password"),
         centerTitle: true,
       ),
@@ -102,7 +106,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         //Snack Bar here
                       }
                     },
-                    color: Colors.orange[300],
+                    color: barColor,
                   ),
                   SizedBox(height: 14.0,),
                   Text(error,

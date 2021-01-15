@@ -34,10 +34,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final bgColor  = Color(0xffEFE2C8);
+    final barColor = Color(0xFF4a6299);
+    final gColor1  = Color(0xffd8a156);
+
     return areWeLoading ? LoadingAnimation() : Scaffold(
-      backgroundColor: Colors.amber[100],
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.orange[300],
+        backgroundColor: barColor,
         title: Text("Reset Password"),
         centerTitle: true,
       ),
@@ -85,7 +89,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
                       }
                     },
-                    color: Colors.orange[300],
+                    color: barColor,
                   ),
                   SizedBox(height: 14.0,),
                   Text(error,

@@ -37,7 +37,7 @@ Widget Spot(String name, double width, double height, double inset) {
   return Padding(
     padding: EdgeInsets.only(left: inset, top: inset),
     child: Card(
-      color: Color(0xFFB07343),
+      color: Color(0xFF4a6299),
       child: InkWell(
         splashColor: Color(0xFFbbbbbb),
         onTap: () {
@@ -103,12 +103,30 @@ class _ProfilePageState extends State<ProfilePage> {
     final screenSize = MediaQuery.of(context).size;
     final TabFontSize = screenSize.width / 19;
     final bgColor  = Color(0xffEFE2C8);
-    final barColor = Color(0xFFB07343);
-    final gColor1  = Color(0xffCBAC80);
-    final gColor2  = Color(0xffD5B487);
-    final textColor = Color(0xff000000);
+    final barColor = Color(0xFF4a6299);
+    final gColor1  = Color(0xffd8a156);
+    final gColor2  = Color(0xffd8a156);
+    final textColor = Color(0xffffffff);
 
     return MaterialApp(
+        theme: ThemeData(
+          // Define the default brightness and colors.
+
+          backgroundColor: bgColor,
+          primaryColor: barColor,
+          accentColor: gColor1,
+
+          // Define the default font family.
+          fontFamily: 'Roboto',
+
+          // Define the default TextTheme. Use this to specify the default
+          // text styling for headlines, titles, bodies of text, and more.
+          textTheme: TextTheme(
+            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          ),
+        ),
         home: StreamProvider<List<UserInformation>>.value(
       value: UserInformationDatabase().userInfo,
       child: Scaffold(
@@ -207,8 +225,8 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Stack(children: [
                   Container(
-
                     height: MediaQuery.of(context).size.height / 2.7,
+                    color: gColor1
                   ),
                   Column(
                     children: [

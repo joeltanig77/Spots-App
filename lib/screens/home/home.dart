@@ -330,6 +330,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final TabFontSize = screenSize.width / 19;
+
+    final bgColor  = Color(0xffEFE2C8);
+    final barColor = Color(0xFF4a6299);
+    final gColor1  = Color(0xffd8a156);
+
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     getLocal();
@@ -340,12 +345,30 @@ class _HomeState extends State<Home> {
     });
 
     return MaterialApp(
+        theme: ThemeData(
+          // Define the default brightness and colors.
+
+          backgroundColor: bgColor,
+          primaryColor: barColor,
+          accentColor: gColor1,
+
+          // Define the default font family.
+          fontFamily: 'Roboto',
+
+          // Define the default TextTheme. Use this to specify the default
+          // text styling for headlines, titles, bodies of text, and more.
+          textTheme: TextTheme(
+            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          ),
+        ),
         home: StreamProvider<List<Location>>.value(
       value: MarkerDatabase().locations,
       child: Scaffold(
-        backgroundColor: Colors.amber[100],
+        //backgroundColor: Colors.amber[100],
         appBar: AppBar(
-          backgroundColor: Colors.orange[300],
+          //backgroundColor: Colors.orange[300],
           // Note, This is actions for the appbar like the log in button
 
           actions: [
@@ -453,7 +476,7 @@ class _HomeState extends State<Home> {
                 margin: EdgeInsets.all(20),
                 height: 200,
                 child: Card(
-                  color: Colors.amber,
+                  color: barColor,
                   child: ListView(
                     children: [
                       Column(
@@ -465,7 +488,7 @@ class _HomeState extends State<Home> {
                                 vertical: 4.0, horizontal: 8.0),
                             child: Container(
                               alignment: Alignment.centerLeft,
-                              color: Colors.amber[600],
+                              ///color: Colors.amber[600],
                               child: Text(
                                 'Name: ' + locationName,
                               ),
@@ -502,30 +525,34 @@ class _HomeState extends State<Home> {
                 margin: EdgeInsets.all(20),
                 height: 200,
                 child: Card(
-                  color: Colors.amber,
+                  color: barColor,
                   child: Stack(
                     children: [
                       ListView(
                         children: [
                           Column(
                             children: [
-                              FlatButton(
-                                color: Colors.amber[600],
-                                height: 70,
-                                minWidth: 330,
-                                onPressed: () {
-                                  getImageFromGallery();
-                                },
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 4.0, horizontal: 8.0),
+                                child: FlatButton(
+                                  color: gColor1,
+                                  height: 70,
+                                  minWidth: 330,
+                                  onPressed: () {
+                                    getImageFromGallery();
+                                  },
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4.0, horizontal: 8.0),
                                 child: Container(
-                                  color: Colors.amber[600],
+                                  color: bgColor,
                                   child: TextField(
                                     controller: _textController,
                                     onChanged: (value) {
@@ -544,7 +571,7 @@ class _HomeState extends State<Home> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4.0, horizontal: 8.0),
                                 child: Container(
-                                  color: Colors.amber[600],
+                                  color: bgColor,
                                   height: 50,
                                   child: TextField(
                                     controller: _textController2,
@@ -711,8 +738,8 @@ class _HomeState extends State<Home> {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: FloatingActionButton(
-              child: Icon(Icons.add_location),
-              backgroundColor: Colors.orange[300],
+              child: Icon(Icons.add_location, color: Colors.white),
+              backgroundColor: barColor,
               onPressed: () {
                 if (!activeMarker) {
                   currentImageUrl =
