@@ -50,6 +50,7 @@ String searchQuery;
 List<String> queryLocations = [];
 var queryList = List<Widget>();
 int tempLen = 0;
+var locationImage=null;
 
 
 class Home extends StatefulWidget {
@@ -264,9 +265,13 @@ class _HomeState extends State<Home> {
   }
 
   Future getImageFromGallery() async {
-    var locationImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+    locationImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (locationImage!=null) {
+        userImage = File(locationImage.path);
+    }
+    }
 
-    userImage=File(locationImage.path);
+  Future<String> pushImage() async{
     String currentPath=myId+'/'+locationName;
 
     if (locationImage!=null){
@@ -279,7 +284,10 @@ class _HomeState extends State<Home> {
       String funTimes= await (imageDatabase.ref().child(currentPath).getDownloadURL());
 
       currentImageUrl=funTimes;
+      locationImage=null;
+      return funTimes;
     }
+
   }
 
 
@@ -586,8 +594,9 @@ class _HomeState extends State<Home> {
                                 Icons.check,
                                 color: Colors.green,
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (locationName!="" && desc!="" && currentImageUrl!="") {
+                                  currentImageUrl = await pushImage();
                                   activeMarker = false;
 
                                   final ident = MarkerId(count.toString());
