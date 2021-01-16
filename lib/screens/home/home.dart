@@ -27,7 +27,7 @@ double lat = 45.4236;
 int count = 0;
 
 bool activeMarker = false;
-int fire = 5;
+
 List<Marker> userMarkers = [];
 List<LatLng> coords = [];
 LatLng currentCoords = LatLng(0, 0);
@@ -48,7 +48,7 @@ List<String> queryLocations = [];
 var queryList = List<Widget>();
 int tempLen = 0;
 var locationImage=null;
-int woah = 5;
+
 
 class Home extends StatefulWidget {
   double lat = 75.7009;
