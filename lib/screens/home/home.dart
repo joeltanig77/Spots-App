@@ -114,29 +114,29 @@ class _HomeState extends State<Home> {
     getCurrentMarkers();
 
   }
-
+//Reads the Firebase database for the current markers
   void getCurrentMarkers()async{
-    userMarkers=[];
-    final QuerySnapshot snapCheck =
+    userMarkers=[]; //Resets the local list of markers
+    final QuerySnapshot snapCheck = //Provides a snapshot of the current users markers.
     await Firestore.instance.collection('Coordinates').document(myId).collection("User_Locations").getDocuments();
 
-    List<DocumentSnapshot> garbo= snapCheck.documents;
+    List<DocumentSnapshot> garbo= snapCheck.documents; //Provides a list of document snapshots
 
-    garbo.forEach((element) {
-      coords.add(LatLng(element.data["lat"],element.data["long"]));
+    garbo.forEach((element) { //For each marker in the snapshot....
+      coords.add(LatLng(element.data["lat"],element.data["long"])); //Add to the coordinates list the provided coordinates
 
 
-      MarkerId theMarkerId=MarkerId(element.data["locationName"]);
-      String otherDesc=element.data["desc"];
-      String otherUrl=element.data["url"];
+      MarkerId theMarkerId=MarkerId(element.data["locationName"]); //The markers name
+      String otherDesc=element.data["desc"]; //The markers description
+      String otherUrl=element.data["url"]; //The markers image url
       setState(() {
         //change the marker id property to a iny
-        userMarkers.add (Marker(
+        userMarkers.add (Marker( //Add the marker in the maps api
           markerId: theMarkerId,
           onTap: () {
-            if (!activeMarker) {
-              locationName = theMarkerId.value;
-              desc = otherDesc;
+            if (!activeMarker) { //If the marker is being tapped and there is no active marker
+              locationName = theMarkerId.value; //The name is equal to the database name
+              desc = otherDesc; //etc etc
               currentImageUrl=otherUrl;
               setState(() {
                 finishedPillPosition = 85;
@@ -658,9 +658,7 @@ class _HomeState extends State<Home> {
                                 if (locationName!="" && desc!="" && currentImageUrl!="") {
                                   currentImageUrl = await pushImage();
                                   activeMarker = false;
-
                                   final ident = MarkerId(count.toString());
-
                                   coords.add(currentCoords);
                                   count++;
                                   setState(() {
