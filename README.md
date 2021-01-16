@@ -8,8 +8,15 @@ Use the git clone link on GitHub to download and run the app from an Android or 
 
 
 ## Example
+![](imagesforGitHub/MapPageExample1.png)
 
-![](imagesForGitHub/SignInExample.png)
+![](imagesforGitHub/SignInExample.png)
+
+![](imagesforGitHub/ProfileExample.png)
+
+![](imagesforGitHub/TradePageExample.png)
+
+![](imagesforGitHub/MapPageExample2.png)
 
 
 ## Contributions
