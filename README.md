@@ -8,6 +8,7 @@ Use the git clone link on GitHub to download and run the app from an Android or 
 
 
 ## Example
+The images below to do not represent the final product
 ![](imagesforGitHub/MapPageExample1.png)
 
 ![](imagesforGitHub/SignInExample.png)
