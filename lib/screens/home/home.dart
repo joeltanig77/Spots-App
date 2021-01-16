@@ -1,7 +1,4 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -371,69 +368,108 @@ class _HomeState extends State<Home> {
 
 
     return MaterialApp(
+        theme: ThemeData(
+          // Define the default brightness and colors.
+
+          backgroundColor: bgColor,
+          primaryColor: barColor,
+          accentColor: gColor1,
+
+          // Define the default font family.
+          fontFamily: 'Roboto',
+
+          // Define the default TextTheme. Use this to specify the default
+          // text styling for headlines, titles, bodies of text, and more.
+          textTheme: TextTheme(
+            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          ),
+        ),
         home: StreamProvider<List<Location>>.value(
           value: MarkerDatabase().locations,
           child: Scaffold(
             backgroundColor: Colors.amber[100],
             appBar: AppBar(
-              backgroundColor: Colors.orange[300],
+              //backgroundColor: Colors.orange[300],
               // Note, This is actions for the appbar like the log in button
 
               actions: [
-                //TRADE
-                FlatButton(
-                  padding: EdgeInsets.only(right: 60.0),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onPressed: () async {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            TradePage(),
-                        transitionDuration: Duration(seconds: 0),
-                      ),
-                    );
-                  },
-                  child: Text("Trade",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 20.0,
-                      )),
-                ),
-                //MAP
-                FlatButton(
-                  padding: EdgeInsets.only(right: 60.0),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onPressed: () async {},
-                  child: Text("Map",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      )),
-                ),
-                FlatButton(
-                  padding: EdgeInsets.only(right: 60.0),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onPressed: () async {
-                    await currentUser();
-                    await currentBio();
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            ProfilePage(myId, user, bio),
-                        transitionDuration: Duration(seconds: 0),
-                      ),
-                    );
-                  },
-                  child: Text("Profile",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 20.0,
-                      )),
+                Expanded(
+                  child: Container(
+                    //color: Colors.blue,
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: FlatButton(
+                            //padding:  EdgeInsets.only(right: screenSize.width/6.5 ),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () async {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                      TradePage(),
+                                  transitionDuration: Duration(seconds: 0),
+                                ),
+                              );
+                            },
+                            child: Text("Trade",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: TabFontSize,
+                                )),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: FlatButton(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenSize.width / 8),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () async {},
+                            child: Text("Map",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: TabFontSize,
+                                )),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: FlatButton(
+                            //padding:  EdgeInsets.only(right: screenSize.width/6.5),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () async {
+                              await currentUser();
+                              await currentBio();
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                      ProfilePage(myId, user, bio),
+                                  transitionDuration: Duration(seconds: 0),
+                                ),
+                              );
+                            },
+                            child: Text("Profile",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: TabFontSize,
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -466,7 +502,7 @@ class _HomeState extends State<Home> {
                     margin: EdgeInsets.all(20),
                     height: 200,
                     child: Card(
-                      color: Colors.amber,
+                      color: barColor,
                       child: ListView(
                         children: [
                           Column(
@@ -479,21 +515,42 @@ class _HomeState extends State<Home> {
                                     vertical: 4.0, horizontal: 8.0),
                                 child: Container(
                                   alignment: Alignment.centerLeft,
-                                  color: Colors.amber[600],
+                                  color: barColor,
                                   child: Text(
-                                    'Name: '+ locationName,
+                                    locationName,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8.0, 4.0, 0, 0),
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Description:',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4.0, horizontal: 8.0),
-                                child: Container(
-                                  color: Colors.amber[600],
-                                  height: 50,
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Description: '+desc,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: Container(
+                                    color: bgColor,
+                                    height: 50,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      desc,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -516,68 +573,71 @@ class _HomeState extends State<Home> {
                     margin: EdgeInsets.all(20),
                     height: 200,
                     child: Card(
-                      color: Colors.amber,
+                      color: barColor,
                       child: Stack(
                         children: [
                           ListView(
                             children: [
                               Column(
                                 children: [
-                                  FlatButton(
-                                    color: Colors.amber[600],
-                                    height: 70,
-                                    minWidth: 330,
-                                    onPressed: () {
-                                      getImageFromGallery();
-
-                                    },
-                                    child: Icon(
-                                      Icons.add_a_photo,
-                                      color: Colors.white,
-                                    ),
-                                  ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 8.0),
-                                    child: Container(
-                                      color: Colors.amber[600],
-                                      child: TextField(
-                                        controller: _textController,
-
-                                        onChanged: (value){
-                                          setState(() {
-                                            locationName=value;
-
-
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-
-                                            border: InputBorder.none,
-                                            hintText:
-                                            'Enter a name for the location'),
+                                    child: FlatButton(
+                                      color: gColor1,
+                                      height: 70,
+                                      minWidth: 330,
+                                      onPressed: () {
+                                        getImageFromGallery();
+                                      },
+                                      child: Icon(
+                                        Icons.add_a_photo,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 8.0),
-                                    child: Container(
-                                      color: Colors.amber[600],
-                                      height: 50,
-                                      child: TextField(
-                                        controller: _textController2,
-                                        onChanged: (value){
-                                          setState(() {
-                                            desc=value;
-
-                                          });
-                                        },
-
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText:
-                                            'Enter a description for the location'),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      child: Container(
+                                        color: bgColor,
+                                        child: TextField(
+                                          controller: _textController,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              locationName = value;
+                                            });
+                                          },
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText:
+                                                  'Enter a name for the location'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0, horizontal: 8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      child: Container(
+                                        color: bgColor,
+                                        height: 50,
+                                        child: TextField(
+                                          controller: _textController2,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              desc = value;
+                                            });
+                                          },
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText:
+                                                  'Enter a description for the location'),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -663,12 +723,12 @@ class _HomeState extends State<Home> {
               ),
 
               Padding(
-                padding: const EdgeInsets.fromLTRB(0,7,0,0),
+                padding: const EdgeInsets.fromLTRB(0, 7, 0, 0),
                 child: FloatingSearchBar(
-                    controller: _searchcontroller,
-                  onQueryChanged:(value){
-                    setState(()async {
-                      searchQuery=value;
+                  controller: _searchcontroller,
+                  onQueryChanged: (value) {
+                    setState(() async {
+                      searchQuery = value;
                       //await getMarkersFromSearch();
                       queryLocations = await getMarkersFromSally();
                       localIterator = 0;
@@ -678,8 +738,8 @@ class _HomeState extends State<Home> {
                       print('in widget ' + tempLen.toString());
                       _searchcontroller.close();
                       _searchcontroller.open();
-                    });},
-
+                    });
+                  },
 
                   hint: 'Search...',
                   scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
@@ -689,7 +749,7 @@ class _HomeState extends State<Home> {
                   axisAlignment: isPortrait ? 0.0 : -1.0,
                   openAxisAlignment: 0.0,
                   height: 37,
-                  maxWidth: isPortrait ? 250 : 500,
+                  maxWidth: isPortrait ? screenSize.width / 2 : 500,
                   debounceDelay: const Duration(milliseconds: 500),
 
                   // Specify a custom transition to be used for
@@ -697,7 +757,6 @@ class _HomeState extends State<Home> {
                   transition: CircularFloatingSearchBarTransition(),
                   actions: [
                     FloatingSearchBarAction(
-
                       showIfOpened: false,
                       child: CircularButton(
                         icon: const Icon(Icons.place),
@@ -717,10 +776,8 @@ class _HomeState extends State<Home> {
                         child: Row(
                           children: [
                             Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: (
-                                queryList
-                            )),
+                                mainAxisSize: MainAxisSize.min,
+                                children: (queryList)),
                             SizedBox(),
                           ],
                         ),
@@ -730,14 +787,13 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ]),
-
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(left: 32.0),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: FloatingActionButton(
-                  child: Icon(Icons.add_location),
-                  backgroundColor: Colors.orange[300],
+                  child: Icon(Icons.add_location, color: Colors.white),
+                  backgroundColor: barColor,
                   onPressed: () {
                     if (!activeMarker) {
                       currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
