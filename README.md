@@ -30,6 +30,6 @@ Explore the world together with *Location Trading Cards*!
 
 
 ## Contributions
-Team BackEnd: Joel Tanig, Desi Aukusitino Ah Yek || Team FrontEnd: Christian Roudeau, Jack Harvison
+Team BackEnd: Joel Tanig, Desi Ah Yek || Team FrontEnd: Christian Roudeau, Jack Harvison
 
 Note teams were sometimes mixed in order to communicate for the backend team to work with the frontend teams or vice-versa.
