@@ -3,6 +3,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:spots_app/models/userInformation.dart';
+import 'package:spots_app/screens/authenticate/register.dart';
 import 'package:spots_app/services/auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spots_app/screens/profile/profile.dart';
@@ -12,10 +14,12 @@ import 'package:spots_app/models/locations.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'package:spots_app/services/markerDatabase.dart';
+import 'package:spots_app/models/locations.dart';
 import 'package:spots_app/models/user.dart';
 import 'package:spots_app/screens/home/trade.dart';
+import 'package:spots_app/services/userInformationDatabase.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-int fire=5;
+
 FirebaseStorage imageDatabase = FirebaseStorage.instance;
 
 double long = -75.7009;
@@ -29,13 +33,12 @@ List<LatLng> coords = [];
 LatLng currentCoords = LatLng(0, 0);
 User usz = User();
 String myId = "";
-String desc = "";
-String locationName = "";
-TextEditingController _textController = new TextEditingController();
-TextEditingController _textController2 = new TextEditingController();
-FloatingSearchBarController _searchcontroller =
-    new FloatingSearchBarController();
-List<Marker> cloudMarkers = [];
+String desc="";
+String locationName="";
+TextEditingController _textController=new TextEditingController();
+TextEditingController _textController2=new TextEditingController();
+FloatingSearchBarController _searchcontroller= new FloatingSearchBarController();
+List<Marker> cloudMarkers=[];
 String user;
 String bio;
 File userImage;
@@ -191,7 +194,7 @@ class _HomeState extends State<Home> {
 
         if (locationNamez.substring(0, currLength) == searchQuery) {
           queryLocations.add(locationNamez);
-          print('This is from Function' + queryLocations.length.toString());
+          print('This is from function' + queryLocations.length.toString());
           print(queryLocations);
         }
       }
@@ -386,9 +389,9 @@ class _HomeState extends State<Home> {
         home: StreamProvider<List<Location>>.value(
           value: MarkerDatabase().locations,
           child: Scaffold(
-
+            backgroundColor: Colors.amber[100],
             appBar: AppBar(
-
+              //backgroundColor: Colors.orange[300],
               // Note, This is actions for the appbar like the log in button
 
               actions: [
@@ -411,7 +414,7 @@ class _HomeState extends State<Home> {
                                 PageRouteBuilder(
                                   pageBuilder:
                                       (context, animation1, animation2) =>
-                                          TradePage(),
+                                      TradePage(),
                                   transitionDuration: Duration(seconds: 0),
                                 ),
                               );
@@ -452,7 +455,7 @@ class _HomeState extends State<Home> {
                                 PageRouteBuilder(
                                   pageBuilder:
                                       (context, animation1, animation2) =>
-                                          ProfilePage(myId, user, bio),
+                                      ProfilePage(myId, user, bio),
                                   transitionDuration: Duration(seconds: 0),
                                 ),
                               );
@@ -478,8 +481,8 @@ class _HomeState extends State<Home> {
 
                 //zoomControlsEnabled: false,
 
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(getLat(), getLong()), zoom: 11.0),
+                initialCameraPosition:
+                CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
                 onTap: (LatLng location) {
                   setState(() {
                     pinPillPosition = -250;
@@ -512,22 +515,42 @@ class _HomeState extends State<Home> {
                                     vertical: 4.0, horizontal: 8.0),
                                 child: Container(
                                   alignment: Alignment.centerLeft,
-
-                                  ///color: Colors.amber[600],
+                                  color: barColor,
                                   child: Text(
-                                    'Name: ' + locationName,
+                                    locationName,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8.0, 4.0, 0, 0),
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Description:',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4.0, horizontal: 8.0),
-                                child: Container(
-                                  color: bgColor,
-                                  height: 50,
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Description: ' + desc,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: Container(
+                                    color: bgColor,
+                                    height: 50,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      desc,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -762,7 +785,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ]),
-
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(left: 32.0),
               child: Align(
