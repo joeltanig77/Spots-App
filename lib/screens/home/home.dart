@@ -27,7 +27,7 @@ double lat = 45.4236;
 int count = 0;
 
 bool activeMarker = false;
-
+int woah = 5;
 List<Marker> userMarkers = [];
 List<LatLng> coords = [];
 LatLng currentCoords = LatLng(0, 0);
@@ -144,7 +144,7 @@ class _HomeState extends State<Home> {
             }
           },
           infoWindow: InfoWindow(
-            title: element.data["locationName"],
+            title: element.data["locationName"], //Assign the info window title.
           ),
           draggable: false,
           icon: pinLocationIcon,
