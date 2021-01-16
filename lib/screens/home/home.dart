@@ -194,7 +194,7 @@ class _HomeState extends State<Home> {
 
         if (locationNamez.substring(0, currLength) == searchQuery) {
           queryLocations.add(locationNamez);
-          print('This is from Function' + queryLocations.length.toString());
+          print('This is from function' + queryLocations.length.toString());
           print(queryLocations);
         }
       }
