@@ -19,7 +19,7 @@ import 'package:spots_app/models/user.dart';
 import 'package:spots_app/screens/home/trade.dart';
 import 'package:spots_app/services/userInformationDatabase.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-
+int fire=5;
 FirebaseStorage imageDatabase = FirebaseStorage.instance;
 
 double long = -75.7009;
