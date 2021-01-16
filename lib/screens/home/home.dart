@@ -48,7 +48,7 @@ List<String> queryLocations = [];
 var queryList = List<Widget>();
 int tempLen = 0;
 var locationImage=null;
-
+int woah = 5;
 
 class Home extends StatefulWidget {
   double lat = 75.7009;
