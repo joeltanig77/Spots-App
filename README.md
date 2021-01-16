@@ -7,19 +7,29 @@ This app is designed for exchanging locations of abandoned places to one another
 Use the git clone link on GitHub to download and run the app from an Android or an IOS emulator. 
 
 
+
+
+
 ## Example
-![](imagesforGitHub/MapPageExample1.png)
 
-![](imagesforGitHub/SignInExample.png)
+Welcome to Spots!
 
-![](imagesforGitHub/ProfileExample.png)
+![](images/img4git/SignInExample.png)
 
-![](imagesforGitHub/TradePageExample.png)
+An app to help you explore the world. 
 
-![](imagesforGitHub/MapPageExample2.png)
+![](images/img4git/MapPageExample1.png) ![](images/img4git/MapPageExample2.png) 
+
+Customize your profile with the locations you've encountered. 
+
+![](images/img4git/ProfileExample.png)
+
+Explore the world together with *Location Trading Cards*! 
+
+![](images/img4git/TradePageExample.png)
 
 
 ## Contributions
-Team BackEnd: Joel Tanig, Desi Aukusitino Ah Yek || Team FrontEnd: Christian Roudeau, Jack Harvison
+Team BackEnd: Joel Tanig, Desi Ah Yek || Team FrontEnd: Christian Roudeau, Jack Harvison
 
-Note teams were mixed in order to communicate for the backend team to work with the frontend teams or vice-versa.
+Note teams were sometimes mixed in order to communicate for the backend team to work with the frontend teams or vice-versa.
