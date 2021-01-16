@@ -27,7 +27,7 @@ double lat = 45.4236;
 int count = 0;
 
 bool activeMarker = false;
-int woah = 5;
+
 List<Marker> userMarkers = [];
 List<LatLng> coords = [];
 LatLng currentCoords = LatLng(0, 0);
@@ -42,7 +42,7 @@ List<Marker> cloudMarkers=[];
 String user;
 String bio;
 File userImage;
-String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
+String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2FblankProfile.png?alt=media&token=7253f087-a5ce-402f-844b-24789c9aafaf";
 String searchQuery;
 List<String> queryLocations = [];
 var queryList = List<Widget>();
@@ -144,7 +144,7 @@ class _HomeState extends State<Home> {
             }
           },
           infoWindow: InfoWindow(
-            title: element.data["locationName"], //Assign the info window title.
+            title: element.data["locationName"],
           ),
           draggable: false,
           icon: pinLocationIcon,
@@ -794,7 +794,7 @@ class _HomeState extends State<Home> {
                   backgroundColor: barColor,
                   onPressed: () {
                     if (!activeMarker) {
-                      currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
+                      currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2FblankProfile.png?alt=media&token=7253f087-a5ce-402f-844b-24789c9aafaf";
                       activeMarker=true;
                       locationName="";
                       desc="";
