@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,22 +28,24 @@ double lat = 45.4236;
 int count = 0;
 
 bool activeMarker = false;
-int woah = 5;
+
 List<Marker> userMarkers = [];
 List<LatLng> coords = [];
 LatLng currentCoords = LatLng(0, 0);
 User usz = User();
 String myId = "";
-String desc="";
-String locationName="";
-TextEditingController _textController=new TextEditingController();
-TextEditingController _textController2=new TextEditingController();
-FloatingSearchBarController _searchcontroller= new FloatingSearchBarController();
-List<Marker> cloudMarkers=[];
+String desc = "";
+String locationName = "";
+TextEditingController _textController = new TextEditingController();
+TextEditingController _textController2 = new TextEditingController();
+FloatingSearchBarController _searchcontroller =
+    new FloatingSearchBarController();
+List<Marker> cloudMarkers = [];
 String user;
 String bio;
 File userImage;
-String currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
+String currentImageUrl =
+    "https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/B9gKstPz8QWQ6EIwg6fRFqzajFw1%2Fpot?alt=media&token=defe9bdd-7124-4f10-b378-c18db7731684";
 String searchQuery;
 List<String> queryLocations = [];
 var queryList = List<Widget>();
@@ -144,7 +147,7 @@ class _HomeState extends State<Home> {
             }
           },
           infoWindow: InfoWindow(
-            title: element.data["locationName"], //Assign the info window title.
+            title: element.data["locationName"],
           ),
           draggable: false,
           icon: pinLocationIcon,
@@ -194,7 +197,7 @@ class _HomeState extends State<Home> {
 
         if (locationNamez.substring(0, currLength) == searchQuery) {
           queryLocations.add(locationNamez);
-          print('This is from function' + queryLocations.length.toString());
+          print('This is from Function' + queryLocations.length.toString());
           print(queryLocations);
         }
       }
@@ -389,9 +392,9 @@ class _HomeState extends State<Home> {
         home: StreamProvider<List<Location>>.value(
           value: MarkerDatabase().locations,
           child: Scaffold(
-            backgroundColor: Colors.amber[100],
+
             appBar: AppBar(
-              //backgroundColor: Colors.orange[300],
+
               // Note, This is actions for the appbar like the log in button
 
               actions: [
@@ -414,7 +417,7 @@ class _HomeState extends State<Home> {
                                 PageRouteBuilder(
                                   pageBuilder:
                                       (context, animation1, animation2) =>
-                                      TradePage(),
+                                          TradePage(),
                                   transitionDuration: Duration(seconds: 0),
                                 ),
                               );
@@ -455,7 +458,7 @@ class _HomeState extends State<Home> {
                                 PageRouteBuilder(
                                   pageBuilder:
                                       (context, animation1, animation2) =>
-                                      ProfilePage(myId, user, bio),
+                                          ProfilePage(myId, user, bio),
                                   transitionDuration: Duration(seconds: 0),
                                 ),
                               );
@@ -481,8 +484,8 @@ class _HomeState extends State<Home> {
 
                 //zoomControlsEnabled: false,
 
-                initialCameraPosition:
-                CameraPosition(target: LatLng(getLat(), getLong()), zoom: 11.0),
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(getLat(), getLong()), zoom: 11.0),
                 onTap: (LatLng location) {
                   setState(() {
                     pinPillPosition = -250;
@@ -515,42 +518,22 @@ class _HomeState extends State<Home> {
                                     vertical: 4.0, horizontal: 8.0),
                                 child: Container(
                                   alignment: Alignment.centerLeft,
-                                  color: barColor,
+
+                                  ///color: Colors.amber[600],
                                   child: Text(
-                                    locationName,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8.0, 4.0, 0, 0),
-                                child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Description:',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
+                                    'Name: ' + locationName,
                                   ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4.0, horizontal: 8.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  child: Container(
-                                    color: bgColor,
-                                    height: 50,
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      desc,
-                                    ),
+                                child: Container(
+                                  color: bgColor,
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Description: ' + desc,
                                   ),
                                 ),
                               ),
@@ -599,45 +582,39 @@ class _HomeState extends State<Home> {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 8.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      child: Container(
-                                        color: bgColor,
-                                        child: TextField(
-                                          controller: _textController,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              locationName = value;
-                                            });
-                                          },
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText:
-                                                  'Enter a name for the location'),
-                                        ),
+                                    child: Container(
+                                      color: bgColor,
+                                      child: TextField(
+                                        controller: _textController,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            locationName = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText:
+                                                'Enter a name for the location'),
                                       ),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 8.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      child: Container(
-                                        color: bgColor,
-                                        height: 50,
-                                        child: TextField(
-                                          controller: _textController2,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              desc = value;
-                                            });
-                                          },
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText:
-                                                  'Enter a description for the location'),
-                                        ),
+                                    child: Container(
+                                      color: bgColor,
+                                      height: 50,
+                                      child: TextField(
+                                        controller: _textController2,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            desc = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText:
+                                                'Enter a description for the location'),
                                       ),
                                     ),
                                   ),
@@ -654,9 +631,10 @@ class _HomeState extends State<Home> {
                                 Icons.check,
                                 color: Colors.green,
                               ),
-                              onPressed: () async {
-                                if (locationName!="" && desc!="" && currentImageUrl!="") {
-                                  currentImageUrl = await pushImage();
+                              onPressed: () {
+                                if (locationName != "" &&
+                                    desc != "" &&
+                                    currentImageUrl != "") {
                                   activeMarker = false;
                                   final ident = MarkerId(count.toString());
                                   coords.add(currentCoords);
@@ -685,18 +663,18 @@ class _HomeState extends State<Home> {
                   height: MediaQuery.of(context).size.height,
                   child: GestureDetector(
                       onHorizontalDragEnd: (DragEndDetails details) {
-                        if (details.primaryVelocity > 0) {
-                        } else if (details.primaryVelocity < 0) {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  ProfilePage(myId, user, bio),
-                              transitionDuration: Duration(seconds: 0),
-                            ),
-                          );
-                        }
-                      }),
+                    if (details.primaryVelocity > 0) {
+                    } else if (details.primaryVelocity < 0) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              ProfilePage(myId, user, bio),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    }
+                  }),
                 ),
               ),
               Align(
@@ -706,17 +684,17 @@ class _HomeState extends State<Home> {
                   height: MediaQuery.of(context).size.height,
                   child: GestureDetector(
                       onHorizontalDragEnd: (DragEndDetails details) {
-                        if (details.primaryVelocity > 0) {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  TradePage(),
-                              transitionDuration: Duration(seconds: 0),
-                            ),
-                          );
-                        } else if (details.primaryVelocity < 0) {}
-                      }),
+                    if (details.primaryVelocity > 0) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              TradePage(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    } else if (details.primaryVelocity < 0) {}
+                  }),
                 ),
               ),
 
@@ -736,8 +714,8 @@ class _HomeState extends State<Home> {
                       print('in widget ' + tempLen.toString());
                       _searchcontroller.close();
                       _searchcontroller.open();
-                    });
-                  },
+                    });},
+
 
                   hint: 'Search...',
                   scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
@@ -755,6 +733,7 @@ class _HomeState extends State<Home> {
                   transition: CircularFloatingSearchBarTransition(),
                   actions: [
                     FloatingSearchBarAction(
+
                       showIfOpened: false,
                       child: CircularButton(
                         icon: const Icon(Icons.place),
@@ -785,6 +764,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ]),
+
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(left: 32.0),
               child: Align(
@@ -794,10 +774,11 @@ class _HomeState extends State<Home> {
                   backgroundColor: barColor,
                   onPressed: () {
                     if (!activeMarker) {
-                      currentImageUrl="https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/Default%20Assets%2Ficonperson.jpg?alt=media&token=acbaeec3-8761-4825-aa2c-2cf24f054a37";
-                      activeMarker=true;
-                      locationName="";
-                      desc="";
+                      currentImageUrl =
+                          "https://firebasestorage.googleapis.com/v0/b/spots-80f7d.appspot.com/o/MbAKzrkyoBZo47J6H2CCFulLnWS2%2FMy%20Car?alt=media&token=98c2d877-f983-4848-a544-1d6524ac5b1a";
+                      activeMarker = true;
+                      locationName = "";
+                      desc = "";
                       currentCoords = LatLng(getLat(), getLong());
                       setState(() {
                         userMarkers.add(
@@ -810,8 +791,8 @@ class _HomeState extends State<Home> {
                             draggable: true,
                             onDragEnd: ((newMarker) {
                               //Updates location after dragging
-                              currentCoords =
-                                  LatLng(newMarker.latitude, newMarker.longitude);
+                              currentCoords = LatLng(
+                                  newMarker.latitude, newMarker.longitude);
                             }),
                             onTap: () {
                               setState(() {
@@ -832,8 +813,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-
-
+// Get the marker data we are at
 Future getLocal() async {
   final location = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
@@ -855,28 +835,25 @@ double getLat() {
 }
 
 Future currentUser() async {
-  final QuerySnapshot snapCheck =
-  await Firestore.instance.collection('User Settings and Data')
+  final QuerySnapshot snapCheck = await Firestore.instance
+      .collection('User Settings and Data')
       .document(myId)
       .collection("User Info")
       .getDocuments();
 
   List<DocumentSnapshot> garbo = snapCheck.documents;
-  user=garbo[0]["username"];
-
-
+  user = garbo[0]["username"];
 }
 
-
+// Gets the current bio in the bio field of the profile page
 Future currentBio() async {
-  final QuerySnapshot snapCheck =
-  await Firestore.instance.collection('User Settings and Data')
+  final QuerySnapshot snapCheck = await Firestore.instance
+      .collection('User Settings and Data')
       .document(myId)
       .collection("User Info")
       .getDocuments();
   List<DocumentSnapshot> garbo = snapCheck.documents;
 
-  bio=garbo[0]["bio"];
-
-
+  bio = garbo[0]["bio"];
 }
+

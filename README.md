@@ -8,8 +8,6 @@ Use the git clone link on GitHub to download and run the app from an Android or 
 
 
 ## Example
-The images below to do not represent the final product
-
 ![](imagesforGitHub/MapPageExample1.png)
 
 ![](imagesforGitHub/SignInExample.png)
@@ -24,4 +22,4 @@ The images below to do not represent the final product
 ## Contributions
 Team BackEnd: Joel Tanig, Desi Aukusitino Ah Yek || Team FrontEnd: Christian Roudeau, Jack Harvison
 
-Note teams were mixed in order to communicate for the backend team to work with the frontend teams or vice-versa.
+Note teams were sometimes mixed in order to communicate for the backend team to work with the frontend teams or vice-versa.
